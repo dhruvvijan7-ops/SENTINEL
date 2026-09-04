@@ -1,0 +1,257 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius: 0.875rem;
+}
+
+/* ========================================
+   LIGHT THEME (base — overridden by .dark)
+   ======================================== */
+:root {
+  --background: #F6F8FA;
+  --foreground: #17202A;
+  --card: #FFFFFF;
+  --card-foreground: #17202A;
+  --popover: #FFFFFF;
+  --popover-foreground: #17202A;
+  --primary: #D92D20;
+  --primary-foreground: #FFFFFF;
+  --secondary: #EEF2F5;
+  --secondary-foreground: #52606D;
+  --muted: #EEF2F5;
+  --muted-foreground: #7A8793;
+  --accent: #F1F4F7;
+  --accent-foreground: #17202A;
+  --destructive: #D92D20;
+  --destructive-foreground: #FFFFFF;
+  --border: #D7DEE5;
+  --input: #D7DEE5;
+  --ring: #D92D20;
+}
+
+/* ========================================
+   DARK THEME (overrides :root when .dark on <html>)
+   ======================================== */
+.dark {
+  --background: #070A0F;
+  --foreground: #F8FAFC;
+  --card: #0B0F14;
+  --card-foreground: #F8FAFC;
+  --popover: #0B0F14;
+  --popover-foreground: #F8FAFC;
+  --primary: #FF3B30;
+  --primary-foreground: #FFFFFF;
+  --secondary: #151A21;
+  --secondary-foreground: #F8FAFC;
+  --muted: #151A21;
+  --muted-foreground: #A7B0BE;
+  --accent: #1C2530;
+  --accent-foreground: #F8FAFC;
+  --destructive: #FF3B30;
+  --destructive-foreground: #FFFFFF;
+  --border: #26303B;
+  --input: #151A21;
+  --ring: #FF3B30;
+}
+
+/* ========================================
+   GLOBAL BASE
+   ======================================== */
+* { border-color: var(--border); }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, textarea, select { font: inherit; }
+
+/* ---- Selection ---- */
+.dark ::selection { background: rgba(255, 59, 48, 0.25); }
+::selection { background: rgba(217, 45, 32, 0.15); }
+
+/* ---- Scrollbar (dark) ---- */
+.dark ::-webkit-scrollbar { width: 6px; height: 6px; }
+.dark ::-webkit-scrollbar-track { background: transparent; }
+.dark ::-webkit-scrollbar-thumb { background: #26303B; border-radius: 999px; }
+.dark ::-webkit-scrollbar-thumb:hover { background: #35424F; }
+
+/* ---- Scrollbar (light) ---- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #C3CCD5; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #AAB6C2; }
+
+/* ========================================
+   SENTINEL GRID
+   ======================================== */
+.dark .sentinel-grid {
+  background-image:
+    linear-gradient(rgba(38, 48, 59, 0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(38, 48, 59, 0.4) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.sentinel-grid {
+  background-image:
+    linear-gradient(rgba(215, 222, 229, 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(215, 222, 229, 0.5) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ========================================
+   SIDEBAR
+   ======================================== */
+.dark .ops-sidebar {
+  background: #070A0F;
+  border-color: var(--border);
+  color: var(--foreground);
+}
+.ops-sidebar {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F6F8FA 100%);
+  border-color: #D7DEE5;
+  color: #17202A;
+}
+
+.dark .ops-sidebar .ops-section-label { color: var(--muted-foreground); }
+.ops-sidebar .ops-section-label { color: #7A8793; }
+
+.dark .ops-sidebar .ops-nav-link { color: var(--muted-foreground); }
+.ops-sidebar .ops-nav-link { color: #52606D; }
+
+.dark .ops-sidebar .ops-nav-link:hover { background: #151A21; color: #F8FAFC; }
+.ops-sidebar .ops-nav-link:hover { background: rgba(0, 0, 0, 0.04); color: #17202A; }
+
+.dark .ops-sidebar .ops-nav-link-active {
+  background: rgba(255, 59, 48, 0.08);
+  color: #FF3B30;
+  box-shadow: inset 3px 0 0 #FF3B30;
+}
+.ops-sidebar .ops-nav-link-active {
+  background: linear-gradient(90deg, rgba(217, 45, 32, 0.9), rgba(180, 35, 24, 0.9));
+  color: #FFFFFF;
+  box-shadow: 0 10px 22px rgba(217, 45, 32, 0.15);
+}
+
+.dark .ops-sidebar .ops-nav-link-active svg { color: #FF3B30; }
+.ops-sidebar .ops-nav-link-active svg { color: #FFFFFF; }
+
+.dark .ops-sidebar .ops-muted { color: var(--muted-foreground); }
+.ops-sidebar .ops-muted { color: #7A8793; }
+
+/* ========================================
+   HEADER
+   ======================================== */
+.dark .ops-header {
+  background: rgba(7, 10, 15, 0.85);
+  border-color: var(--border);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+.ops-header {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: #D7DEE5;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+}
+
+/* ========================================
+   SURFACE / CARD
+   ======================================== */
+.dark .ops-surface {
+  border-color: var(--border);
+  background: var(--card);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+.ops-surface {
+  border-color: #D7DEE5;
+  background: #FFFFFF;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.04);
+}
+
+/* ========================================
+   STAT CARD
+   ======================================== */
+.dark .ops-stat {
+  position: relative;
+  overflow: hidden;
+  border-color: var(--border);
+  background: var(--card);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+}
+.ops-stat {
+  position: relative;
+  overflow: hidden;
+  border-color: #D7DEE5;
+  background: #FFFFFF;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.04);
+}
+
+.dark .ops-stat::after,
+.ops-stat::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  content: "";
+  background: linear-gradient(90deg, var(--stat-start, #FF3B30), var(--stat-end, #FF7A00));
+}
+
+/* ========================================
+   HERO (dashboard sections)
+   ======================================== */
+.dark .ops-hero {
+  background: var(--card);
+  border-color: var(--border);
+}
+.ops-hero {
+  background: radial-gradient(circle at 100% 0%, rgba(217, 45, 32, 0.06), transparent 16rem),
+    linear-gradient(115deg, #FFFFFF, #F6F8FA);
+  border-color: #D7DEE5;
+}
+
+/* ========================================
+   INPUT OVERRIDES (dark)
+   ======================================== */
+.dark input[type="number"],
+.dark select {
+  background: var(--input);
+  color: var(--foreground);
+  border-color: var(--border);
+}
+.dark input[type="number"]:focus,
+.dark select:focus {
+  border-color: #FF3B30;
+  box-shadow: 0 0 0 2px rgba(255, 59, 48, 0.2);
+}
+.dark input::placeholder,
+.dark select::placeholder {
+  color: var(--muted-foreground);
+}

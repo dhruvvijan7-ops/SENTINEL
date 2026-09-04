@@ -1,0 +1,10 @@
+{
+  "sequences": [
+    {
+      "system_calls": ["openat", "read", "close"]
+    },
+    {
+      "system_calls": ["socket", "connect", "sendto", "recvfrom", "close"]
+    }
+  ]
+}
