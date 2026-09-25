@@ -6,12 +6,10 @@ import { ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ROUTES } from "@/routes/paths";
-import { useAuthStore } from "@/store/authStore";
 import { authService } from "@/services/authService";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const login = useAuthStore((state) => state.login);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -42,11 +40,12 @@ export default function RegisterPage() {
     try {
       setLoading(true);
 
-      const response = await authService.register({ name, email, password });
+      await authService.register({ name, email, password });
 
-      login(response.user, response.token);
-
-      navigate(ROUTES.dashboard, { replace: true });
+      navigate(ROUTES.login, {
+        replace: true,
+        state: { registered: true },
+      });
     } catch (err) {
       setError(
         err instanceof Error
@@ -77,7 +76,7 @@ export default function RegisterPage() {
         </div>
 
         {/* Register Card */}
-        <div className="ops-surface rounded-2xl border p-6">
+        <div className="ops-surface rounded-lg border p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Name */}
             <div className="space-y-2">
@@ -150,7 +149,7 @@ export default function RegisterPage() {
 
             {/* Error */}
             {error && (
-              <div className="rounded-lg border border-[#FF3B30]/20 bg-[#FF3B30]/10 px-3 py-2 text-sm text-[#FF3B30]">
+              <div className="rounded-lg border border-error/20 bg-error/10 px-3 py-2 text-sm text-error">
                 {error}
               </div>
             )}

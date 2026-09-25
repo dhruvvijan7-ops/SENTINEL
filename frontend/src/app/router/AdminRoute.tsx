@@ -6,7 +6,12 @@ import { ROUTES } from "@/routes/paths";
 export default function AdminRoute() {
   const user = useAuthStore((state) => state.user);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isInitialized = useAuthStore((state) => state.isInitialized);
   const location = useLocation();
+
+  if (!isInitialized) {
+    return null;
+  }
 
   if (!isAuthenticated) {
     return (

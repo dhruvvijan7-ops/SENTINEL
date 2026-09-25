@@ -25,6 +25,8 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const registered = (location.state as { registered?: boolean } | null)?.registered;
+
   const from =
     location.state?.from?.pathname ?? ROUTES.dashboard;
 
@@ -37,7 +39,7 @@ export default function LoginPage() {
     try {
       const response = await authService.login({ email, password });
 
-      login(response.user, response.token);
+      login(response.user);
 
       navigate(from, { replace: true });
     } catch (err) {
@@ -151,6 +153,15 @@ export default function LoginPage() {
               >
                 {error}
               </p>
+            )}
+
+            {registered && (
+              <div
+                className="rounded-lg border border-success/30 bg-success/10 px-3 py-2 text-sm text-success"
+                role="status"
+              >
+                Account created. Please sign in.
+              </div>
             )}
 
             <Button

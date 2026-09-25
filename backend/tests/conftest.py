@@ -13,14 +13,20 @@ from sqlalchemy.pool import StaticPool
 # during tests. config.py calls load_dotenv(), which does not override
 # already-present environment variables, so setting these before importing
 # app.main keeps the import-time engine on SQLite.
+os.environ.setdefault("SENTINEL_ENV", "test")
 os.environ.setdefault("DATABASE_URL", "sqlite:///./test_sentinelai.db")
-os.environ.setdefault("JWT_SECRET_KEY", "test-secret")
+os.environ.setdefault("JWT_SECRET_KEY", "test-secret-that-is-at-least-32-bytes-for-sentinel-auth")
+os.environ.setdefault("JWT_ISSUER", "sentinel.api")
+os.environ.setdefault("JWT_AUDIENCE", "sentinel.frontend")
+os.environ.setdefault("DEBUG_RESET_RETURNS_TOKEN", "true")
 
 from app.api.deps import get_current_user
 from app.core.database import Base, get_db
 from app.main import app
 from app.models.user import User
 from app.services.auth import create_access_token, hash_password
+from app.services.rate_limit import limiter
+from app.services.sessions import create_session
 
 SQLITE_URL = "sqlite:///:memory:"
 test_engine = create_engine(
@@ -34,6 +40,7 @@ TestSessionLocal = sessionmaker(bind=test_engine, autoflush=False, autocommit=Fa
 @pytest.fixture(autouse=True)
 def setup_db() -> Generator[None, None, None]:
     Base.metadata.create_all(bind=test_engine)
+    limiter.reset()
     yield
     Base.metadata.drop_all(bind=test_engine)
 
@@ -47,42 +54,60 @@ def db() -> Generator[Session, None, None]:
         session.close()
 
 
-@pytest.fixture()
-def admin_user(db: Session) -> User:
+def _make_user(db: Session, *, email: str, password: str, name: str, role: str) -> User:
     user = User(
-        email="admin@sentinelai.local",
-        hashed_password=hash_password("adminpassword123"),
-        name="Test Admin",
-        role="admin",
+        email=email,
+        hashed_password=hash_password(password),
+        name=name,
+        role=role,
     )
     db.add(user)
     db.commit()
     db.refresh(user)
     return user
+
+
+@pytest.fixture()
+def admin_user(db: Session) -> User:
+    return _make_user(
+        db,
+        email="admin@sentinelai.local",
+        password="adminpassword123",
+        name="Test Admin",
+        role="admin",
+    )
 
 
 @pytest.fixture()
 def analyst_user(db: Session) -> User:
-    user = User(
+    return _make_user(
+        db,
         email="analyst@sentinelai.local",
-        hashed_password=hash_password("analystpassword123"),
+        password="analystpassword123",
         name="Test Analyst",
         role="analyst",
     )
-    db.add(user)
+
+
+def _session_token(db: Session, user: User) -> str:
+    _raw, session = create_session(
+        db,
+        user_id=user.id,
+        ip_address="127.0.0.1",
+        user_agent="pytest",
+    )
     db.commit()
-    db.refresh(user)
-    return user
+    return create_access_token(user.id, session_id=session.id)
 
 
 @pytest.fixture()
-def admin_token(admin_user: User) -> str:
-    return create_access_token(admin_user.id)
+def admin_token(db: Session, admin_user: User) -> str:
+    return _session_token(db, admin_user)
 
 
 @pytest.fixture()
-def analyst_token(analyst_user: User) -> str:
-    return create_access_token(analyst_user.id)
+def analyst_token(db: Session, analyst_user: User) -> str:
+    return _session_token(db, analyst_user)
 
 
 @pytest.fixture()

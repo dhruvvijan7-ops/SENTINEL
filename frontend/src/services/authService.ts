@@ -1,5 +1,5 @@
 import { apiClient } from "@/services/apiClient";
-import type { AuthResponse, LoginCredentials, RegisterData } from "@/types/auth";
+import type { AuthResponse, LoginCredentials, RegisterData, ResetPasswordData, User } from "@/types/auth";
 
 export const authService = {
   login: (credentials: LoginCredentials) =>
@@ -9,7 +9,7 @@ export const authService = {
     apiClient.post<AuthResponse>("/auth/register", data),
 
   getCurrentUser: () =>
-    apiClient.get<{ id: string; email: string; name: string; role: string }>("/auth/me"),
+    apiClient.get<User>("/auth/me"),
 
   logout: () =>
     apiClient.post<{ message: string }>("/auth/logout", {}),
@@ -17,6 +17,6 @@ export const authService = {
   forgotPassword: (email: string) =>
     apiClient.post<{ message: string }>("/auth/forgot-password", { email }),
 
-  resetPassword: (token: string, newPassword: string) =>
-    apiClient.post<{ message: string }>("/auth/reset-password", { token, new_password: newPassword }),
+  resetPassword: (data: ResetPasswordData) =>
+    apiClient.post<{ message: string }>("/auth/reset-password", data),
 };

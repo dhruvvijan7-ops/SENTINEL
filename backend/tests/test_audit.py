@@ -52,11 +52,14 @@ class TestAuthEventsLogged:
         assert any(l["action"] == "PASSWORD_RESET_REQUESTED" for l in logs)
 
     def test_password_reset(self, client, admin_user, db):
-        from app.services.auth import create_access_token
-        token = create_access_token(admin_user.id)
+        requested = client.post(
+            "/api/auth/forgot-password",
+            json={"email": admin_user.email},
+        )
+        reset_token = requested.json()["debug_reset_token"]
         client.post(
             "/api/auth/reset-password",
-            json={"token": token, "new_password": "newpass12345"},
+            json={"token": reset_token, "new_password": "newpass12345"},
         )
         logs = _query_logs(client)
         assert any(l["action"] == "PASSWORD_RESET_COMPLETED" for l in logs)

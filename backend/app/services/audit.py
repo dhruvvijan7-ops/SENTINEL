@@ -19,6 +19,9 @@ _SYSTEM_ACTOR_EMAIL = "system@sentinel.local"
 def _default_severity(action: AuditAction, result: AuditResult) -> str:
     if action in (
         AuditAction.LOGIN_FAILED,
+        AuditAction.REFRESH_TOKEN_REUSED,
+        AuditAction.PASSWORD_RESET_FAILED,
+        AuditAction.RATE_LIMIT_TRIGGERED,
         AuditAction.UPLOAD_REJECTED,
         AuditAction.VALIDATION_FAILED,
         AuditAction.ANALYSIS_FAILED,
@@ -31,6 +34,8 @@ def _default_severity(action: AuditAction, result: AuditResult) -> str:
         AuditAction.SYSTEM_CONFIGURATION_CHANGED,
         AuditAction.PASSWORD_RESET_REQUESTED,
         AuditAction.PASSWORD_RESET_COMPLETED,
+        AuditAction.REFRESH_TOKEN_ROTATED,
+        AuditAction.SESSION_REVOKED,
         AuditAction.DETECTION_CREATED,
         AuditAction.ALERT_CREATED,
     ):

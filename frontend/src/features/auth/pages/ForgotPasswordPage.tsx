@@ -38,7 +38,7 @@ export default function ForgotPasswordPage() {
         <Card className="ops-surface w-full max-w-md">
           <CardHeader className="space-y-4">
             <div className="flex justify-center">
-              <div className="flex size-12 items-center justify-center rounded-lg bg-[#22C55E]/10 text-[#22C55E]">
+              <div className="flex size-12 items-center justify-center rounded-lg bg-success/10 text-success">
                 <CheckCircle2 className="size-6" />
               </div>
             </div>

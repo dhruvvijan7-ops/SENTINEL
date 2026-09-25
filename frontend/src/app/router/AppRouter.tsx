@@ -25,6 +25,7 @@ import AuditLogsPage from "@/features/admin/pages/AuditLogsPage";
 import LoginPage from "@/features/auth/pages/LoginPage";
 import RegisterPage from "@/features/auth/pages/RegisterPage";
 import ForgotPasswordPage from "@/features/auth/pages/ForgotPasswordPage";
+import ResetPasswordPage from "@/features/auth/pages/ResetPasswordPage";
 
 import NotFoundPage from "@/features/common/pages/NotFoundPage";
 
@@ -108,6 +109,11 @@ export default function AppRouter() {
           <Route
             path={ROUTES.forgotPassword}
             element={<ForgotPasswordPage />}
+          />
+
+          <Route
+            path={ROUTES.resetPassword}
+            element={<ResetPasswordPage />}
           />
         </Route>
 
