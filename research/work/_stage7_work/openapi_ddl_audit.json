@@ -1,0 +1,91 @@
+{
+  "tables_found": [
+    "artifact_facts",
+    "audit_log",
+    "detection_runs",
+    "events",
+    "fim_baseline",
+    "findings",
+    "idempotency_keys",
+    "ioc_entry",
+    "ioc_pack",
+    "job_attempts",
+    "jobs",
+    "principals",
+    "raw_objects",
+    "retention_policies",
+    "rule_baseline",
+    "rule_run",
+    "rule_source",
+    "rules",
+    "tenants",
+    "uploads",
+    "workspaces"
+  ],
+  "openapi_schemas": [
+    "AuditEntry",
+    "CanonicalEvent",
+    "DetectionRun",
+    "Error",
+    "EvidenceBundle",
+    "Finding",
+    "ImportReport",
+    "IocPack",
+    "IocPackDocument",
+    "Job",
+    "Page",
+    "Readiness",
+    "Rule",
+    "RuleDocument",
+    "RuleRun",
+    "RunRequest",
+    "Upload",
+    "Workspace"
+  ],
+  "unresolved_refs": [],
+  "duplicate_operation_ids": {},
+  "mismatch_count": 0,
+  "mismatches": [],
+  "resolved_notes": [
+    {
+      "kind": "rule_ddl_projection_gap",
+      "detail": "DDL rules columns absent from OpenAPI Rule schema: ['tenant_id', 'workspace_id'] (tenant_id/workspace_id are path-scoped; schema_tag/source_ref/source_spec/description/provenance/deleted_at added by C-10-fix where exposed)"
+    },
+    {
+      "kind": "upload_field_server_derived",
+      "detail": "createUpload.file has no uploads column by design — raw bytes go to raw_objects (CAS); uploads rows record metadata (C-4b-fix)"
+    },
+    {
+      "kind": "upload_ddl_server_derived",
+      "detail": "uploads.tenant_id NOT NULL is satisfied server-side (from authenticated principal (Stage-3 §1.1: principal resolves to one tenant/workspace)) — C-4b-fix"
+    },
+    {
+      "kind": "upload_ddl_server_derived",
+      "detail": "uploads.workspace_id NOT NULL is satisfied server-side (from authenticated principal) — C-4b-fix"
+    },
+    {
+      "kind": "upload_ddl_server_derived",
+      "detail": "uploads.sha256 NOT NULL is satisfied server-side (computed server-side from the uploaded bytes) — C-4b-fix"
+    },
+    {
+      "kind": "upload_ddl_server_derived",
+      "detail": "uploads.size NOT NULL is satisfied server-side (computed server-side from the uploaded bytes) — C-4b-fix"
+    },
+    {
+      "kind": "upload_ddl_server_derived",
+      "detail": "uploads.original_filename NOT NULL is satisfied server-side (from the multipart file part's filename) — C-4b-fix"
+    },
+    {
+      "kind": "upload_ddl_server_derived",
+      "detail": "uploads.display_name NOT NULL is satisfied server-side (from the multipart file part's filename) — C-4b-fix"
+    },
+    {
+      "kind": "config_hash_representation",
+      "detail": "detection_runs.config_hash bytea (DDL) vs hex string (OpenAPI) — RESOLVED C-7-fix: encode(config_hash,'hex') at the API edge, documented in Stage-6 §4"
+    },
+    {
+      "kind": "rule_run_job_id_mapped",
+      "detail": "Stage-5 §4.3 'job_id' maps to DDL rule_run.run_id (C-5-fix) — no duplicate column"
+    }
+  ]
+}

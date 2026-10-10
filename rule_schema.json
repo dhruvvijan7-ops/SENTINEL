@@ -1,0 +1,534 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sentinel.local/schemas/rule_schema.json",
+  "title": "Sentinel canonical rule v1",
+  "description": "Normative schema for stored rule documents (schema_version 'sentinel-rule/v1'). Stage-5 companion to Stage-1 section 6.2: extends the Stage-1 canonical rule document ADDITIVELY (no Stage-1 field removed or reinterpreted). Seven kinds: sigma, correlation, ioc, fim, sca, statistical, artifact. Rule content is untrusted input; the JSON schema is the first gate, the lint engine (Stage-5 section 3) is the second. Verbatim upstream YAML is NOT stored here; it is stored separately in rule_source (Stage-5 D5-001).",
+  "type": "object",
+  "required": ["schema", "id", "kind", "source", "title", "severity", "enabled"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "sentinel-rule/v1" },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,127}$",
+      "description": "Stable identifier, never rewritten on reimport. Sigma/correlation/imported rules use a UUID (uuid-v4 shape, e.g. 8c3b2f1a-...); Stage-3 artifact fact-to-finding rules keep their AF-xxx ids verbatim (stage-3 section 12.4)."
+    },
+    "kind": {
+      "enum": ["sigma", "correlation", "ioc", "fim", "sca", "statistical", "artifact"],
+      "description": "Detector family discriminator. Derived at import when absent in upstream (artifact = Stage-3 fact-to-finding rules; ioc/fim/sca/statistical = native rules)."
+    },
+    "source": {
+      "enum": ["sigma", "falco", "yara", "suricata", "wazuh", "native"],
+      "description": "Stage-1 6.2 vocabulary, unchanged. Native rules (ioc/fim/sca/statistical/artifact authored by Sentinel) use 'native'."
+    },
+    "source_id": { "type": "string", "description": "Upstream rule id verbatim (e.g. Sigma rule id). Absent for native rules." },
+    "source_ref": { "type": "string", "description": "repo@commit:path provenance for imported rules; pack-relative path for native rules." },
+    "source_spec": { "type": "string", "description": "Spec the upstream rule was parsed against, e.g. 'sigma-spec/2.1.0'." },
+    "license": { "type": "string", "description": "SPDX-ish identifier driving attribution obligations, e.g. 'DRL-1.1', 'CC0-1.0', 'Apache-2.0'." },
+    "author": { "type": "string", "minLength": 1, "description": "REQUIRED for every rule (DRL 1.1 obligation: author identification must flow to alerts and exports)." },
+    "name": { "type": "string", "description": "Unique human-readable name usable as a correlation reference (sigma-spec correlation rules 4.1.3)." },
+    "title": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "status": {
+      "enum": ["stable", "test", "experimental", "deprecated", "unsupported"],
+      "description": "Verbatim upstream status for imported rules (never rewritten); native rules adopt the same vocabulary."
+    },
+    "level_original": {
+      "enum": ["informational", "low", "medium", "high", "critical"],
+      "description": "Upstream/fidelity axis (Stage-1 6.4), verbatim, never collapsed into severity."
+    },
+    "severity": {
+      "enum": ["LOW", "MEDIUM", "HIGH"],
+      "description": "Product-facing detection severity, exactly three levels (Stage-1 6.4). Map: informational|low->LOW, medium->MEDIUM, high|critical->HIGH."
+    },
+    "logsource": { "$ref": "#/$defs/logsource" },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z0-9_.-]+$" },
+      "description": "Namespaced tags preserved verbatim (e.g. attack.t1560.001). ATT&CK-derived data carries the MITRE copyright designation in pack NOTICE and exports (Stage-5 10.3)."
+    },
+    "fields": { "type": "array", "items": { "type": "string" }, "description": "Analyst-display field hints (sigma-spec rules 4.13), recorded, not evaluated." },
+    "falsepositives": { "type": "array", "items": { "type": "string" } },
+    "references": { "type": "array", "items": { "type": "string" } },
+    "date": { "type": "string", "format": "date" },
+    "modified": { "type": "string", "format": "date" },
+    "scope": { "type": "array", "items": { "type": "string" }, "description": "sigma-spec rules 4.15 scope (e.g. server). Stored; deployment gating is Stage-6." },
+    "detection": { "$ref": "#/$defs/detection" },
+    "correlation": { "$ref": "#/$defs/correlation" },
+    "ioc": { "$ref": "#/$defs/ioc" },
+    "fim": { "$ref": "#/$defs/fim" },
+    "sca": { "$ref": "#/$defs/sca" },
+    "statistical": { "$ref": "#/$defs/statistical" },
+    "when": { "$ref": "#/$defs/fact_when", "description": "Fact predicates over artifact facts (kind=artifact only; keys identical to Stage-3 AF rules)." },
+    "emit": { "$ref": "#/$defs/fact_emit", "description": "artifact_finding emission (kind=artifact only; keys identical to Stage-3 AF rules)." },
+    "severity_hint": {
+      "enum": ["informational", "low", "medium", "high", "critical"],
+      "description": "Stage-3 AF rules place this at rule level (stage-3 12.4); accepted there verbatim for kind=artifact only. UI hint; detectors own real severity."
+    },
+    "attribution": {
+      "type": "string",
+      "description": "Stage-3 AF rule-level attribution string (DRL-compatible), accepted at rule level for kind=artifact only; also accepted inside emit."
+    },
+    "enabled": { "type": "boolean" },
+    "rationale": { "type": "string", "description": "Why this rule exists (required for native rules at review; not schema-enforced)." },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "imported_at": { "type": "string", "format": "date-time" },
+        "imported_by": { "type": "string" },
+        "repo_commit": { "type": "string" },
+        "pack_id": { "type": "string" },
+        "pack_version": { "type": "string" },
+        "rule_source_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$", "description": "Digest of the verbatim source document stored in rule_source." }
+      }
+    },
+    "compile": { "$ref": "#/$defs/compile" },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Pack governance state (Stage-5 section 10). Absent = governed by pack-level metadata only.",
+      "properties": {
+        "pack_id": { "type": "string" },
+        "pack_version": { "type": "string" },
+        "approved_by": { "type": "string" },
+        "approved_at": { "type": "string", "format": "date-time" },
+        "shadow_until": { "type": "string", "format": "date-time" },
+        "canary_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "kill_switch": { "type": "boolean", "description": "true = rule is force-disabled regardless of enabled." }
+      }
+    }
+  },
+  "allOf": [
+    { "if": { "properties": { "kind": { "const": "sigma" } }, "required": ["kind"] },
+      "then": { "required": ["logsource", "detection"] } },
+    { "if": { "properties": { "kind": { "const": "correlation" } }, "required": ["kind"] },
+      "then": { "required": ["correlation"] } },
+    { "if": { "properties": { "kind": { "const": "ioc" } }, "required": ["kind"] },
+      "then": { "required": ["ioc"] } },
+    { "if": { "properties": { "kind": { "const": "fim" } }, "required": ["kind"] },
+      "then": { "required": ["fim"] } },
+    { "if": { "properties": { "kind": { "const": "sca" } }, "required": ["kind"] },
+      "then": { "required": ["sca"] } },
+    { "if": { "properties": { "kind": { "const": "statistical" } }, "required": ["kind"] },
+      "then": { "required": ["statistical"] } },
+    { "if": { "properties": { "kind": { "const": "artifact" } }, "required": ["kind"] },
+      "then": { "required": ["when", "emit"] } },
+    { "if": { "properties": { "kind": { "enum": ["ioc", "fim", "sca", "statistical", "artifact"] } }, "required": ["kind"] },
+      "then": { "properties": { "source": { "const": "native" } } } },
+    { "if": { "properties": { "kind": { "not": { "const": "artifact" } } }, "required": ["kind"] },
+      "then": { "not": { "anyOf": [ { "required": ["severity_hint"] }, { "required": ["attribution"] }, { "required": ["when"] }, { "required": ["emit"] } ] },
+        "description": "when/emit/severity_hint/attribution are Stage-3 artifact-rule keys and are only valid on kind=artifact (Stage-5 D5-001)." } }
+  ],
+  "$defs": {
+    "logsource": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "description": "sigma-spec rules 3.3. Lower-case values, '_' for spaces. Only these three evaluatable keys plus free-text definition; Stage-2 sigma_field_mapping_pipelines.yaml selects the pipeline from this logsource (D2-014).",
+      "properties": {
+        "category": { "type": "string" },
+        "product": { "type": "string" },
+        "service": { "type": "string" },
+        "definition": { "type": "string" }
+      }
+    },
+    "detection": {
+      "type": "object",
+      "required": ["condition"],
+      "minProperties": 2,
+      "additionalProperties": { "$ref": "#/$defs/search_identifier" },
+      "properties": {
+        "condition": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Sigma condition expression. Grammar validated by the lint engine, not by JSON schema: identifiers, and/or/not, parentheses, '1/all of them', 'n of pattern', bare keyword identifiers, condition-as-list (OR across items)."
+        }
+      }
+    },
+    "search_identifier": {
+      "description": "A search identifier is either a list (OR across items) or a map (AND across fields). List items are maps (AND within item, OR across items) or strings (keyword search over the whole canonical event).",
+      "oneOf": [
+        { "$ref": "#/$defs/predicate_map" },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              { "$ref": "#/$defs/predicate_map" },
+              { "type": "string" }
+            ]
+          }
+        }
+      ]
+    },
+    "predicate_map": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/sigma_value" },
+      "propertyNames": { "pattern": "^[^:\\s][^:]*$", "description": "Field name, optionally with '|modifier[|modifier...]' suffixes. ':' forbidden (YAML key boundary)." }
+    },
+    "sigma_value": {
+      "description": "Scalar, list, empty string ('' = empty value) or null (sigma-spec rules 4.4.4: null is its own type, never mixed into a list of other values; lint enforces the mixing ban).",
+      "oneOf": [
+        { "type": "string" },
+        { "type": "number" },
+        { "type": "null" },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": { "oneOf": [{ "type": "string" }, { "type": "number" }, { "type": "null" }] },
+          "not": { "contains": { "type": "null" } }
+        }
+      ]
+    },
+    "correlation": {
+      "type": "object",
+      "required": ["type", "rules", "group-by", "timespan"],
+      "additionalProperties": false,
+      "description": "sigma-spec correlation rules (v2.1.0, 7 types).",
+      "properties": {
+        "type": {
+          "enum": ["event_count", "value_count", "temporal", "temporal_ordered", "value_sum", "value_avg", "value_percentile"],
+          "description": "All 7 types of spec 2.1.0. NOTE (VERIFIED): the spec's own 'allowed values' list at correlation-rules-specification.md line 236 still names only the first four; value_sum/value_avg/value_percentile are defined in sections 4.5-4.7 and History confirms their addition in 2.1.0."
+        },
+        "rules": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" },
+          "description": "Referenced rule UUIDs or unique names (id-or-name index built at load; name resolution is mandatory per spec)."
+        },
+        "aliases": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "Field-name aliases applied to referenced rules' outputs before group-by (spec: Field Name Aliases)."
+        },
+        "group-by": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" },
+          "description": "Canonical field paths (post-pipeline). Multiple fields are ANDed."
+        },
+        "timespan": {
+          "type": "string",
+          "pattern": "^\\d+[smhd]$",
+          "description": "number + lowercase unit; '90m' for 1h30 (spec Time Selection)."
+        },
+        "condition": { "$ref": "#/$defs/correlation_condition" },
+        "generate": {
+          "type": "boolean",
+          "description": "true = also convert referred rules as standalone detectors (default false, spec Generate)."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "enum": ["temporal", "temporal_ordered"] } } },
+          "then": { "not": { "required": ["condition"] }, "description": "temporal types require no condition (spec: Requires lists)." }
+        },
+        {
+          "if": { "properties": { "type": { "enum": ["event_count", "value_count", "value_sum", "value_avg", "value_percentile"] } } },
+          "then": { "required": ["condition"] }
+        },
+        {
+          "if": { "properties": { "type": { "enum": ["value_count", "value_sum", "value_avg", "value_percentile"] } } },
+          "then": {
+            "properties": { "condition": { "required": ["field"] } },
+            "description": "metric types require condition.field (spec: 'field in condition section')."
+          }
+        }
+      ]
+    },
+    "correlation_condition": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "description": "Exactly one criterion, or a range expressed as two keys ANDed (spec Condition).",
+      "properties": {
+        "field": { "type": "string", "description": "Canonical numeric field for value_count/value_sum/value_avg/value_percentile." },
+        "gt": { "type": "number" },
+        "gte": { "type": "number" },
+        "lt": { "type": "number" },
+        "lte": { "type": "number" },
+        "eq": { "type": "number" },
+        "neq": { "type": "number" }
+      },
+      "anyOf": [
+        { "required": ["gt"] }, { "required": ["gte"] }, { "required": ["lt"] },
+        { "required": ["lte"] }, { "required": ["eq"] }, { "required": ["neq"] }
+      ]
+    },
+    "ioc": {
+      "type": "object",
+      "required": ["packs", "match"],
+      "additionalProperties": false,
+      "description": "IOC watchlist rule (Stage-5 section 6). Indicator VALUES never live in rule documents; they live in Ed25519-signed packs (D4-003).",
+      "properties": {
+        "packs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["pack", "version", "digest_sha256"],
+            "additionalProperties": false,
+            "properties": {
+              "pack": { "type": "string" },
+              "version": { "type": "string" },
+              "digest_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+              "subset": { "type": "string", "description": "Optional named subset inside the pack (e.g. 'botnet-c2')." }
+            }
+          }
+        },
+        "match": {
+          "type": "object",
+          "required": ["fields", "kinds"],
+          "additionalProperties": false,
+          "properties": {
+            "fields": { "type": "array", "minItems": 1, "items": { "type": "string" }, "description": "Canonical field paths to test (e.g. file.hashes.sha256, network.dst_ip, dns.query_name)." },
+            "kinds": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "enum": ["sha256", "sha1", "md5", "ipv4", "ipv6", "cidr", "domain", "url", "email"] }
+            },
+            "normalize": {
+              "type": "array",
+              "items": { "enum": ["lowercase", "trim", "ip_canonical", "idna", "url_canonical", "hash_lower", "strip_trailing_dot"] }
+            }
+          }
+        },
+        "confirm_exact": { "type": "boolean", "description": "default true: Bloom prefilter then exact-set confirm (Stage-5 6.4)." },
+        "on_stale": {
+          "enum": ["last_known_good", "skip"],
+          "description": "Behaviour when the signed pack cannot be refreshed at job start (cold-start policy, Stage-5 4.8)."
+        },
+        "emit_fields": { "type": "array", "items": { "type": "string" }, "description": "Canonical fields copied into the finding evidence." }
+      }
+    },
+    "fim": {
+      "type": "object",
+      "required": ["paths"],
+      "additionalProperties": false,
+      "description": "File-integrity rule over fim/file canonical events and optional uploaded baseline pairs (Stage-5 section 7). Live-host FIM is out of scope (Stage-1 4.2).",
+      "properties": {
+        "paths": {
+          "type": "object",
+          "required": ["include"],
+          "additionalProperties": false,
+          "properties": {
+            "include": { "type": "array", "minItems": 1, "items": { "type": "string" }, "description": "Glob patterns over canonical file paths (case-insensitive on Windows; '\\' and '/' equivalent)." },
+            "exclude": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "operations": {
+          "type": "array",
+          "items": { "enum": ["create", "modify", "delete", "rename", "attribute_change", "audit_log_cleared"] }
+        },
+        "require": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "hash_changed": { "type": "boolean" },
+            "size_changed": { "type": "boolean" },
+            "attributes_any": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "baseline": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Where the 'expected' state comes from when the event carries no old/new pair.",
+          "properties": {
+            "source": { "enum": ["event_old_new", "upload_pair", "fim_baseline_table"] },
+            "pair_role": { "enum": ["baseline", "current"] }
+          }
+        },
+        "match_event_fields": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/sigma_value" },
+          "description": "Optional predicate map over the fim payload (e.g. fim.operation: audit_log_cleared), evaluated with sigma operators."
+        }
+      }
+    },
+    "sca": {
+      "type": "object",
+      "required": ["select"],
+      "additionalProperties": false,
+      "description": "Configuration-assessment rule over config_check canonical events and our own check packs (Stage-5 section 8). No CIS/SCAP text may be shipped; benchmark.* is a factual reference only.",
+      "properties": {
+        "select": {
+          "type": "object",
+          "required": ["checks"],
+          "additionalProperties": false,
+          "properties": {
+            "checks": { "type": "array", "minItems": 1, "items": { "type": "string" }, "description": "config_check.check identifiers; trailing '*' wildcard allowed (e.g. 'firewall.*')." },
+            "categories": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "assert": {
+          "type": "object",
+          "required": ["field", "op"],
+          "additionalProperties": false,
+          "properties": {
+            "field": { "type": "string", "description": "Canonical path (typically config_check.observed or config_check.expected)." },
+            "op": { "enum": ["eq", "neq", "in", "contains", "regex", "absent", "present"] },
+            "value": { "oneOf": [{ "type": "string" }, { "type": "number" }, { "type": "boolean" }, { "type": "array", "items": { "oneOf": [{ "type": "string" }, { "type": "number" }] } }] },
+            "regex_engine": { "const": "re2" }
+          }
+        },
+        "fail_status_only": { "type": "boolean", "description": "true = fire only on config_check.status = 'fail' (default true). Absent evidence never counts as pass (Stage-5 8.5)." },
+        "benchmark": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "framework": { "enum": ["own", "cis", "nist", "cis_controls", "other"] },
+            "control_id": { "type": "string" },
+            "note": { "type": "string", "description": "Must state that wording is Sentinel's own; CIS Benchmark PDFs are CC BY-NC-SA 4.0 for non-commercial use (Stage-1 2.1, Stage-5 10.3)." }
+          }
+        },
+        "evidence": { "type": "array", "items": { "type": "string" }, "description": "Canonical field paths copied into the finding evidence." }
+      }
+    },
+    "statistical": {
+      "type": "object",
+      "required": ["kind", "group_by", "window", "threshold"],
+      "additionalProperties": false,
+      "description": "Declarative statistical rule (Stage-5 section 9). No ML (Stage-1 4.3). All numbers here are CONTENT, editable without redeploying the engine.",
+      "properties": {
+        "kind": { "enum": ["rate", "rare_value", "proportion"] },
+        "group_by": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "measure": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "field": { "type": "string" },
+            "op": { "enum": ["count", "distinct_count", "sum", "avg"] }
+          }
+        },
+        "window": {
+          "type": "object",
+          "required": ["bucket", "span"],
+          "additionalProperties": false,
+          "properties": {
+            "bucket": { "type": "string", "pattern": "^\\d+[smhd]$", "description": "Binning width (SQL date_bin)." },
+            "span": { "type": "string", "pattern": "^\\d+[smhd]$", "description": "Trailing baseline span." }
+          }
+        },
+        "baseline": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min_observations": { "type": "integer", "minimum": 1 },
+            "warmup_action": { "enum": ["suppress", "flag"], "description": "suppress = no finding until min_observations (default); flag = emit with baseline.warmup=true." },
+            "estimator": { "enum": ["median_mad", "ewma", "none"] },
+            "alpha": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 },
+            "k": { "type": "number", "exclusiveMinimum": 0, "description": "Robust z multiplier for median_mad (x > median + k * 1.4826 * MAD)." }
+          }
+        },
+        "threshold": {
+          "type": "object",
+          "required": ["op", "value"],
+          "additionalProperties": false,
+          "properties": {
+            "op": { "enum": ["gt", "gte", "lt", "lte"] },
+            "value": { "type": "number" },
+            "for_buckets": { "type": "integer", "minimum": 1, "description": "Consecutive violating buckets required (default 1)." }
+          }
+        },
+        "scope_filter": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/sigma_value" },
+          "description": "Optional sigma-style predicate restricting which events enter the baseline (e.g. event.category: process)."
+        }
+      }
+    },
+    "fact_when": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "description": "Stage-3 artifact_finding_rules.yaml 'when' shape, unchanged (D5-001).",
+      "anyOf": [{ "required": ["all"] }, { "required": ["any"] }],
+      "properties": {
+        "all": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/fact_predicate" } },
+        "any": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/fact_predicate" } }
+      }
+    },
+    "fact_predicate": {
+      "type": "object",
+      "required": ["fact"],
+      "additionalProperties": false,
+      "description": "One fact plus exactly one operator key (Stage-3 12.4 vocabulary, extended with lt/lte/neq/contains/regex).",
+      "properties": {
+        "fact": { "type": "string", "description": "Namespaced fact name, e.g. archive.entry.ratio, motw.zone_id, pe.import.name." },
+        "exists": { "type": "boolean" },
+        "in": { "type": "array", "minItems": 1 },
+        "not_in": { "type": "array", "minItems": 1 },
+        "eq": { "oneOf": [{ "type": "string" }, { "type": "number" }, { "type": "boolean" }] },
+        "neq": { "oneOf": [{ "type": "string" }, { "type": "number" }, { "type": "boolean" }] },
+        "gt": { "type": "number" },
+        "gte": { "type": "number" },
+        "lt": { "type": "number" },
+        "lte": { "type": "number" },
+        "contains": { "type": "string" },
+        "regex": { "type": "string", "description": "RE2 subset only (D5-004); lint rejects constructs outside sigma-spec's own restricted regex flavor." },
+        "in_list_ref": { "type": "string", "description": "Pack-relative list file (e.g. lists/exec_apis.yaml); resolved at load, content-addressed, size-capped (D5-019)." }
+      },
+      "anyOf": [
+        { "required": ["exists"] }, { "required": ["in"] }, { "required": ["not_in"] },
+        { "required": ["eq"] }, { "required": ["neq"] }, { "required": ["gt"] },
+        { "required": ["gte"] }, { "required": ["lt"] }, { "required": ["lte"] },
+        { "required": ["contains"] }, { "required": ["regex"] }, { "required": ["in_list_ref"] }
+      ]
+    },
+    "fact_emit": {
+      "type": "object",
+      "required": ["artifact_type", "finding", "confidence", "evidence_facts"],
+      "additionalProperties": false,
+      "description": "Stage-3 12.4 'emit' shape, unchanged (D5-001).",
+      "properties": {
+        "artifact_type": { "type": "string" },
+        "finding": { "type": "string", "description": "Rule id or configuration-defined rule name - never free text, never a verdict (Stage-3 D3-029)." },
+        "confidence": { "enum": ["observed", "derived", "third_party"] },
+        "evidence_facts": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "severity_hint": { "enum": ["informational", "low", "medium", "high", "critical"], "description": "UI hint only; detectors own real severity (Stage-3 12.4)." },
+        "attribution": { "type": "string", "description": "DRL-compatible attribution block for the emitted finding." }
+      }
+    },
+    "compile": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Engine-filled compile evidence (Stage-1 6.2 'compile', extended).",
+      "properties": {
+        "detection_path": { "enum": ["sql", "native"], "description": "Stage-1 D-004: sql primary, native fallback + conformance oracle." },
+        "sql": { "oneOf": [{ "type": "string" }, { "type": "null" }], "description": "Compiled artifact stored per rule as evidence (never re-parsed at runtime)." },
+        "fallback_reason": { "oneOf": [{ "type": "string" }, { "type": "null" }], "description": "Reason code when detection_path=native." },
+        "cost_class": { "enum": ["prefilter", "standard", "heavy", "window"] },
+        "prefilter": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["column", "op", "values"],
+            "additionalProperties": false,
+            "properties": {
+              "column": { "type": "string", "description": "Indexable envelope column, e.g. event.category, event.type, source.channel, source.event_id." },
+              "op": { "enum": ["eq", "in", "range"] },
+              "values": { "type": "array" }
+            }
+          }
+        },
+        "compiled_at": { "type": "string", "format": "date-time" },
+        "engine_version": { "type": "string" },
+        "unsupported": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["code"],
+            "additionalProperties": false,
+            "properties": {
+              "code": { "type": "string", "description": "Reason code, e.g. UNSUPPORTED_MODIFIER, UNMAPPED_FIELD, REGEX_TIMEOUT_QUARANTINE." },
+              "detail": { "type": "string" },
+              "selector": { "type": "string", "description": "Which detection identifier / field the code refers to." }
+            }
+          }
+        }
+      }
+    }
+  }
+}

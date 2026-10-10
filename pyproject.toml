@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sentinel"
+version = "0.1.0"
+description = "Sentinel — light Windows-first HIDS backend (Milestone 1)"
+requires-python = ">=3.12"
+license = { text = "Proprietary" }
+
+[project.scripts]
+sentinel-api = "sentinel_api.main:main"
+sentinel-worker = "sentinel_worker.main:main"
+
+[tool.setuptools.packages.find]
+where = [
+    "packages/core",
+    "packages/storage",
+    "packages/ingest",
+    "packages/detect",
+    "apps/api",
+    "apps/worker",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["error::DeprecationWarning"]
+markers = [
+    "slow: long-running tests (10k job soak, docker stop/start)",
+]

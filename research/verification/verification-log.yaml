@@ -1,0 +1,288 @@
+# Evidence-gathering verification log
+# Date: 2026-10-09
+# Method: webfetch/websearch only; no memory answers
+# Blocked hosts: gitlab.freedesktop.org (Anubis), packages.debian.org, api.github.com (403), pypi.org/project/pypdfium2 (Cloudflare), foss.heptapod.net (assumed), PyPI onenoteconverter/oneparse (Cloudflare)
+
+items:
+  # ---------- PDF ----------
+  - name: pdf-parser.py / pdfid.py (Didier Stevens)
+    url_fetched:
+      - https://blog.didierstevens.com/programs/pdf-tools
+      - https://raw.githubusercontent.com/DidierStevens/DidierStevensSuite/master/pdfid.py
+    default_branch: master (DidierStevensSuite)
+    latest_release: no formal tag; __version__ = '0.2.10', __date__ = '2025/03/05' (direct file fetch)
+    commit_hash: not observed (raw fetch, no git metadata)
+    spdx_license: "Source code put in public domain by Didier Stevens, no Copyright" (pdfid.py header, direct fetch)
+    language: Python
+    last_commit_status: version header dated 2025/03/05 (V0.2.10 bugfix dfrias); changelog active through 2025
+    file_or_doc_read: blog.didierstevens.com/programs/pdf-tools; raw pdfid.py (full source: ~800 lines)
+    render_vs_parse: parse-only. Blog: pdf-parser.py "It will not render a PDF document." pdfid.py scans keywords (/JS, /JavaScript, /OpenAction, /Launch, /RichMedia, /EmbeddedFile, /XFA); disarm option rewrites dangerous keywords; no rendering engine present in source.
+    label: VERIFIED
+
+  - name: pdftotext (Poppler)
+    url_fetched:
+      - https://manpages.debian.org/bookworm/poppler-utils/pdftotext.1.en.html
+      - https://skia.googlesource.com/third_party/poppler/+/HEAD/COPYING?format=TEXT
+      - https://www.linuxfromscratch.org/blfs/view/systemd/general/poppler.html
+    default_branch: main (official gitlab.freedesktop.org blocked by Anubis; UNVERIFIED from official repo)
+    latest_release: Poppler-26.09.0 (LFS page); Debian bookworm ships 22.12.0-2+deb12u6; unstable 25.03.0-5
+    commit_hash: not observed (official repo blocked)
+    spdx_license: GPL-2.0-only (COPYING via Skia mirror = GNU GPL v2 June 1991)
+    language: C++
+    last_commit_status: active; latest release 26.09.0
+    file_or_doc_read: pdftotext man page (poppler-utils); COPYING (Skia mirror, base64 decoded); LFS poppler page
+    render_vs_parse: parse-only. pdftotext extracts text/ layout from PDF; does not render active content (JBIG2, JS not executed).
+    label: PARTIALLY VERIFIED (licence/release via mirrors; official GitLab branch/commit UNVERIFIED)
+
+  - name: pikepdf
+    url_fetched:
+      - https://pypi.org/project/pikepdf/
+      - https://github.com/pikepdf/pikepdf
+    default_branch: main
+    latest_release: 10.16.0, released Sep 29, 2026 (PyPI)
+    commit_hash: 23290bd753eaf3feeaa265da9a191c6d1cd54612 (publish commit via PyPI attestation)
+    spdx_license: MPL-2.0
+    language: Python + C++ (qpdf bindings)
+    last_commit_status: active; released 10 days ago
+    file_or_doc_read: PyPI project page; GitHub README
+    render_vs_parse: parse/repair/manipulate only. README: "not what you want if you need to render PDFs to images."
+    label: VERIFIED
+
+  - name: pypdf
+    url_fetched:
+      - https://pypi.org/project/pypdf/
+      - https://github.com/py-pdf/pypdf
+    default_branch: main
+    latest_release: 6.19.0, released Sep 16, 2026 (PyPI)
+    commit_hash: d62cb58d3988b291b0435eddfd118c4f8f6b6a46 (publish commit via PyPI attestation)
+    spdx_license: BSD-3-Clause
+    language: Python (pure)
+    last_commit_status: active; frequent releases through Sep 2026
+    file_or_doc_read: PyPI project page; GitHub README
+    render_vs_parse: parse/merge/split/crop; text extraction; no rendering engine
+    label: VERIFIED
+
+  - name: pdfminer.six
+    url_fetched:
+      - https://pypi.org/project/pdfminer.six/
+      - https://github.com/pdfminer/pdfminer.six
+    default_branch: master
+    latest_release: 20260107, released Jan 7, 2026 (PyPI)
+    commit_hash: not observed
+    spdx_license: MIT
+    language: Python (pure)
+    last_commit_status: active; releases Nov 2025 - Jan 2026
+    file_or_doc_read: PyPI project page; GitHub README
+    render_vs_parse: parse-only; extracts text/images/html/hOCR from PDF source
+    label: VERIFIED
+
+  - name: PyMuPDF
+    url_fetched:
+      - https://pypi.org/project/PyMuPDF/
+      - https://github.com/pymupdf/PyMuPDF
+      - https://raw.githubusercontent.com/pymupdf/PyMuPDF/main/COPYING
+    default_branch: main
+    latest_release: 1.28.2, released Aug 6, 2026 (PyPI, prior fetch)
+    commit_hash: not observed
+    spdx_license: AGPL-3.0 (COPYING = full GNU AGPL v3 text, direct fetch; commercial licence also available per README)
+    language: Python + C (MuPDF)
+    last_commit_status: active; 3,576 commits
+    file_or_doc_read: GitHub README (licensing, rendering examples); COPYING (full AGPL-3.0)
+    render_vs_parse: CAN RENDER. README: page.get_pixmap(dpi=150), page rendering to images, OCR.
+    label: VERIFIED
+
+  - name: qpdf
+    url_fetched:
+      - https://github.com/qpdf/qpdf
+      - https://github.com/qpdf/qpdf/releases
+      - https://github.com/qpdf/qpdf/blob/main/LICENSE.txt
+      - https://qpdf.readthedocs.io/en/latest/encryption.html
+      - https://api.github.com/repos/qpdf/qpdf/releases?per_page=1 (BLOCKED: HTTP 403)
+    default_branch: main
+    latest_release: v12.4.2, released Sep 27, 2026 (GitHub releases page)
+    commit_hash: 4eba95899886e851cc41d76886483b347612f2a8 (v12.4.2 release commit)
+    spdx_license: Apache-2.0 (LICENSE.txt full text fetched)
+    language: C++
+    last_commit_status: active; released 12 days ago
+    file_or_doc_read: GitHub LICENSE.txt (Apache-2.0 full text); releases page; encryption docs
+    render_vs_parse: parse/transform/decrypt; standard security handler supports password-based decryption; no rendering
+    label: VERIFIED
+
+  - name: pypdfium2
+    url_fetched:
+      - https://github.com/pypdfium2-team/pypdfium2
+      - https://github.com/pypdfium2-team/pypdfium2/releases
+      - https://github.com/pypdfium2-team/pypdfium2/tree/main/LICENSES
+      - https://raw.githubusercontent.com/pypdfium2-team/pypdfium2/main/LICENSES/pypdfium2.txt (404)
+      - https://pypi.org/project/pypdfium2/ (BLOCKED: Cloudflare Client Challenge)
+    default_branch: main
+    latest_release: 5.14.0, released Oct 4, 2026 (GitHub releases; Latest)
+    commit_hash: 21f85e273036f3bade4f67d896e1d05927e5f4b1 (5.14.0 release commit)
+    spdx_license: multi-license: BSD-3-Clause (wrapper) + Apache-2.0 (PDFium) + LGPL-3.0-or-later (freetype etc.) + MPL-2.0 + MIT + CC-BY-4.0 (LICENSES/ directory listing fetched; BSD-3-Clause.txt present)
+    language: Python (ctypes bindings to PDFium C++)
+    last_commit_status: active; released 5 days ago
+    file_or_doc_read: GitHub releases page (5.14.0 full notes); LICENSES/ dir listing (6 licence files)
+    render_vs_parse: CAN RENDER. Release notes reference PdfBitmap, FPDFBitmap_Destroy, PdfDocument.render; README (prior fetch) shows page.render(scale=...).
+    label: VERIFIED (PyPI blocked; version/licence/commit verified via GitHub releases + LICENSES dir)
+
+  # ---------- Office ----------
+  - name: openpyxl
+    url_fetched:
+      - https://pypi.org/project/openpyxl/ (prior session: 3.1.5)
+      - https://openpyxl.readthedocs.io/en/stable/
+      - https://openpyxl.readthedocs.io/en/stable/optimized.html
+      - https://github.com/python-openpyxl/openpyxl (404)
+      - https://github.com/openpyxl/openpyxl (404)
+    default_branch: not confirmed; source at foss.heptapod.net/openpyxl/openpyxl (likely Anubis-blocked)
+    latest_release: 3.1.5 (PyPI, prior session)
+    commit_hash: not observed
+    spdx_license: MIT/Expat (docs index License field, direct fetch)
+    language: Python
+    last_commit_status: docs copyright 2010-2024; docs generated May 29, 2024; maintenance status unclear
+    file_or_doc_read: docs index (MIT/Expat, security note re defusedxml); optimized.html (read_only=True, ReadOnlyWorksheet, lazy loading, wb.close() required)
+    render_vs_parse: parse-only. read_only mode uses lazy loading; does not execute macros or render. Security note: install defusedxml against billion-laughs XML attacks.
+    label: PARTIALLY VERIFIED (docs/licence/read_only confirmed; repo branch/commit UNVERIFIED - heptapod not fetched, GitHub 404)
+
+  - name: python-docx
+    url_fetched:
+      - https://pypi.org/project/python-docx/
+      - https://github.com/python-openxml/python-docx
+    default_branch: master
+    latest_release: 1.2.0, released Jun 16, 2025 (PyPI)
+    commit_hash: not observed
+    spdx_license: MIT
+    language: Python
+    last_commit_status: last release Jun 2025 (~16 months old); 1,105 commits
+    file_or_doc_read: PyPI project page; GitHub README
+    render_vs_parse: parse/create/update .docx (OOXML); no rendering or macro execution
+    label: VERIFIED
+
+  - name: python-pptx
+    url_fetched:
+      - https://github.com/scanny/python-pptx
+      - https://pypi.org/project/python-pptx/
+    default_branch: master
+    latest_release: 1.0.2, released Aug 7, 2024 (PyPI)
+    commit_hash: not observed
+    spdx_license: MIT (PyPI: "MIT License (MIT)")
+    language: Python
+    last_commit_status: last release Aug 2024 (~2.2 years old); GitHub shows 2,137 commits
+    file_or_doc_read: PyPI project page (1.0.2, Aug 7 2024); GitHub README
+    render_vs_parse: create/read/update PowerPoint (.pptx); "does not require the PowerPoint application to be installed or licensed"; no rendering
+    label: VERIFIED
+
+  - name: olefile
+    url_fetched:
+      - https://github.com/decalage2/olefile
+    default_branch: master
+    latest_release: v0.47, dated 2023-12-01 (README News section)
+    commit_hash: not observed
+    spdx_license: BSD-2-Clause-style (custom redistribution terms) + PIL licence portion (full text in README)
+    language: Python
+    last_commit_status: last release Dec 2023 (~2.8 years old); 428 commits
+    file_or_doc_read: GitHub README (full licence text, features, news)
+    render_vs_parse: parse/read/write OLE2 compound files; no rendering
+    label: VERIFIED
+
+  - name: oletools (python-oletools)
+    url_fetched:
+      - https://github.com/decalage2/oletools
+    default_branch: master
+    latest_release: v0.60.3, dated 2025-05-22 (README News section)
+    commit_hash: not observed
+    spdx_license: BSD-2-Clause-style (custom) + MIT (officeparser portions)
+    language: Python
+    last_commit_status: active; 1,521 commits; security policy present
+    file_or_doc_read: GitHub README (full licence text, tool descriptions)
+    render_vs_parse: analysis/forensics; extracts VBA macros, XLM macros, DDE links, embedded objects; does not execute them
+    label: VERIFIED
+
+  - name: msoffcrypto-tool
+    url_fetched:
+      - https://github.com/nolze/msoffcrypto-tool
+      - https://pypi.org/project/msoffcrypto-tool/
+    default_branch: master
+    latest_release: 6.0.0, released Jan 12, 2026 (PyPI)
+    commit_hash: not observed
+    spdx_license: MIT
+    language: Python
+    last_commit_status: active; released 9 months ago; 338 commits (GitHub)
+    file_or_doc_read: PyPI project page (6.0.0, full README, supported encryption methods); GitHub README
+    render_vs_parse: decrypt/encrypt MS Office files (OOXML agile/standard, RC4, RC4 CryptoAPI, XOR obfuscation, legacy 95); no rendering
+    label: VERIFIED
+
+  - name: XLMMacroDeobfuscator
+    url_fetched:
+      - https://github.com/DissectMalware/XLMMacroDeobfuscator
+    default_branch: master
+    latest_release: v0.2.0 (CLI help text in README)
+    commit_hash: not observed
+    spdx_license: Apache-2.0
+    language: Python
+    last_commit_status: 451 commits; release date not observed
+    file_or_doc_read: GitHub README (emulator description, CLI, library usage)
+    render_vs_parse: uses internal XLM emulator to interpret macros "without fully performing the code"; not full execution
+    label: VERIFIED
+
+  # ---------- Other tools ----------
+  - name: striprtf
+    url_fetched:
+      - https://pypi.org/project/striprtf/
+      - https://github.com/joshy/striprtf
+    default_branch: master
+    latest_release: 0.0.33, released Aug 17, 2026 (PyPI)
+    commit_hash: not observed
+    spdx_license: BSD-3-Clause (PyPI expression + GitHub sidebar "BSD-3-Clause license")
+    language: Python
+    last_commit_status: active; releases Apr-Aug 2026; 180 commits (GitHub)
+    file_or_doc_read: PyPI project page; GitHub README (purpose: convert RTF to plain text)
+    render_vs_parse: parse-only; converts RTF to plain text via rtf_to_text(); no rendering
+    label: VERIFIED
+
+  - name: OneNote libraries
+    url_fetched:
+      - https://github.com/DissectMalware/pyOneNote
+      - https://github.com/volexity/one-extract
+      - https://pypi.org/project/onenoteconverter/ (BLOCKED: Cloudflare)
+      - https://pypi.org/project/oneparse/ (BLOCKED: Cloudflare)
+      - websearch results for onenote python parser (returned pyOneNote, onenote2xml, one-extract, pyonenote-parser)
+    default_branch: main (pyOneNote); main (one-extract)
+    latest_release: pyOneNote 0.0.2 Mar 19 2023 (websearch PyPI excerpt); pyonenote-parser 0.0.3 Apr 11 2026 (PyPI RSS via websearch)
+    commit_hash: not observed
+    spdx_license: Apache-2.0 (pyOneNote GitHub sidebar); BSD-3-Clause (one-extract GitHub sidebar)
+    language: Python
+    last_commit_status: pyOneNote 63 commits, README says "under active development" but last PyPI release Mar 2023; one-extract 17 commits, created 2023-09-05, described as "interim solution"
+    file_or_doc_read: pyOneNote GitHub README (parser for .one, dumps embedded files); one-extract GitHub README (extract files/metadata from .one; supports password-protected notebooks; created in response to malspam .one campaigns)
+    render_vs_parse: parse/extract only. pyOneNote "read OneNote files... extract useful information, such as embedded files"; one-extract "extracting files and metadata from .one files"; no rendering.
+    label: VERIFIED (repos fetched; onenoteconverter/oneparse PyPI pages Cloudflare-blocked - noted as UNVERIFIED alternatives)
+
+  - name: Microsoft MotW / Zone.Identifier
+    url_fetched:
+      - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/6e3f7352-d11c-4d76-8c39-2516a9df36e8
+      - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/e2b19412-a925-4360-b009-86e3b8a020c8
+      - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/ (main page, rev 60.0, updated 2025-11-21)
+    default_branch: n/a (Microsoft Open Specifications, not a code repo)
+    latest_release: [MS-FSCC] protocol revision 60.0, published 11/21/2025 (major revision)
+    commit_hash: git_commit_id fc707ba42f1c44be034205cb8c6fd1918be84c16 (Zone.Identifier page source in MicrosoftDocs/open_specs_windows)
+    spdx_license: n/a; Microsoft Open Specifications copyright (public docs)
+    language: n/a (protocol spec)
+    last_commit_status: Zone.Identifier page updated 2025-04-07; MS-FSCC main page updated 2025-11-21
+    file_or_doc_read: MS-FSCC 5.6.1 Zone.Identifier Stream Name; MS-FSCC 2.1.4 Alternate Data Streams; MS-FSCC main index
+    render_vs_parse: n/a (Windows NTFS alternate data stream). Zone.Identifier is a simple text stream: "[ZoneTransfer]\nZoneId=3". Fully qualified form sample.txt:Zone.Identifier:$DATA. Used by IE/Edge and Attachment Execution Services.
+    label: VERIFIED
+
+  - name: Apache Tika
+    url_fetched:
+      - https://tika.apache.org/
+      - https://tika.apache.org/download.html
+      - https://tika.apache.org/docs/4.1.x/index.html
+      - https://tika.apache.org/docs/4.1.x/security.html
+    default_branch: main (GitHub); docs built from commit 5cba7bc3b (2026-09-29)
+    latest_release: 4.1.0, released 29 September 2026; 3.x maintenance line at 3.3.2
+    commit_hash: 5cba7bc3b (docs build commit, 2026-09-29)
+    spdx_license: Apache-2.0 (download page: "Apache Tika releases are available under the Apache License, Version 2.0")
+    language: Java
+    last_commit_status: very active; 4.1.0 released 10 days ago
+    file_or_doc_read: homepage; download.html; docs/4.1.x/index.html; docs/4.1.x/security.html (Security Model, In-Process DoS, Tika Server/gRPC trust model, ExternalParser risks)
+    render_vs_parse: parse/extract metadata+text from 1000+ types; uses Bouncy Castle for encrypted PDFs. Security doc: "Neither tika-server nor tika-grpc is a security boundary... Only ever expose them to trusted callers." In-process AutoDetectParser DoS "is not a security vulnerability"; process isolation (Pipes/forked JVMs) is the sandbox.
+    label: VERIFIED

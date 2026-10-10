@@ -1,0 +1,61 @@
+# Sentinel configuration — Milestone 1 (dev defaults).
+# Environment variables override file values: SENTINEL_<SECTION>_<KEY>
+# (e.g. SENTINEL_DATABASE_URL, SENTINEL_API_BIND_PORT).
+
+[database]
+# App role (no BYPASSRLS; RLS enforced per transaction).
+url = "postgresql+psycopg://sentinel_app:sentinel_app@127.0.0.1:54321/sentinel"
+# Migration role (schema owner).
+migrator_url = "postgresql+psycopg://sentinel_migrator:sentinel_migrator@127.0.0.1:54321/sentinel"
+# Worker role (BYPASSRLS platform processor — claims jobs across tenants).
+worker_url = "postgresql+psycopg://sentinel_worker:sentinel_worker@127.0.0.1:54321/sentinel"
+
+[api]
+bind_host = "127.0.0.1"
+bind_port = 8080
+
+[worker]
+# Unique per worker process; default derives from host+pid at runtime.
+id = ""
+poll_interval_ms = 200
+claim_batch = 4
+
+[storage]
+# Content-addressed hot store for accepted artifacts (local volume for M1).
+local_dir = ".sentinel-data/objects"
+retention_days_raw_object = 90
+
+[limits]
+# Stage-3 hostile-file gate bounds (Sentinel-owned ASGI middleware).
+max_request_bytes = 67108864          # 64 MiB
+max_file_bytes = 67108864             # 64 MiB
+max_field_bytes = 8192                # 8 KiB
+request_timeout_s = 30
+max_concurrent_uploads_per_principal = 4
+upload_hourly_quota_per_principal = 500
+storage_quota_bytes = 53687091200     # 50 GiB per workspace
+
+[security]
+api_key_header = "X-API-Key"
+
+[log]
+# json | console
+format = "json"
+
+# Dev-only API keys (Stage-6 auth service replaces this stub).
+# Each key binds a principal to exactly one tenant+workspace.
+[[auth.dev_keys]]
+key = "dev-key-default-0000000000000001"
+tenant_id = "default"
+workspace_id = "default"
+principal_id = "00000000-0000-7000-8000-000000000001"
+display_name = "dev-default"
+scopes = ["upload", "read:events", "read:findings"]
+
+[[auth.dev_keys]]
+key = "dev-key-tenantb-0000000000000002"
+tenant_id = "tenant-b"
+workspace_id = "ws-b"
+principal_id = "00000000-0000-7000-8000-000000000002"
+display_name = "dev-tenant-b"
+scopes = ["upload", "read:events", "read:findings"]

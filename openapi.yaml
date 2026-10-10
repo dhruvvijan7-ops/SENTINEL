@@ -1,0 +1,1256 @@
+openapi: 3.1.0
+info:
+  title: Sentinel Light HIDS API
+  version: "6.0.0-draft"
+  description: |
+    REST surface for the Sentinel platform (Stage 6).
+
+    Conventions (normative, see stage-6-platform-storage-jobs-api-testing-release.md §3):
+    - **Tenancy**: every `/v1/...` path is workspace-scoped; the router resolves
+      `(tenant, workspace)` from the API principal and sets the Postgres session
+      vars that drive RLS.  Clients never send tenant ids in bodies.
+    - **Pagination**: cursor-based.  `limit` (default 50, max 1000) + opaque
+      `cursor`.  Responses carry `Link: rel="next"`.
+    - **Idempotency**: mutating POSTs accept `Idempotency-Key`; replay with the
+      same key and body hash returns the original response; different body with
+      same key → 409 `IDEMPOTENCY_MISMATCH`.
+    - **Rate limits**: 429 + `RateLimit-Limit` / `RateLimit-Remaining` /
+      `RateLimit-Reset` headers (IETF draft fields).
+    - **Data classification**: responses carry an `X-Data-Classification` header
+      (`public|internal|restricted`) per Stage-1 §6.4.
+  license:
+    name: Proprietary (closed source)
+servers:
+  - url: https://sentinel.example.internal/api
+    description: On-premises deployment default
+  - url: http://localhost:8000
+    description: Local development
+security:
+  - ApiKeyAuth: []
+tags:
+  - name: system
+    description: Health, readiness, metrics (unauthenticated paths noted per-operation)
+  - name: workspaces
+  - name: uploads
+  - name: events
+  - name: findings
+  - name: rules
+  - name: runs
+  - name: jobs
+  - name: ioc
+  - name: audit
+  - name: evidence
+
+paths:
+  /health:
+    get:
+      tags: [system]
+      operationId: getHealth
+      summary: Liveness probe — process is up
+      security: []
+      responses:
+        "200":
+          description: Always 200 when the process answers; body carries uptime.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, uptime_seconds]
+                properties:
+                  status: { const: ok }
+                  uptime_seconds: { type: number }
+
+  /ready:
+    get:
+      tags: [system]
+      operationId: getReadiness
+      summary: Readiness probe — DB reachable, store writable, queue drains
+      security: []
+      responses:
+        "200":
+          description: All dependencies healthy
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Readiness" }
+        "503":
+          description: One or more dependencies degraded
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Readiness" }
+
+  /metrics:
+    get:
+      tags: [system]
+      operationId: getMetrics
+      summary: Prometheus exposition (bind to internal interface only — Stage 6 §5)
+      security: []
+      responses:
+        "200":
+          description: text/plain exposition format
+          content:
+            text/plain:
+              schema: { type: string }
+
+  /v1/workspaces:
+    get:
+      tags: [workspaces]
+      operationId: listWorkspaces
+      summary: List workspaces visible to the principal
+      parameters:
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/cursor"
+      responses:
+        "200":
+          description: Paginated workspace list
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Page"
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: "#/components/schemas/Workspace" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+    post:
+      tags: [workspaces]
+      operationId: createWorkspace
+      summary: Create a workspace inside the principal's tenant
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string, minLength: 1, maxLength: 128 }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Workspace" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "409": { $ref: "#/components/responses/IdempotencyMismatch" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+
+  /v1/workspaces/{workspaceId}:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+    get:
+      tags: [workspaces]
+      operationId: getWorkspace
+      summary: Fetch one workspace
+      responses:
+        "200":
+          description: Workspace
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Workspace" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    patch:
+      tags: [workspaces]
+      operationId: updateWorkspace
+      summary: Rename or disable a workspace
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                disabled: { type: boolean }
+      responses:
+        "200": { description: Updated }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /v1/workspaces/{workspaceId}/uploads:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+    post:
+      tags: [uploads]
+      operationId: createUpload
+      summary: Upload one artifact (multipart) — Stage 3 §1 gate
+      description: |
+        Exactly one file part.  Server computes sha256/sha1/md5, writes to the
+        content-addressed store, records the accepted-upload row, and enqueues
+        an `ingest_file` job.  Reject codes mirror Stage 3 §1.5.
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                run_id: { type: string, description: "Optional client-supplied run grouping hint (C-4b-fix). If absent the server generates one; the DDL uploads.run_id NOT NULL is satisfied server-side and the Upload response always returns the effective run_id." }
+                agent_id: { type: string }
+                collection_kind: { type: string }
+                source_path: { type: string }
+                motw_zone_id: { type: integer }
+                motw_referrer_url: { type: string }
+      responses:
+        "202":
+          description: Accepted; triage job enqueued
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Upload" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "402": { $ref: "#/components/responses/QuotaExceeded" }
+        "408": { description: Gate wall-clock timeout (GATE_TIMEOUT) }
+        "409": { $ref: "#/components/responses/IdempotencyMismatch" }
+        "413": { description: "Request or file too large (GATE_REQUEST_TOO_LARGE / GATE_FILE_TOO_LARGE)" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+        "503": { description: "Content-addressed store write failed (GATE_STORE_WRITE_FAILED)" }
+    get:
+      tags: [uploads]
+      operationId: listUploads
+      summary: List uploads
+      parameters:
+        - name: run_id
+          in: query
+          schema: { type: string }
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/cursor"
+      responses:
+        "200":
+          description: Paginated uploads
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Page"
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: "#/components/schemas/Upload" }
+
+  /v1/workspaces/{workspaceId}/uploads/{artifactId}:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+      - name: artifactId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [uploads]
+      operationId: getUpload
+      summary: Fetch one upload record (metadata only)
+      responses:
+        "200":
+          description: Upload
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Upload" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    delete:
+      tags: [uploads]
+      operationId: deleteUpload
+      summary: Delete upload metadata (raw bytes subject to retention + legal hold)
+      responses:
+        "204": { description: Deleted }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /v1/workspaces/{workspaceId}/events:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+    get:
+      tags: [events]
+      operationId: listEvents
+      summary: List canonical events (canonical-event/v1)
+      parameters:
+        - name: run_id
+          in: query
+          schema: { type: string }
+        - name: category
+          in: query
+          schema: { type: string }
+        - name: host
+          in: query
+          schema: { type: string }
+        - name: since
+          in: query
+          schema: { type: string, format: date-time }
+        - name: until
+          in: query
+          schema: { type: string, format: date-time }
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/cursor"
+      responses:
+        "200":
+          description: Paginated events
+          headers:
+            X-Data-Classification:
+              $ref: "#/components/headers/DataClassification"
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Page"
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: "#/components/schemas/CanonicalEvent" }
+
+  /v1/workspaces/{workspaceId}/events/{eventUid}:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+      - name: eventUid
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [events]
+      operationId: getEvent
+      summary: Fetch one canonical event
+      responses:
+        "200":
+          description: Event
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/CanonicalEvent" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /v1/workspaces/{workspaceId}/findings:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+    get:
+      tags: [findings]
+      operationId: listFindings
+      summary: List detection findings
+      parameters:
+        - name: severity
+          in: query
+          schema: { enum: [LOW, MEDIUM, HIGH] }
+        - name: rule_id
+          in: query
+          schema: { type: string, format: uuid }
+        - name: triage_state
+          in: query
+          schema: { enum: [new, acknowledged, escalated, resolved, false_positive] }
+        - name: since
+          in: query
+          schema: { type: string, format: date-time }
+        - name: until
+          in: query
+          schema: { type: string, format: date-time }
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/cursor"
+      responses:
+        "200":
+          description: Paginated findings
+          headers:
+            X-Data-Classification:
+              $ref: "#/components/headers/DataClassification"
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Page"
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: "#/components/schemas/Finding" }
+
+  /v1/workspaces/{workspaceId}/findings/{findingUid}:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+      - name: findingUid
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [findings]
+      operationId: getFinding
+      summary: Fetch one finding (includes evidence_snapshot)
+      responses:
+        "200":
+          description: Finding
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Finding" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    patch:
+      tags: [findings]
+      operationId: updateFindingTriage
+      summary: Update triage state (audited)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [triage_state]
+              properties:
+                triage_state:
+                  enum: [new, acknowledged, escalated, resolved, false_positive]
+                note: { type: string, maxLength: 4096 }
+      responses:
+        "200": { description: Updated }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /v1/workspaces/{workspaceId}/evidence/{findingUid}:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+      - name: findingUid
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [evidence]
+      operationId: getFindingEvidence
+      summary: Evidence bundle for a finding — snapshot plus optional presigned raw link
+      description: |
+        Always returns the immutable `evidence_snapshot` (rule version, config
+        hash, event references, detection path, reason codes).  If the raw
+        object is still `hot`, the response additionally carries a presigned
+        URL (TTL PROPOSED: 15 min); once archived or purged the snapshot alone
+        is the evidence of record (reject-condition #1).
+      responses:
+        "200":
+          description: Evidence bundle
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EvidenceBundle" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /v1/workspaces/{workspaceId}/rules:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+    get:
+      tags: [rules]
+      operationId: listRules
+      summary: List stored rules
+      parameters:
+        - name: kind
+          in: query
+          schema:
+            enum: [sigma, correlation, ioc, fim, sca, statistical, artifact]
+        - name: enabled
+          in: query
+          schema: { type: boolean }
+        - name: q
+          in: query
+          description: Substring match over name/title
+          schema: { type: string }
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/cursor"
+      responses:
+        "200":
+          description: Paginated rules
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Page"
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: "#/components/schemas/Rule" }
+    post:
+      tags: [rules]
+      operationId: importRules
+      summary: Import rule documents (single doc or batch)
+      description: |
+        Accepts `sentinel-rule/v1` documents or raw Sigma text (upstream
+        verbatim is preserved in `rule_source`).  Import outcomes are
+        `OK | OK_PARTIAL | REJECTED` with reason codes (Stage 5 §3.1).
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/RuleDocument"
+                - type: array
+                  items: { $ref: "#/components/schemas/RuleDocument" }
+                - type: object
+                  required: [raw_text]
+                  properties:
+                    raw_text: { type: string }
+                    format: { enum: [sigma] }
+      responses:
+        "200":
+          description: Import report (per-document outcome)
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ImportReport" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "409": { $ref: "#/components/responses/IdempotencyMismatch" }
+
+  /v1/workspaces/{workspaceId}/rules/{ruleId}:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+      - name: ruleId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [rules]
+      operationId: getRule
+      summary: Fetch one stored rule
+      responses:
+        "200":
+          description: Rule
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Rule" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    put:
+      tags: [rules]
+      operationId: replaceRule
+      summary: Replace a rule document (full update; audited)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/RuleDocument" }
+      responses:
+        "200": { description: Replaced }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    delete:
+      tags: [rules]
+      operationId: deleteRule
+      summary: Soft-delete a rule (deleted_at set; audit row written)
+      responses:
+        "204": { description: Deleted }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /v1/workspaces/{workspaceId}/rules/{ruleId}/source:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+      - name: ruleId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [rules]
+      operationId: getRuleSource
+      summary: Verbatim upstream rule text (rule_source, D5-001)
+      responses:
+        "200":
+          description: Verbatim source text + hash
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sha256: { type: string, pattern: "^[0-9a-f]{64}$" }
+                  text: { type: string }
+                  imported_at: { type: string, format: date-time }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /v1/workspaces/{workspaceId}/runs:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+    post:
+      tags: [runs]
+      operationId: createRun
+      summary: Request a detection run (enqueue detect_run job)
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/RunRequest" }
+      responses:
+        "202":
+          description: Run accepted
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DetectionRun" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "409": { $ref: "#/components/responses/IdempotencyMismatch" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+    get:
+      tags: [runs]
+      operationId: listRuns
+      summary: List detection runs
+      parameters:
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/cursor"
+      responses:
+        "200":
+          description: Paginated runs
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Page"
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: "#/components/schemas/DetectionRun" }
+
+  /v1/workspaces/{workspaceId}/runs/{runId}:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+      - name: runId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [runs]
+      operationId: getRun
+      summary: Run status + summary
+      responses:
+        "200":
+          description: Run
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DetectionRun" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    delete:
+      tags: [runs]
+      operationId: cancelRun
+      summary: Cancel a queued/running run (best-effort)
+      responses:
+        "204": { description: Cancellation requested }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /v1/workspaces/{workspaceId}/runs/{runId}/rule-runs:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+      - name: runId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [runs]
+      operationId: listRuleRuns
+      summary: Per-rule accounting for a run (rule_run table)
+      parameters:
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/cursor"
+      responses:
+        "200":
+          description: Paginated rule runs
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Page"
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: "#/components/schemas/RuleRun" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /v1/workspaces/{workspaceId}/jobs:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+    get:
+      tags: [jobs]
+      operationId: listJobs
+      summary: List background jobs (operator view)
+      parameters:
+        - name: status
+          in: query
+          schema: { enum: [queued, running, succeeded, failed, dead, cancelled] }
+        - name: job_type
+          in: query
+          schema: { type: string }
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/cursor"
+      responses:
+        "200":
+          description: Paginated jobs
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Page"
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: "#/components/schemas/Job" }
+
+  /v1/workspaces/{workspaceId}/jobs/{jobId}:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+      - name: jobId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [jobs]
+      operationId: getJob
+      summary: Fetch one job + attempts
+      responses:
+        "200":
+          description: Job
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Job" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      tags: [jobs]
+      operationId: retryJob
+      summary: Re-queue a failed/dead job (operator action; audited)
+      responses:
+        "202": { description: Re-queued }
+        "404": { $ref: "#/components/responses/NotFound" }
+        "409": { description: Job is not in a retryable state }
+
+  /v1/workspaces/{workspaceId}/ioc-packs:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+    post:
+      tags: [ioc]
+      operationId: importIocPack
+      summary: Import a signed IOC pack (Ed25519, D4-003)
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IocPackDocument" }
+      responses:
+        "201":
+          description: Imported and verified
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IocPack" }
+        "400": { description: Signature invalid or pack schema mismatch (status=rejected) }
+        "409": { $ref: "#/components/responses/IdempotencyMismatch" }
+    get:
+      tags: [ioc]
+      operationId: listIocPacks
+      summary: List IOC packs
+      parameters:
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/cursor"
+      responses:
+        "200":
+          description: Paginated packs
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Page"
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: "#/components/schemas/IocPack" }
+
+  /v1/workspaces/{workspaceId}/ioc-packs/{packId}:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+      - name: packId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    delete:
+      tags: [ioc]
+      operationId: deleteIocPack
+      summary: Retire an IOC pack (status=retired; audited)
+      responses:
+        "204": { description: Retired }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /v1/workspaces/{workspaceId}/audit:
+    parameters:
+      - $ref: "#/components/parameters/workspaceId"
+    get:
+      tags: [audit]
+      operationId: listAudit
+      summary: Query the audit log
+      parameters:
+        - name: action
+          in: query
+          schema: { type: string }
+        - name: since
+          in: query
+          schema: { type: string, format: date-time }
+        - name: until
+          in: query
+          schema: { type: string, format: date-time }
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/cursor"
+      responses:
+        "200":
+          description: Paginated audit entries
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Page"
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: "#/components/schemas/AuditEntry" }
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OIDC bearer token (future; same scopes as API keys)
+
+  parameters:
+    workspaceId:
+      name: workspaceId
+      in: path
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+    limit:
+      name: limit
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 1000, default: 50 }
+    cursor:
+      name: cursor
+      in: query
+      description: Opaque cursor from the previous page's `next` link
+      schema: { type: string }
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: false
+      description: Client-generated key; server stores request hash + response for 24h
+      schema: { type: string, maxLength: 255 }
+
+  headers:
+    DataClassification:
+      description: "Data classification (Stage-1 §6.4; C-3-fix): public | internal | restricted — single string vocabulary, matching the events.classification DDL CHECK and canonical-event/v1 enum"
+      schema: { type: string, enum: [public, internal, restricted] }
+    RateLimitLimit:
+      description: Requests allowed in the current window
+      schema: { type: integer }
+    RateLimitRemaining:
+      description: Requests remaining in the current window
+      schema: { type: integer }
+    RateLimitReset:
+      description: Seconds until the window resets
+      schema: { type: integer }
+
+  schemas:
+    Readiness:
+      type: object
+      required: [status, checks]
+      properties:
+        status: { enum: [ok, degraded] }
+        checks:
+          type: object
+          properties:
+            database: { type: string, enum: [ok, degraded] }
+            object_store: { type: string, enum: [ok, degraded] }
+            queue: { type: string, enum: [ok, degraded] }
+
+    Page:
+      type: object
+      required: [items, next]
+      properties:
+        items: { type: array, items: {} }
+        next:
+          oneOf:
+            - type: "null"
+            - type: string
+              description: Opaque cursor for the next page
+
+    Workspace:
+      type: object
+      required: [id, name, created_at]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        created_at: { type: string, format: date-time }
+        disabled: { type: boolean }
+
+    Upload:
+      type: object
+      required: [artifact_id, run_id, sha256, size, received_at, triage_state]
+      properties:
+        artifact_id: { type: string, format: uuid }
+        run_id: { type: string }
+        sha256: { type: string, pattern: "^[0-9a-f]{64}$" }
+        sha1: { type: string, pattern: "^[0-9a-f]{40}$" }
+        md5: { type: string, pattern: "^[0-9a-f]{32}$" }
+        size: { type: integer, format: int64 }
+        display_name: { type: string }
+        collection_kind: { type: string, nullable: true }
+        agent_id: { type: string, nullable: true }
+        received_at: { type: string, format: date-time }
+        gate_warnings:
+          type: array
+          items: { type: string }
+        triage_state: { enum: [queued, running, done, failed, rejected_by_policy] }
+
+    CanonicalEvent:
+      type: object
+      description: |
+        Full canonical-event/v1 envelope (Stage 2 §1.1).  `additionalProperties:
+        false` at the envelope level is enforced at write time by schema
+        validation; the API returns the document verbatim as stored.
+      required:
+        - schema_version
+        - event
+        - tenant_id
+        - workspace_id
+        - run_id
+        - time
+        - host
+        - user
+        - source
+        - raw
+      properties:
+        schema_version: { const: canonical-event/v1 }
+        event:
+          type: object
+          required: [category, type, action, outcome, severity, derived_by]
+          properties:
+            category: { type: string }
+            type: { type: string }
+            action: { type: string }
+            outcome: { enum: [success, failure, unknown] }
+            severity: { enum: [informational, low, medium, high, critical] }
+            derived_by: { enum: [source, sentinel] }
+        tenant_id: { type: string }
+        workspace_id: { type: string }
+        run_id: { type: string }
+        time:
+          type: object
+          required: [utc, precision, state]
+          properties:
+            utc: { type: [string, "null"], format: date-time }
+            original: { type: [string, "null"] }
+            original_timezone: { type: [string, "null"] }
+            timezone_source:
+              enum: [source_explicit, source_documented_utc, run_configuration, none]
+            precision:
+              enum: [millisecond, second, microsecond, nanosecond, unknown]
+            state: { enum: [ok, inferred, unknown, invalid] }
+        host:
+          description: Canonical host identity (C-9-fix). $ref to canonical-event/v1 $defs/host — string-or-state fields, structured, single source of truth; the JSON Schema is authoritative for event validation.
+          $ref: "canonical_event_v1.schema.json#/$defs/host"
+        user: { type: object, additionalProperties: true }
+        source:
+          type: object
+          required: [file_id, format, parser, parser_version]
+          properties:
+            file_id: { type: string }
+            sha256: { type: string }
+            format: { enum: [evtx, json, csv, xml, tsv, text, nmap_xml, pcap, sqlite, yaml, other] }
+            parser: { type: string }
+            parser_version: { type: string }
+            channel: { type: string }
+            provider: { type: string }
+            event_id: { oneOf: [{ type: string }, { type: integer }] }
+            record:
+              type: object
+              required: [type]
+              properties:
+                type: { enum: [event_record, line, row, byte_offset, packet, sheet, message] }
+        raw: {}
+        unmapped:
+          type: array
+          items:
+            type: object
+            properties:
+              name: { type: string }
+              value: {}
+
+    Finding:
+      type: object
+      required:
+        - finding_uid
+        - rule_id
+        - rule_name
+        - author
+        - kind
+        - severity
+        - time_utc
+        - detection_path
+        - fingerprint
+        - evidence_snapshot
+      properties:
+        finding_uid: { type: string, format: uuid }
+        run_id: { type: string, format: uuid }
+        rule_id: { type: string, format: uuid }
+        rule_name: { type: string }
+        author: { type: string, description: "Rule author, persisted per DRL 1.1 (C-2-fix; native rules use 'sentinel')" }
+        kind: { type: string }
+        severity: { enum: [LOW, MEDIUM, HIGH] }
+        level_original: { type: [string, "null"], description: "Verbatim upstream rule level (C-3b-fix); separate axis from severity" }
+        time_utc: { type: string, format: date-time }
+        host_hostname: { type: [string, "null"] }
+        user_name: { type: [string, "null"] }
+        detection_path: { enum: [sql, native] }
+        reason_codes:
+          type: array
+          items: { type: string }
+        fingerprint: { type: string, pattern: "^[0-9a-f]{64}$" }
+        event_uids:
+          type: array
+          items: { type: string, format: uuid }
+        evidence_snapshot: { type: object, additionalProperties: true }
+        first_seen: { type: string, format: date-time }
+        last_seen: { type: string, format: date-time }
+        occurrence_count: { type: integer }
+        triage_state: { enum: [new, acknowledged, escalated, resolved, false_positive] }
+
+    EvidenceBundle:
+      type: object
+      required: [finding_uid, evidence_snapshot]
+      properties:
+        finding_uid: { type: string, format: uuid }
+        evidence_snapshot: { type: object, additionalProperties: true }
+        raw_object:
+          type: object
+          nullable: true
+          description: Present only while the raw object is hot
+          properties:
+            sha256: { type: string }
+            size: { type: integer, format: int64 }
+            presigned_url: { type: string, format: uri }
+            expires_at: { type: string, format: date-time }
+        raw_state: { enum: [hot, archived, purged] }
+
+    Rule:
+      type: object
+      required: [rule_id, name, kind, schema_tag, severity, enabled, document]
+      properties:
+        rule_id: { type: string, format: uuid }
+        name: { type: string }
+        kind: { enum: [sigma, correlation, ioc, fim, sca, statistical, artifact] }
+        source: { type: string }
+        source_id: { type: [string, "null"] }
+        license: { type: string }
+        author: { type: string }
+        title: { type: string }
+        status: { type: string }
+        level_original: { type: [string, "null"] }
+        severity: { enum: [LOW, MEDIUM, HIGH] }
+        enabled: { type: boolean }
+        document: { type: object, additionalProperties: true }
+        compile: { type: [object, "null"], additionalProperties: true }
+        imported_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+        schema_tag: { type: string }
+        source_ref: { type: string }
+        source_spec: { type: string }
+        description: { type: string }
+        provenance: { type: string }
+        deleted_at: { type: [string, "null"], format: date-time }
+
+    RuleDocument:
+      description: sentinel-rule/v1 stored form — machine-validated against rule_schema.json (C-10-fix; $ref closes the S7-V8 gap)
+      allOf:
+        - $ref: "rule_schema.json"
+
+    ImportReport:
+      type: object
+      required: [results]
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            required: [outcome]
+            properties:
+              source_ref: { type: string }
+              rule_id: { type: string, format: uuid, nullable: true }
+              outcome: { enum: [OK, OK_PARTIAL, REJECTED] }
+              reason_codes:
+                type: array
+                items: { type: string }
+
+    RunRequest:
+      type: object
+      properties:
+        since: { type: string, format: date-time }
+        until: { type: string, format: date-time }
+        hosts:
+          type: array
+          items: { type: string }
+        categories:
+          type: array
+          items: { type: string }
+        rule_ids:
+          type: array
+          items: { type: string, format: uuid }
+
+    DetectionRun:
+      type: object
+      required: [run_id, status, created_at]
+      properties:
+        run_id: { type: string, format: uuid }
+        status:
+          enum: [queued, running, completed, completed_with_warnings, failed, cancelled]
+        scope: { type: object, additionalProperties: true }
+        config_hash: { type: string, pattern: "^[0-9a-f]{64}$", description: "SHA-256 of the effective engine config; stored as bytea in DDL, exposed as lowercase hex via encode(config_hash,'hex') at the API edge (C-7-fix)" }
+        started_at: { type: [string, "null"], format: date-time }
+        finished_at: { type: [string, "null"], format: date-time }
+        summary: { type: [object, "null"], additionalProperties: true }
+        created_at: { type: string, format: date-time }
+
+    RuleRun:
+      type: object
+      required: [rule_id, outcome]
+      properties:
+        rule_id: { type: string, format: uuid }
+        outcome: { enum: [ok, ok_partial, rejected, skipped, error] }
+        run_id: { type: string, format: uuid, description: "C-5-fix: Stage-5 §4.3 'job_id' is this run_id (same concept)" }
+        findings: { type: integer }
+        processed_events: { type: integer, format: int64 }
+        rejected_events: { type: integer, format: int64 }
+        max_group_size: { type: [integer, "null"] }
+        max_window_ms: { type: [integer, "null"], format: int64, description: "C-5-fix: longest window closed this run (ms)" }
+        sql_ms: { type: [integer, "null"], format: int64, description: "C-5-fix: SQL-path execution time (ms)" }
+        native_ms: { type: [integer, "null"], format: int64, description: "C-5-fix: native-path execution time (ms)" }
+        detection_path: { enum: [sql, native] }
+        reason_codes:
+          type: array
+          items: { type: string }
+        started_at: { type: string, format: date-time }
+        finished_at: { type: [string, "null"], format: date-time }
+
+    Job:
+      type: object
+      required: [job_id, job_type, status, created_at]
+      properties:
+        job_id: { type: string, format: uuid }
+        job_type:
+          enum: [ingest_file, detect_run, ioc_import, purge_raw, partition_maintain, baseline_update]
+        status: { enum: [queued, running, succeeded, failed, dead, cancelled] }
+        priority: { type: integer }
+        attempts: { type: integer }
+        max_attempts: { type: integer }
+        last_error: { type: [string, "null"] }
+        created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
+        attempts_detail:
+          type: array
+          items:
+            type: object
+            properties:
+              attempt: { type: integer }
+              worker: { type: string }
+              started_at: { type: string, format: date-time }
+              finished_at: { type: [string, "null"], format: date-time }
+              outcome: { enum: [succeeded, failed, lost_lock] }
+              error: { type: [string, "null"] }
+
+    IocPackDocument:
+      type: object
+      required: [name, version, indicators, signature, signing_key_id]
+      properties:
+        name: { type: string }
+        version: { type: string }
+        created_at: { type: string, format: date-time }
+        indicators:
+          type: array
+          items:
+            type: object
+            required: [kind, value]
+            properties:
+              kind: { enum: [sha256, sha1, md5, ipv4, ipv6, domain, url] }
+              value: { type: string }
+        signature:
+          type: string
+          description: Base64 Ed25519 signature over the canonical pack bytes (D4-003)
+        signing_key_id: { type: string }
+
+    IocPack:
+      type: object
+      required: [pack_id, name, version, status]
+      properties:
+        pack_id: { type: string, format: uuid }
+        name: { type: string }
+        version: { type: string }
+        sha256: { type: string, pattern: "^[0-9a-f]{64}$" }
+        signing_key_id: { type: [string, "null"] }
+        status: { enum: [pending_verify, active, rejected, retired] }
+        imported_at: { type: string, format: date-time }
+
+    AuditEntry:
+      type: object
+      required: [audit_uid, at, action, outcome]
+      properties:
+        audit_uid: { type: string, format: uuid }
+        at: { type: string, format: date-time }
+        principal: { type: [string, "null"] }
+        action: { type: string }
+        object_kind: { type: [string, "null"] }
+        object_id: { type: [string, "null"] }
+        outcome: { enum: [ok, denied, error] }
+        detail: { type: object, additionalProperties: true }
+
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code: { type: string }
+        message: { type: string }
+        details: { type: object, additionalProperties: true }
+
+  responses:
+    BadRequest:
+      description: Validation or gate failure; body carries a machine-readable code (Stage 3 §1.5 vocabulary)
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    Unauthorized:
+      description: Missing or invalid credentials
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    NotFound:
+      description: Object not found (or not visible under the principal's RLS scope)
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    Conflict:
+      description: State conflict
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    IdempotencyMismatch:
+      description: "Idempotency-Key reused with a different request body (GATE_IDEMPOTENCY_MISMATCH)"
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    QuotaExceeded:
+      description: Tenant artifact-byte quota exhausted (GATE_QUOTA_EXCEEDED)
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    RateLimited:
+      description: Per-principal rate or concurrency limit exceeded
+      headers:
+        RateLimit-Limit: { $ref: "#/components/headers/RateLimitLimit" }
+        RateLimit-Remaining: { $ref: "#/components/headers/RateLimitRemaining" }
+        RateLimit-Reset: { $ref: "#/components/headers/RateLimitReset" }
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }

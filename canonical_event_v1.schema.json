@@ -1,0 +1,728 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sentinel.local/schemas/canonical_event_v1.schema.json",
+  "title": "Sentinel canonical event v1",
+  "description": "Normalised host/network telemetry record for Sentinel HIDS. Source parsers emit this shape; detectors consume only this shape. Absent field = value absent in source. Bare JSON null is forbidden; null/unknown/invalid/conflicting/inferred values use the value-state object. Sentinel-authored classifications must set event.derived_by to 'sentinel' (or value-state $state 'inferred').",
+  "type": "object",
+  "required": ["schema_version", "event", "tenant_id", "workspace_id", "run_id", "time", "host", "user", "source", "raw"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "canonical-event/v1" },
+    "event": { "$ref": "#/$defs/event" },
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "time": { "$ref": "#/$defs/time" },
+    "host": { "$ref": "#/$defs/host" },
+    "user": { "$ref": "#/$defs/user" },
+    "source": { "$ref": "#/$defs/source" },
+    "classification": {
+      "description": "Data-sensitivity axis (Stage-1 §6.4): public | internal | restricted. Third of the three non-collapsible classification axes. Set by the parser per source (e.g. Windows Security EVTX => restricted); drives export/redaction policy. Optional on the wire (older parsers may omit); the ingest pipeline backfills a per-source default and schema.sql enforces NOT NULL at rest.",
+      "enum": ["public", "internal", "restricted"]
+    },
+    "raw": {
+      "description": "Verbatim source record, lossless (string for text/evtx-rendered sources, object for JSON sources).",
+      "type": ["string", "object", "array", "number", "boolean", "null"]
+    },
+    "unmapped": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "value"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "value": {}
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_ref"],
+        "additionalProperties": false,
+        "properties": {
+          "source_ref": { "type": "string" },
+          "fields": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "process": { "$ref": "#/$defs/process" },
+    "network": { "$ref": "#/$defs/network" },
+    "file": { "$ref": "#/$defs/file" },
+    "registry": { "$ref": "#/$defs/registry" },
+    "authentication": { "$ref": "#/$defs/authentication" },
+    "account": { "$ref": "#/$defs/account" },
+    "group_membership": { "$ref": "#/$defs/group_membership" },
+    "service": { "$ref": "#/$defs/service" },
+    "scheduled_task": { "$ref": "#/$defs/scheduled_task" },
+    "dns": { "$ref": "#/$defs/dns" },
+    "http": { "$ref": "#/$defs/http" },
+    "tls": { "$ref": "#/$defs/tls" },
+    "image_load": { "$ref": "#/$defs/image_load" },
+    "driver": { "$ref": "#/$defs/driver" },
+    "wmi": { "$ref": "#/$defs/wmi" },
+    "powershell": { "$ref": "#/$defs/powershell" },
+    "thread_access": { "$ref": "#/$defs/thread_access" },
+    "pipe": { "$ref": "#/$defs/pipe" },
+    "third_party_alert": { "$ref": "#/$defs/third_party_alert" },
+    "fim": { "$ref": "#/$defs/fim" },
+    "config_check": { "$ref": "#/$defs/config_check" },
+    "artifact": { "$ref": "#/$defs/artifact" },
+    "document": { "$ref": "#/$defs/document" },
+    "archive_member": { "$ref": "#/$defs/archive_member" },
+    "executable": { "$ref": "#/$defs/executable" },
+    "artifact_finding": { "$ref": "#/$defs/artifact_finding" }
+  },
+  "allOf": [
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "process" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["process"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "network" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["network"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "file" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["file"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "registry" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["registry"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "authentication" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["authentication"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "account" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["account"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "group_membership" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["group_membership"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "service" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["service"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "scheduled_task" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["scheduled_task"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "dns" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["dns"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "http" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["http"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "tls" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["tls"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "image_load" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["image_load"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "driver" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["driver"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "wmi" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["wmi"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "powershell" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["powershell"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "thread_access" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["thread_access"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "pipe" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["pipe"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "third_party_alert" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["third_party_alert"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "fim" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["fim"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "config_check" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["config_check"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "artifact" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["artifact"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "document" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["document"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "archive_member" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["archive_member"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "executable" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["executable"] } },
+    { "if": { "properties": { "event": { "properties": { "category": { "const": "artifact_finding" } }, "required": ["category"] } }, "required": ["event"] }, "then": { "required": ["artifact_finding"] } }
+  ],
+  "$defs": {
+    "state_object": {
+      "description": "Value-state carrier. Bare null is forbidden in this schema; absent key = absent value. 'null' = source explicitly null/empty-typed, 'unknown' = source could not supply, 'invalid' = unparsable, 'conflicting' = multiple disagreeing candidates, 'inferred' = produced by Sentinel, not the source.",
+      "type": "object",
+      "required": ["$state"],
+      "additionalProperties": false,
+      "properties": {
+        "$state": { "enum": ["null", "unknown", "invalid", "conflicting", "inferred"] },
+        "$note": { "type": "string" },
+        "$raw": { "type": ["string", "null"] },
+        "$candidates": { "type": "array" },
+        "$source_ref": { "type": "string" }
+      }
+    },
+    "str_or_state": { "oneOf": [{ "type": "string" }, { "$ref": "#/$defs/state_object" }] },
+    "int_or_state": { "oneOf": [{ "type": "integer" }, { "$ref": "#/$defs/state_object" }] },
+    "num_or_state": { "oneOf": [{ "type": "number" }, { "$ref": "#/$defs/state_object" }] },
+    "bool_or_state": { "oneOf": [{ "type": "boolean" }, { "$ref": "#/$defs/state_object" }] },
+    "severity_or_state": { "oneOf": [{ "enum": ["informational", "low", "medium", "high", "critical"] }, { "$ref": "#/$defs/state_object" }] },
+    "time": {
+      "type": "object",
+      "required": ["utc", "precision", "state"],
+      "additionalProperties": false,
+      "properties": {
+        "utc": {
+          "description": "Event timestamp in UTC, RFC 3339. Null only when state is unknown/invalid.",
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "original": { "description": "Timestamp exactly as the source rendered it.", "type": ["string", "null"] },
+        "original_timezone": { "description": "Timezone of original, e.g. '+05:30', 'Z', 'America/New_York'. Null when not determinable.", "type": ["string", "null"] },
+        "timezone_source": {
+          "description": "How the timezone was established. 'none' when the source supplied no timezone and run configuration did not supply one.",
+          "enum": ["source_explicit", "source_documented_utc", "run_configuration", "none"]
+        },
+        "precision": { "enum": ["millisecond", "second", "microsecond", "nanosecond", "unknown"] },
+        "state": { "enum": ["ok", "inferred", "unknown", "invalid"] }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "utc": { "type": "null" } }, "required": ["utc"] },
+          "then": { "properties": { "state": { "enum": ["unknown", "invalid"] } } }
+        }
+      ]
+    },
+    "host": {
+      "description": "Host identity. Required object; may be empty when the source carries no host attributes.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "hostname": { "$ref": "#/$defs/str_or_state" },
+        "fqdn": { "$ref": "#/$defs/str_or_state" },
+        "ips": { "type": "array", "items": { "$ref": "#/$defs/str_or_state" } },
+        "os": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "family": { "$ref": "#/$defs/str_or_state" },
+            "build": { "$ref": "#/$defs/str_or_state" },
+            "version": { "$ref": "#/$defs/str_or_state" }
+          }
+        },
+        "arch": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "user": {
+      "description": "Event subject account (logon subject, detection user, owner when the source frames it as subject). Required object; may be empty when unknown.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sid": { "$ref": "#/$defs/str_or_state" },
+        "name": { "$ref": "#/$defs/str_or_state" },
+        "domain": { "$ref": "#/$defs/str_or_state" },
+        "upn": { "$ref": "#/$defs/str_or_state" },
+        "logon_id": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["file_id", "format", "parser", "parser_version"],
+      "additionalProperties": false,
+      "properties": {
+        "file_id": { "type": "string", "minLength": 1, "description": "Identifier of the harvested artifact (DB row / manifest id)." },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "format": {
+          "description": "Level-1 file format classification.",
+          "enum": ["evtx", "json", "csv", "xml", "tsv", "text", "nmap_xml", "pcap", "sqlite", "yaml", "other"]
+        },
+        "parser": { "type": "string", "minLength": 1 },
+        "parser_version": { "type": "string", "minLength": 1 },
+        "channel": { "description": "Windows event log channel or equivalent stream name.", "type": "string" },
+        "provider": { "description": "Event provider / application / sensor name.", "type": "string" },
+        "event_id": { "oneOf": [{ "type": "integer" }, { "type": "string" }] },
+        "record": {
+          "type": "object",
+          "required": ["type"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "enum": ["event_record", "line", "row", "byte_offset", "packet", "sheet", "message"] },
+            "record_id": { "type": ["integer", "string"] },
+            "line": { "type": "integer" },
+            "byte_offset": { "type": "integer" },
+            "packet_number": { "type": "integer" },
+            "row": { "type": "integer" },
+            "sheet": { "type": ["integer", "string"] }
+          }
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "required": ["category", "type", "action", "outcome", "severity", "derived_by"],
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "description": "Level-3 security-behaviour class; selects the required payload object.",
+          "enum": [
+            "process", "network", "file", "registry", "authentication", "account",
+            "group_membership", "service", "scheduled_task", "dns", "http", "tls",
+            "image_load", "driver", "wmi", "powershell", "thread_access", "pipe",
+            "third_party_alert", "fim", "config_check", "artifact", "document",
+            "archive_member", "executable", "artifact_finding"
+          ]
+        },
+        "type": {
+          "description": "Semantic event type name, lowercase snake_case (level-3 refinement), e.g. network_connection, process_create.",
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "action": {
+          "description": "Verb for what happened (create, delete, connect, start...).",
+          "oneOf": [{ "type": "string" }, { "$ref": "#/$defs/state_object" }]
+        },
+        "outcome": { "enum": ["success", "failure", "unknown"] },
+        "severity": { "$ref": "#/$defs/severity_or_state" },
+        "derived_by": {
+          "description": "Provenance of category/type/action/outcome/severity. 'source' = taken from the source taxonomy; 'sentinel' = Sentinel's own classification.",
+          "enum": ["source", "sentinel"]
+        }
+      }
+    },
+    "process_ref": {
+      "description": "Lightweight process identity embedded in other objects.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "guid": { "$ref": "#/$defs/str_or_state" },
+        "pid": { "$ref": "#/$defs/int_or_state" },
+        "exe": { "$ref": "#/$defs/str_or_state" },
+        "name": { "$ref": "#/$defs/str_or_state" },
+        "command_line": { "$ref": "#/$defs/str_or_state" },
+        "user_sid": { "$ref": "#/$defs/str_or_state" },
+        "owner_name": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "hashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "md5": { "$ref": "#/$defs/str_or_state" },
+        "sha1": { "$ref": "#/$defs/str_or_state" },
+        "sha256": { "$ref": "#/$defs/str_or_state" },
+        "imphash": { "$ref": "#/$defs/str_or_state" },
+        "other": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "signed": { "$ref": "#/$defs/bool_or_state" },
+        "signer": { "$ref": "#/$defs/str_or_state" },
+        "status": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "process": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "guid": { "$ref": "#/$defs/str_or_state" },
+        "pid": { "$ref": "#/$defs/int_or_state" },
+        "ppid": { "$ref": "#/$defs/int_or_state" },
+        "exe": { "$ref": "#/$defs/str_or_state" },
+        "name": { "$ref": "#/$defs/str_or_state" },
+        "command_line": { "$ref": "#/$defs/str_or_state" },
+        "current_dir": { "$ref": "#/$defs/str_or_state" },
+        "integrity_level": { "$ref": "#/$defs/str_or_state" },
+        "logon_guid": { "$ref": "#/$defs/str_or_state" },
+        "logon_id": { "$ref": "#/$defs/str_or_state" },
+        "terminal_session_id": { "$ref": "#/$defs/int_or_state" },
+        "owner_sid": { "$ref": "#/$defs/str_or_state" },
+        "owner_name": { "$ref": "#/$defs/str_or_state" },
+        "start_time": { "$ref": "#/$defs/str_or_state" },
+        "original_file_name": { "$ref": "#/$defs/str_or_state" },
+        "hashes": { "$ref": "#/$defs/hashes" },
+        "signature": { "$ref": "#/$defs/signature" },
+        "parent": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "guid": { "$ref": "#/$defs/str_or_state" },
+            "pid": { "$ref": "#/$defs/int_or_state" },
+            "exe": { "$ref": "#/$defs/str_or_state" },
+            "name": { "$ref": "#/$defs/str_or_state" },
+            "command_line": { "$ref": "#/$defs/str_or_state" },
+            "owner_sid": { "$ref": "#/$defs/str_or_state" }
+          }
+        }
+      }
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "protocol": { "$ref": "#/$defs/str_or_state" },
+        "direction": { "oneOf": [{ "enum": ["inbound", "outbound", "internal", "external", "unknown"] }, { "$ref": "#/$defs/state_object" }] },
+        "src_ip": { "$ref": "#/$defs/str_or_state" },
+        "src_port": { "$ref": "#/$defs/int_or_state" },
+        "dst_ip": { "$ref": "#/$defs/str_or_state" },
+        "dst_port": { "$ref": "#/$defs/int_or_state" },
+        "state": { "$ref": "#/$defs/str_or_state" },
+        "bytes_sent": { "$ref": "#/$defs/int_or_state" },
+        "bytes_received": { "$ref": "#/$defs/int_or_state" },
+        "duration": { "$ref": "#/$defs/num_or_state" },
+        "tcp_flags": { "$ref": "#/$defs/str_or_state" },
+        "icmp_type": { "$ref": "#/$defs/int_or_state" },
+        "icmp_code": { "$ref": "#/$defs/int_or_state" },
+        "interface": { "$ref": "#/$defs/str_or_state" },
+        "uid": { "$ref": "#/$defs/str_or_state" },
+        "community_id": { "$ref": "#/$defs/str_or_state" },
+        "process": { "$ref": "#/$defs/process_ref" }
+      }
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": { "$ref": "#/$defs/str_or_state" },
+        "name": { "$ref": "#/$defs/str_or_state" },
+        "directory": { "$ref": "#/$defs/str_or_state" },
+        "size": { "$ref": "#/$defs/int_or_state" },
+        "type": { "$ref": "#/$defs/str_or_state" },
+        "attributes": { "$ref": "#/$defs/str_or_state" },
+        "owner_sid": { "$ref": "#/$defs/str_or_state" },
+        "owner_name": { "$ref": "#/$defs/str_or_state" },
+        "created": { "$ref": "#/$defs/str_or_state" },
+        "modified": { "$ref": "#/$defs/str_or_state" },
+        "accessed": { "$ref": "#/$defs/str_or_state" },
+        "hashes": { "$ref": "#/$defs/hashes" },
+        "signature": { "$ref": "#/$defs/signature" },
+        "entropy": { "$ref": "#/$defs/num_or_state" }
+      }
+    },
+    "registry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": { "$ref": "#/$defs/str_or_state" },
+        "hive": { "$ref": "#/$defs/str_or_state" },
+        "key": { "$ref": "#/$defs/str_or_state" },
+        "value_name": { "$ref": "#/$defs/str_or_state" },
+        "value_type": { "$ref": "#/$defs/str_or_state" },
+        "data": { "$ref": "#/$defs/str_or_state" },
+        "old_data": { "$ref": "#/$defs/str_or_state" },
+        "operation": { "oneOf": [{ "enum": ["create", "set", "delete", "rename"] }, { "$ref": "#/$defs/state_object" }] }
+      }
+    },
+    "authentication": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "logon_type": { "$ref": "#/$defs/int_or_state" },
+        "logon_id": { "$ref": "#/$defs/str_or_state" },
+        "logon_guid": { "$ref": "#/$defs/str_or_state" },
+        "account_sid": { "$ref": "#/$defs/str_or_state" },
+        "account_name": { "$ref": "#/$defs/str_or_state" },
+        "account_domain": { "$ref": "#/$defs/str_or_state" },
+        "target_sid": { "$ref": "#/$defs/str_or_state" },
+        "target_name": { "$ref": "#/$defs/str_or_state" },
+        "target_domain": { "$ref": "#/$defs/str_or_state" },
+        "target_logon_id": { "$ref": "#/$defs/str_or_state" },
+        "source_ip": { "$ref": "#/$defs/str_or_state" },
+        "workstation": { "$ref": "#/$defs/str_or_state" },
+        "auth_package": { "$ref": "#/$defs/str_or_state" },
+        "elev_token": { "$ref": "#/$defs/bool_or_state" },
+        "key_length": { "$ref": "#/$defs/int_or_state" },
+        "process_pid": { "$ref": "#/$defs/int_or_state" },
+        "process_name": { "$ref": "#/$defs/str_or_state" },
+        "status": { "$ref": "#/$defs/str_or_state" },
+        "sub_status": { "$ref": "#/$defs/str_or_state" },
+        "failure_reason": { "$ref": "#/$defs/str_or_state" },
+        "caller_process_id": { "$ref": "#/$defs/str_or_state" },
+        "caller_process_name": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "account": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sid": { "$ref": "#/$defs/str_or_state" },
+        "name": { "$ref": "#/$defs/str_or_state" },
+        "domain": { "$ref": "#/$defs/str_or_state" },
+        "upn": { "$ref": "#/$defs/str_or_state" },
+        "display_name": { "$ref": "#/$defs/str_or_state" },
+        "sam_account_name": { "$ref": "#/$defs/str_or_state" },
+        "account_type": { "oneOf": [{ "enum": ["user", "computer", "group", "other"] }, { "$ref": "#/$defs/state_object" }] },
+        "enabled": { "$ref": "#/$defs/bool_or_state" },
+        "sid_history": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "group_membership": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "action": { "oneOf": [{ "enum": ["added", "removed"] }, { "$ref": "#/$defs/state_object" }] },
+        "group_sid": { "$ref": "#/$defs/str_or_state" },
+        "group_name": { "$ref": "#/$defs/str_or_state" },
+        "member_sid": { "$ref": "#/$defs/str_or_state" },
+        "member_name": { "$ref": "#/$defs/str_or_state" },
+        "subject_sid": { "$ref": "#/$defs/str_or_state" },
+        "subject_name": { "$ref": "#/$defs/str_or_state" },
+        "domain": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "service": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "$ref": "#/$defs/str_or_state" },
+        "display_name": { "$ref": "#/$defs/str_or_state" },
+        "image_path": { "$ref": "#/$defs/str_or_state" },
+        "start_type": { "$ref": "#/$defs/str_or_state" },
+        "service_type": { "$ref": "#/$defs/str_or_state" },
+        "account_name": { "$ref": "#/$defs/str_or_state" },
+        "operation": { "oneOf": [{ "enum": ["install", "start", "stop", "change", "delete"] }, { "$ref": "#/$defs/state_object" }] },
+        "state": { "$ref": "#/$defs/str_or_state" },
+        "exit_code": { "$ref": "#/$defs/str_or_state" },
+        "checkpoint": { "$ref": "#/$defs/int_or_state" },
+        "wait_hint": { "$ref": "#/$defs/int_or_state" },
+        "error_control": { "$ref": "#/$defs/str_or_state" },
+        "load_order_group": { "$ref": "#/$defs/str_or_state" },
+        "dependencies": { "$ref": "#/$defs/str_or_state" },
+        "description": { "$ref": "#/$defs/str_or_state" },
+        "pid": { "$ref": "#/$defs/int_or_state" }
+      }
+    },
+    "scheduled_task": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "$ref": "#/$defs/str_or_state" },
+        "path": { "$ref": "#/$defs/str_or_state" },
+        "action": { "oneOf": [{ "enum": ["created", "deleted", "updated", "started", "completed"] }, { "$ref": "#/$defs/state_object" }] },
+        "author": { "$ref": "#/$defs/str_or_state" },
+        "user_id": { "$ref": "#/$defs/str_or_state" },
+        "run_level": { "$ref": "#/$defs/str_or_state" },
+        "command": { "$ref": "#/$defs/str_or_state" },
+        "arguments": { "$ref": "#/$defs/str_or_state" },
+        "working_directory": { "$ref": "#/$defs/str_or_state" },
+        "trigger": { "$ref": "#/$defs/str_or_state" },
+        "creation_time": { "$ref": "#/$defs/str_or_state" },
+        "result_code": { "$ref": "#/$defs/str_or_state" },
+        "task_xml": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "dns": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "query_name": { "$ref": "#/$defs/str_or_state" },
+        "query_type": { "$ref": "#/$defs/str_or_state" },
+        "query_status": { "$ref": "#/$defs/str_or_state" },
+        "response_code": { "$ref": "#/$defs/str_or_state" },
+        "answers": { "type": "array", "items": { "$ref": "#/$defs/str_or_state" } },
+        "server": { "$ref": "#/$defs/str_or_state" },
+        "process": { "$ref": "#/$defs/process_ref" }
+      }
+    },
+    "http": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "method": { "$ref": "#/$defs/str_or_state" },
+        "url": { "$ref": "#/$defs/str_or_state" },
+        "uri": { "$ref": "#/$defs/str_or_state" },
+        "host": { "$ref": "#/$defs/str_or_state" },
+        "user_agent": { "$ref": "#/$defs/str_or_state" },
+        "status_code": { "$ref": "#/$defs/int_or_state" },
+        "request_body_length": { "$ref": "#/$defs/int_or_state" },
+        "response_body_length": { "$ref": "#/$defs/int_or_state" },
+        "referrer": { "$ref": "#/$defs/str_or_state" },
+        "mime_type": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "tls": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sni": { "$ref": "#/$defs/str_or_state" },
+        "ja3": { "$ref": "#/$defs/str_or_state" },
+        "ja3s": { "$ref": "#/$defs/str_or_state" },
+        "version": { "$ref": "#/$defs/str_or_state" },
+        "cipher": { "$ref": "#/$defs/str_or_state" },
+        "issuer": { "$ref": "#/$defs/str_or_state" },
+        "subject": { "$ref": "#/$defs/str_or_state" },
+        "not_before": { "$ref": "#/$defs/str_or_state" },
+        "not_after": { "$ref": "#/$defs/str_or_state" },
+        "resumed": { "$ref": "#/$defs/bool_or_state" },
+        "server_name": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "image_load": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "image": { "$ref": "#/$defs/str_or_state" },
+        "process": { "$ref": "#/$defs/process_ref" },
+        "hashes": { "$ref": "#/$defs/hashes" },
+        "signature": { "$ref": "#/$defs/signature" }
+      }
+    },
+    "driver": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "$ref": "#/$defs/str_or_state" },
+        "display_name": { "$ref": "#/$defs/str_or_state" },
+        "image_path": { "$ref": "#/$defs/str_or_state" },
+        "start_type": { "$ref": "#/$defs/str_or_state" },
+        "service_type": { "$ref": "#/$defs/str_or_state" },
+        "state": { "$ref": "#/$defs/str_or_state" },
+        "operation": { "oneOf": [{ "enum": ["install", "start", "stop", "change", "delete"] }, { "$ref": "#/$defs/state_object" }] }
+      }
+    },
+    "wmi": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "operation": { "$ref": "#/$defs/str_or_state" },
+        "namespace": { "$ref": "#/$defs/str_or_state" },
+        "query": { "$ref": "#/$defs/str_or_state" },
+        "provider_name": { "$ref": "#/$defs/str_or_state" },
+        "result_code": { "$ref": "#/$defs/str_or_state" },
+        "client_machine": { "$ref": "#/$defs/str_or_state" },
+        "client_process_id": { "$ref": "#/$defs/str_or_state" },
+        "client_user": { "$ref": "#/$defs/str_or_state" },
+        "process": { "$ref": "#/$defs/process_ref" }
+      }
+    },
+    "powershell": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "channel": { "$ref": "#/$defs/str_or_state" },
+        "engine_state": { "$ref": "#/$defs/str_or_state" },
+        "previous_engine_state": { "$ref": "#/$defs/str_or_state" },
+        "host_name": { "$ref": "#/$defs/str_or_state" },
+        "host_id": { "$ref": "#/$defs/str_or_state" },
+        "host_version": { "$ref": "#/$defs/str_or_state" },
+        "host_application": { "$ref": "#/$defs/str_or_state" },
+        "engine_version": { "$ref": "#/$defs/str_or_state" },
+        "runspace_id": { "$ref": "#/$defs/str_or_state" },
+        "pipeline_id": { "$ref": "#/$defs/str_or_state" },
+        "command_name": { "$ref": "#/$defs/str_or_state" },
+        "command_type": { "$ref": "#/$defs/str_or_state" },
+        "script_name": { "$ref": "#/$defs/str_or_state" },
+        "command_path": { "$ref": "#/$defs/str_or_state" },
+        "command_line": { "$ref": "#/$defs/str_or_state" },
+        "script_block_id": { "$ref": "#/$defs/str_or_state" },
+        "script_block_text": { "$ref": "#/$defs/str_or_state" },
+        "script_path": { "$ref": "#/$defs/str_or_state" },
+        "message_number": { "$ref": "#/$defs/int_or_state" },
+        "message_total": { "$ref": "#/$defs/int_or_state" },
+        "context_info": { "$ref": "#/$defs/str_or_state" },
+        "payload": { "$ref": "#/$defs/str_or_state" },
+        "provider_name": { "$ref": "#/$defs/str_or_state" },
+        "new_provider_state": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "thread_access": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "target_process": { "$ref": "#/$defs/process_ref" },
+        "source_process": { "$ref": "#/$defs/process_ref" },
+        "access_mask": { "$ref": "#/$defs/str_or_state" },
+        "granted_access": { "type": "array", "items": { "$ref": "#/$defs/str_or_state" } },
+        "call_trace": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "pipe": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "$ref": "#/$defs/str_or_state" },
+        "operation": { "oneOf": [{ "enum": ["create", "connect"] }, { "$ref": "#/$defs/state_object" }] }
+      }
+    },
+    "third_party_alert": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "vendor": { "$ref": "#/$defs/str_or_state" },
+        "product": { "$ref": "#/$defs/str_or_state" },
+        "rule_id": { "$ref": "#/$defs/str_or_state" },
+        "rule_name": { "$ref": "#/$defs/str_or_state" },
+        "category": { "$ref": "#/$defs/str_or_state" },
+        "severity_raw": { "$ref": "#/$defs/str_or_state" },
+        "description": { "$ref": "#/$defs/str_or_state" },
+        "observable": { "$ref": "#/$defs/str_or_state" },
+        "mitigation": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "fim": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": { "$ref": "#/$defs/str_or_state" },
+        "operation": { "$ref": "#/$defs/str_or_state" },
+        "old": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "size": { "$ref": "#/$defs/int_or_state" },
+            "modified": { "$ref": "#/$defs/str_or_state" },
+            "attributes": { "$ref": "#/$defs/str_or_state" },
+            "hashes": { "$ref": "#/$defs/hashes" }
+          }
+        },
+        "new": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "size": { "$ref": "#/$defs/int_or_state" },
+            "modified": { "$ref": "#/$defs/str_or_state" },
+            "attributes": { "$ref": "#/$defs/str_or_state" },
+            "hashes": { "$ref": "#/$defs/hashes" }
+          }
+        }
+      }
+    },
+    "config_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "check": { "$ref": "#/$defs/str_or_state" },
+        "category": { "$ref": "#/$defs/str_or_state" },
+        "expected": { "$ref": "#/$defs/str_or_state" },
+        "observed": { "$ref": "#/$defs/str_or_state" },
+        "status": { "oneOf": [{ "enum": ["pass", "fail", "unknown"] }, { "$ref": "#/$defs/state_object" }] },
+        "source": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": { "oneOf": [{ "enum": ["file", "registry_key", "registry_value", "service", "scheduled_task", "user", "group", "process", "network_endpoint", "other"] }, { "$ref": "#/$defs/state_object" }] },
+        "identity": { "$ref": "#/$defs/str_or_state" },
+        "path": { "$ref": "#/$defs/str_or_state" },
+        "attributes": { "$ref": "#/$defs/str_or_state" }
+      }
+    },
+    "document": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": { "$ref": "#/$defs/str_or_state" },
+        "title": { "$ref": "#/$defs/str_or_state" },
+        "author": { "$ref": "#/$defs/str_or_state" },
+        "created": { "$ref": "#/$defs/str_or_state" },
+        "modified": { "$ref": "#/$defs/str_or_state" },
+        "last_saved_by": { "$ref": "#/$defs/str_or_state" },
+        "revision_number": { "$ref": "#/$defs/str_or_state" },
+        "page_count": { "$ref": "#/$defs/int_or_state" },
+        "word_count": { "$ref": "#/$defs/int_or_state" }
+      }
+    },
+    "archive_member": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "archive_path": { "$ref": "#/$defs/str_or_state" },
+        "member_path": { "$ref": "#/$defs/str_or_state" },
+        "size": { "$ref": "#/$defs/int_or_state" },
+        "compressed_size": { "$ref": "#/$defs/int_or_state" },
+        "encrypted": { "$ref": "#/$defs/bool_or_state" },
+        "member_type": { "$ref": "#/$defs/str_or_state" },
+        "hashes": { "$ref": "#/$defs/hashes" }
+      }
+    },
+    "executable": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": { "$ref": "#/$defs/str_or_state" },
+        "format": { "oneOf": [{ "enum": ["pe", "elf", "macho", "script", "other"] }, { "$ref": "#/$defs/state_object" }] },
+        "architecture": { "$ref": "#/$defs/str_or_state" },
+        "compile_time": { "$ref": "#/$defs/str_or_state" },
+        "subsystem": { "$ref": "#/$defs/str_or_state" },
+        "product": { "$ref": "#/$defs/str_or_state" },
+        "company": { "$ref": "#/$defs/str_or_state" },
+        "description": { "$ref": "#/$defs/str_or_state" },
+        "original_file_name": { "$ref": "#/$defs/str_or_state" },
+        "file_version": { "$ref": "#/$defs/str_or_state" },
+        "hashes": { "$ref": "#/$defs/hashes" },
+        "signature": { "$ref": "#/$defs/signature" }
+      }
+    },
+    "artifact_finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "artifact_type": { "$ref": "#/$defs/str_or_state" },
+        "artifact_identity": { "$ref": "#/$defs/str_or_state" },
+        "finding": { "$ref": "#/$defs/str_or_state" },
+        "evidence": { "$ref": "#/$defs/str_or_state" },
+        "scanner": { "$ref": "#/$defs/str_or_state" },
+        "confidence": { "$ref": "#/$defs/str_or_state" }
+      }
+    }
+  }
+}

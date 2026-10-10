@@ -1,0 +1,547 @@
+{
+  "searches": {
+    "DeepBlueCLI": [
+      {
+        "full_name": "sans-blue-team/DeepBlueCLI",
+        "url": "https://github.com/sans-blue-team/DeepBlueCLI",
+        "desc": "",
+        "archived": false,
+        "license": "GPL-3.0",
+        "pushed_at": "2023-10-14T17:06:57Z"
+      },
+      {
+        "full_name": "Yamato-Security/RustyBlue",
+        "url": "https://github.com/Yamato-Security/RustyBlue",
+        "desc": "RustyBlue is a rust implementation of DeepblueCLI, a forensics log analyzer for finding evidence of compromise from wind",
+        "archived": true,
+        "license": "MIT",
+        "pushed_at": "2022-10-13T02:35:16Z"
+      },
+      {
+        "full_name": "abrahamguey/https-github.com-sans-blue-team-DeepBlueCLI",
+        "url": "https://github.com/abrahamguey/https-github.com-sans-blue-team-DeepBlueCLI",
+        "desc": "https://github.com/sans-blue-team/DeepBlueCLI.git",
+        "archived": false,
+        "license": null,
+        "pushed_at": "2019-12-20T16:22:48Z"
+      },
+      {
+        "full_name": "grrttmrtn1/Process-Deepbluecli",
+        "url": "https://github.com/grrttmrtn1/Process-Deepbluecli",
+        "desc": "",
+        "archived": false,
+        "license": "MIT",
+        "pushed_at": "2023-02-17T22:53:59Z"
+      },
+      {
+        "full_name": "trixiahorner/DeepBlueCLI",
+        "url": "https://github.com/trixiahorner/DeepBlueCLI",
+        "desc": "",
+        "archived": false,
+        "license": null,
+        "pushed_at": "2024-05-24T00:48:00Z"
+      },
+      {
+        "full_name": "whoami-chmod777/DeepBlueCLI",
+        "url": "https://github.com/whoami-chmod777/DeepBlueCLI",
+        "desc": "",
+        "archived": false,
+        "license": "GPL-3.0",
+        "pushed_at": "2023-11-13T19:42:52Z"
+      },
+      {
+        "full_name": "mdnorris1/DeepBlueCLILab",
+        "url": "https://github.com/mdnorris1/DeepBlueCLILab",
+        "desc": "",
+        "archived": false,
+        "license": null,
+        "pushed_at": "2024-02-22T15:49:54Z"
+      },
+      {
+        "full_name": "CristianFernandez123/DeepBlueCLI-Lab",
+        "url": "https://github.com/CristianFernandez123/DeepBlueCLI-Lab",
+        "desc": "",
+        "archived": false,
+        "license": null,
+        "pushed_at": "2024-03-06T17:17:16Z"
+      }
+    ],
+    "openioc in:name": [
+      {
+        "full_name": "gregjhogan/openioc",
+        "url": "https://github.com/gregjhogan/openioc",
+        "desc": "Control your car inputs (e.g. switches) and outputs (e.g. lights) with software over CAN",
+        "archived": false,
+        "license": "MIT",
+        "pushed_at": "2020-09-21T00:27:18Z"
+      },
+      {
+        "full_name": "fireeye/OpenIOC_1.1",
+        "url": "https://github.com/fireeye/OpenIOC_1.1",
+        "desc": "",
+        "archived": false,
+        "license": "Apache-2.0",
+        "pushed_at": "2021-06-11T14:43:22Z"
+      },
+      {
+        "full_name": "STIXProject/openioc-to-stix",
+        "url": "https://github.com/STIXProject/openioc-to-stix",
+        "desc": "Generate STIX XML from OpenIOC XML",
+        "archived": false,
+        "license": "BSD-3-Clause",
+        "pushed_at": "2018-10-18T12:29:12Z"
+      },
+      {
+        "full_name": "tklane/openiocscripts",
+        "url": "https://github.com/tklane/openiocscripts",
+        "desc": "Scripts for manipulating and using OpenIOC format IOC's ",
+        "archived": false,
+        "license": null,
+        "pushed_at": "2014-05-27T18:20:49Z"
+      },
+      {
+        "full_name": "TakahiroHaruyama/openioc_scan",
+        "url": "https://github.com/TakahiroHaruyama/openioc_scan",
+        "desc": "openioc_scan Volatility Framework plugin",
+        "archived": false,
+        "license": "GPL-2.0",
+        "pushed_at": "2016-02-25T14:14:13Z"
+      },
+      {
+        "full_name": "dfir-ronin/APT-OpenIOC-Detection-Rules",
+        "url": "https://github.com/dfir-ronin/APT-OpenIOC-Detection-Rules",
+        "desc": "This repository contains OpenIOC rules to aid in hunting for indicators of compromise and TTPs focused on Advanced Persi",
+        "archived": false,
+        "license": "MIT",
+        "pushed_at": "2023-10-03T13:17:30Z"
+      },
+      {
+        "full_name": "CybOXProject/openioc-to-cybox",
+        "url": "https://github.com/CybOXProject/openioc-to-cybox",
+        "desc": "Generate CybOX XML from OpenIOC XML",
+        "archived": true,
+        "license": null,
+        "pushed_at": "2015-02-12T14:44:53Z"
+      },
+      {
+        "full_name": "mtGomez/OpenIOC",
+        "url": "https://github.com/mtGomez/OpenIOC",
+        "desc": "",
+        "archived": false,
+        "license": null,
+        "pushed_at": "2022-11-24T07:24:20Z"
+      }
+    ],
+    "cti-stix2": [
+      {
+        "full_name": "oasis-open/cti-python-stix2",
+        "url": "https://github.com/oasis-open/cti-python-stix2",
+        "desc": "OASIS TC Open Repository: Python APIs for STIX 2",
+        "archived": false,
+        "license": "BSD-3-Clause",
+        "pushed_at": "2026-02-12T06:21:36Z"
+      },
+      {
+        "full_name": "oasis-open/cti-stix2-json-schemas",
+        "url": "https://github.com/oasis-open/cti-stix2-json-schemas",
+        "desc": "OASIS TC Open Repository: Non-normative schemas and examples for STIX 2",
+        "archived": false,
+        "license": "BSD-3-Clause",
+        "pushed_at": "2026-01-19T18:44:44Z"
+      },
+      {
+        "full_name": "oasis-tcs/cti-stix2",
+        "url": "https://github.com/oasis-tcs/cti-stix2",
+        "desc": "OASIS CTI TC: Provides issue tracking and wiki pages for the STIX 2.x Work Products",
+        "archived": false,
+        "license": "NOASSERTION",
+        "pushed_at": "2026-08-28T13:58:13Z"
+      },
+      {
+        "full_name": "oasis-open/cti-python-stix2-extensions",
+        "url": "https://github.com/oasis-open/cti-python-stix2-extensions",
+        "desc": " OASIS Python-STIX2 API extensions: a repository for python-stix2 API code developed for specification candidate extensi",
+        "archived": false,
+        "license": "BSD-3-Clause",
+        "pushed_at": "2026-01-19T21:18:59Z"
+      },
+      {
+        "full_name": "isarmadfarooq/Stuxnet-CTI-STIX2",
+        "url": "https://github.com/isarmadfarooq/Stuxnet-CTI-STIX2",
+        "desc": "",
+        "archived": false,
+        "license": null,
+        "pushed_at": "2026-04-22T22:02:58Z"
+      },
+      {
+        "full_name": "ashishkhar/CTI-STIX2.1-OPSIN",
+        "url": "https://github.com/ashishkhar/CTI-STIX2.1-OPSIN",
+        "desc": "",
+        "archived": false,
+        "license": null,
+        "pushed_at": "2025-05-12T02:36:56Z"
+      },
+      {
+        "full_name": "Eternity-gaga/oasis-open__cti-python-stix2.fa8c95bb",
+        "url": "https://github.com/Eternity-gaga/oasis-open__cti-python-stix2.fa8c95bb",
+        "desc": "Mirror of oasis-open/cti-python-stix2 at commit fa8c95bba783c9dce8e2c56391077aee22767553",
+        "archived": false,
+        "license": "BSD-3-Clause",
+        "pushed_at": "2025-12-04T03:03:11Z"
+      },
+      {
+        "full_name": "isarmadfarooq/APT29-CTI-STIX21-Pipeline",
+        "url": "https://github.com/isarmadfarooq/APT29-CTI-STIX21-Pipeline",
+        "desc": "LLM-Based Cyber Threat Intelligence",
+        "archived": false,
+        "license": null,
+        "pushed_at": "2026-05-03T02:23:57Z"
+      }
+    ],
+    "tripwire in:name": [
+      {
+        "full_name": "lucanos/Tripwire",
+        "url": "https://github.com/lucanos/Tripwire",
+        "desc": "A PHP script, designed to be run by a cron job, which detects files which have been added, deleted or modified since the",
+        "archived": false,
+        "license": null,
+        "pushed_at": "2015-09-16T21:16:56Z"
+      },
+      {
+        "full_name": "tjanczuk/tripwire",
+        "url": "https://github.com/tjanczuk/tripwire",
+        "desc": "Break out from scripts blocking the node.js event loop",
+        "archived": false,
+        "license": "NOASSERTION",
+        "pushed_at": "2019-07-29T13:51:11Z"
+      },
+      {
+        "full_name": "ccied/tripwire",
+        "url": "https://github.com/ccied/tripwire",
+        "desc": "Public crawler and data from Tripwire: Inferring Internet Site Compromise",
+        "archived": false,
+        "license": null,
+        "pushed_at": "2017-12-12T16:12:41Z"
+      },
+      {
+        "full_name": "Tripwire/tripwire-open-source",
+        "url": "https://github.com/Tripwire/tripwire-open-source",
+        "desc": "Open Source Tripwire\u00ae",
+        "archived": false,
+        "license": "GPL-2.0",
+        "pushed_at": "2024-02-12T17:27:12Z"
+      },
+      {
+        "full_name": "Boring-Software-Inc/tripwire",
+        "url": "https://github.com/Boring-Software-Inc/tripwire",
+        "desc": "",
+        "archived": false,
+        "license": null,
+        "pushed_at": "2026-09-02T07:24:55Z"
+      },
+      {
+        "full_name": "Tripwire/TARDIS",
+        "url": "https://github.com/Tripwire/TARDIS",
+        "desc": "Threat Analysis, Reconnaissance, and Data Intelligence System",
+        "archived": false,
+        "license": "Apache-2.0",
+        "pushed_at": "2015-08-28T23:30:50Z"
+      },
+      {
+        "full_name": "fr33-sh/Tripwire",
+        "url": "https://github.com/fr33-sh/Tripwire",
+        "desc": "",
+        "archived": false,
+        "license": null,
+        "pushed_at": "2026-07-26T02:53:07Z"
+      },
+      {
+        "full_name": "Tripwire/padcheck",
+        "url": "https://github.com/Tripwire/padcheck",
+        "desc": "TLS CBC Padding Oracle Checker",
+        "archived": false,
+        "license": "BSD-2-Clause",
+        "pushed_at": "2022-02-25T12:33:27Z"
+      }
+    ],
+    "sigma sql backend": [
+      {
+        "full_name": "wagga40/pySigma-backend-sqlite",
+        "url": "https://github.com/wagga40/pySigma-backend-sqlite",
+        "desc": "pySigma SQlite backend",
+        "archived": false,
+        "license": "LGPL-3.0",
+        "pushed_at": "2026-09-26T13:48:39Z"
+      },
+      {
+        "full_name": "DenizenB/pySigma-backend-sqlite",
+        "url": "https://github.com/DenizenB/pySigma-backend-sqlite",
+        "desc": "An SQLite backend for pySigma",
+        "archived": false,
+        "license": "MIT",
+        "pushed_at": "2023-08-03T19:41:32Z"
+      },
+      {
+        "full_name": "emtee40/pySigma-backend-sqlite",
+        "url": "https://github.com/emtee40/pySigma-backend-sqlite",
+        "desc": "",
+        "archived": false,
+        "license": "LGPL-3.0",
+        "pushed_at": "2023-09-24T01:28:04Z"
+      },
+      {
+        "full_name": "Milindsangale/Sigma-6.0-Backend",
+        "url": "https://github.com/Milindsangale/Sigma-6.0-Backend",
+        "desc": "This is Repository contain Node.js, SQL, REST, MongoDB, REST-API.",
+        "archived": false,
+        "license": null,
+        "pushed_at": "2025-04-22T20:00:48Z"
+      },
+      {
+        "full_name": "SigmaHQ/pySigma-backend-athena",
+        "url": "https://github.com/SigmaHQ/pySigma-backend-athena",
+        "desc": "An AWS Athena backend for pySigma that converts Sigma detection rules into Athena-compatible SQL queries.",
+        "archived": false,
+        "license": "MIT",
+        "pushed_at": "2025-12-07T16:04:06Z"
+      },
+      {
+        "full_name": "ParavinMulla786/sigma-mern-fullstack-journey",
+        "url": "https://github.com/ParavinMulla786/sigma-mern-fullstack-journey",
+        "desc": "A complete Full Stack Web Development journey covering Frontend (HTML, CSS, Tailwind, Bootstrap, JavaScript), Backend (N",
+        "archived": false,
+        "license": null,
+        "pushed_at": "2026-05-18T17:47:29Z"
+      }
+    ],
+    "pysigma backend sql": [
+      {
+        "full_name": "wagga40/pySigma-backend-sqlite",
+        "url": "https://github.com/wagga40/pySigma-backend-sqlite",
+        "desc": "pySigma SQlite backend",
+        "archived": false,
+        "license": "LGPL-3.0",
+        "pushed_at": "2026-09-26T13:48:39Z"
+      },
+      {
+        "full_name": "DenizenB/pySigma-backend-sqlite",
+        "url": "https://github.com/DenizenB/pySigma-backend-sqlite",
+        "desc": "An SQLite backend for pySigma",
+        "archived": false,
+        "license": "MIT",
+        "pushed_at": "2023-08-03T19:41:32Z"
+      },
+      {
+        "full_name": "emtee40/pySigma-backend-sqlite",
+        "url": "https://github.com/emtee40/pySigma-backend-sqlite",
+        "desc": "",
+        "archived": false,
+        "license": "LGPL-3.0",
+        "pushed_at": "2023-09-24T01:28:04Z"
+      },
+      {
+        "full_name": "SigmaHQ/pySigma-backend-athena",
+        "url": "https://github.com/SigmaHQ/pySigma-backend-athena",
+        "desc": "An AWS Athena backend for pySigma that converts Sigma detection rules into Athena-compatible SQL queries.",
+        "archived": false,
+        "license": "MIT",
+        "pushed_at": "2025-12-07T16:04:06Z"
+      }
+    ]
+  },
+  "releases_full": {
+    "wazuh": [
+      [
+        "Wazuh v4.14.9 RC 2",
+        "2026-10-08T09:22:01Z"
+      ],
+      [
+        "v5.0.0-rc1",
+        "2026-10-05T13:36:38Z"
+      ],
+      [
+        "Wazuh v4.14.9 RC 1",
+        "2026-10-01T15:59:33Z"
+      ],
+      [
+        "Wazuh v4.14.8",
+        "2026-09-25T18:19:40Z"
+      ],
+      [
+        "coverity-w38-4.14.9",
+        "2026-09-15T20:44:59Z"
+      ],
+      [
+        "Wazuh v4.10.5",
+        "2026-09-15T13:43:34Z"
+      ],
+      [
+        "Wazuh v5.0.0 Beta 5",
+        "2026-09-07T12:33:16Z"
+      ],
+      [
+        "Wazuh v4.14.7",
+        "2026-07-30T16:32:45Z"
+      ],
+      [
+        "Wazuh v5.0.0 Beta 4",
+        "2026-07-21T12:27:04Z"
+      ],
+      [
+        "Wazuh v5.0.0 Beta 3",
+        "2026-07-02T15:48:47Z"
+      ]
+    ],
+    "falco": [
+      [
+        "0.45.1-rc1",
+        "2026-10-05T07:54:26Z"
+      ],
+      [
+        "0.45.0",
+        "2026-09-21T13:10:41Z"
+      ],
+      [
+        "0.45.0-rc4",
+        "2026-09-18T10:09:46Z"
+      ],
+      [
+        "0.45.0-rc3",
+        "2026-09-15T08:36:35Z"
+      ],
+      [
+        "0.45.0-rc2",
+        "2026-09-11T08:19:21Z"
+      ],
+      [
+        "0.45.0-rc1",
+        "2026-09-09T09:42:42Z"
+      ],
+      [
+        "0.44.1",
+        "2026-06-11T10:03:09Z"
+      ],
+      [
+        "0.44.1-rc1",
+        "2026-06-10T09:02:58Z"
+      ],
+      [
+        "0.44.0",
+        "2026-05-26T15:05:44Z"
+      ],
+      [
+        "0.44.0-rc2",
+        "2026-05-25T18:36:24Z"
+      ]
+    ],
+    "misp": [
+      [
+        "v2.4.222",
+        "2026-10-01T12:05:12Z"
+      ],
+      [
+        "MISP 2.5.48 - AImageddon security roundup release",
+        "2026-09-29T08:17:40Z"
+      ],
+      [
+        "MISP 2.5.47 released - a major security hardening round, the new database migration system with PostgreSQL support, AI-assisted analysis and Overmind moving forward",
+        "2026-09-17T11:43:10Z"
+      ],
+      [
+        "MISP 2.4.221 security backport release",
+        "2026-09-17T14:47:09Z"
+      ],
+      [
+        "MISP 2.5.46 released -  security hardening, major performance gains, knowledge-base updates and Overmind moving forward",
+        "2026-09-11T07:28:41Z"
+      ],
+      [
+        "MISP v2.5.45 released - Overmind Everywhere, LDAP Reworked, Security Hardened and Many Fixes",
+        "2026-08-25T15:27:06Z"
+      ],
+      [
+        "MISP v2.5.44 released",
+        "2026-07-13T14:26:43Z"
+      ],
+      [
+        "MISP v2.5.43 released",
+        "2026-07-13T14:28:27Z"
+      ],
+      [
+        "v2.4.220",
+        "2026-06-24T15:12:39Z"
+      ],
+      [
+        "MISP 2.5.42 - scorching hot weather release",
+        "2026-06-22T14:19:00Z"
+      ]
+    ]
+  },
+  "licenses": {
+    "osquery": {
+      "file": "LICENSE",
+      "head": "# License |  | By contributing to osquery you agree that your contributions will be licensed | under the terms of both the [LICENSE-Apache-2.0](LICENSE-Apache-2.0) and the | [LICENSE-GPL-2.0](LICENSE-GPL-2.0) files in the root of this source tree. |  | If you're using osquery you are free to choose one of the p",
+      "has_drl": false,
+      "has_elastic": false,
+      "has_agpl": false
+    },
+    "sigma-spec": {
+      "file": "LICENSE",
+      "head": "# Licenses\r | \r | The content of this repository is released under the following licenses:\r | \r | - The Sigma specification (https://github.com/SigmaHQ/sigma-specification) and the Sigma logo are public domain\r | ",
+      "has_drl": false,
+      "has_elastic": false,
+      "has_agpl": false
+    },
+    "sigma-rules": {
+      "file": "LICENSE",
+      "head": "# Licenses |  | The content of this repository is released under the following licenses: |  | - The Sigma specification (https://github.com/SigmaHQ/sigma-specification) and the Sigma logo are public domain | - The rules contained in the SigmaHQ repository (https://github.com/SigmaHQ) are released under the [D",
+      "has_drl": true,
+      "has_elastic": false,
+      "has_agpl": false
+    },
+    "elastic-detection-rules": {
+      "file": "LICENSE.txt",
+      "head": "Elastic License 2.0 |  | URL: https://www.elastic.co/licensing/elastic-license |  | ## Acceptance |  | By using the software, you agree to all of the terms and conditions below. |  | ## Copyright License |  | The licensor grants you a non-exclusive, royalty-free, worldwide, | non-sublicensable, non-transferable license t",
+      "has_drl": false,
+      "has_elastic": true,
+      "has_agpl": false
+    },
+    "chainsaw": {},
+    "zircolite": {
+      "file": "LICENSE",
+      "head": "Zircolite - Standalone SIGMA-Based Detection Tool | Copyright (C) wagga40 and contributors |  | This program is free software: you can redistribute it and/or modify it under | the terms of the GNU Lesser General Public License as published by the Free | Software Foundation, either version 3 of the License, or",
+      "has_drl": false,
+      "has_elastic": false,
+      "has_agpl": false
+    },
+    "velociraptor": {
+      "file": "LICENSE",
+      "head": "                    GNU AFFERO GENERAL PUBLIC LICENSE |                        Version 3, 19 November 2007 |  |  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/> |  Everyone is permitted to copy and distribute verbatim copies |  of this license document, but changing it is not allowed. |  |   ",
+      "has_drl": false,
+      "has_elastic": false,
+      "has_agpl": true
+    },
+    "wazuh": {
+      "file": "LICENSE",
+      "head": " |  Portions Copyright (C) 2015, Wazuh Inc. |  Based on work Copyright (C) 2003 - 2013 Trend Micro, Inc. |  |  This program is free software; you can redistribute it and/or modify |  it under the terms of the GNU General Public License (version 2) as |  published by the FSF - Free Software Foundation. |  |  In addi",
+      "has_drl": false,
+      "has_elastic": false,
+      "has_agpl": false
+    },
+    "hayabusa": {
+      "file": "LICENSE.txt",
+      "head": "GNU Affero General Public License | ================================= |  | _Version 3, 19 November 2007_ | _Copyright \u00a9 2007 Free Software Foundation, Inc. &lt;<http://fsf.org/>&gt;_ |  | Everyone is permitted to copy and distribute verbatim copies | of this license document, but changing it is not allowed. |  | ## P",
+      "has_drl": false,
+      "has_elastic": false,
+      "has_agpl": true
+    },
+    "sysmon-modular": {},
+    "duckdb": {
+      "file": "LICENSE",
+      "head": "Copyright 2018-2026 Stichting DuckDB Foundation |  | Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modif",
+      "has_drl": false,
+      "has_elastic": false,
+      "has_agpl": false
+    }
+  }
+}

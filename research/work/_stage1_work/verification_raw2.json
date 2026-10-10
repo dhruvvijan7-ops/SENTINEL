@@ -1,0 +1,171 @@
+{
+  "deepbluecli": {
+    "url": "https://github.com/sans-blue-team/DeepBlueCLI",
+    "default_branch": "master",
+    "head_sha": "2eecc65698e8666408ece67525577c895676d579",
+    "api": {
+      "language": "PowerShell",
+      "spdx": "GPL-3.0",
+      "default_branch": "master",
+      "pushed_at": "2023-10-14T17:06:57Z",
+      "archived": false,
+      "description": null
+    },
+    "latest_release": null,
+    "last_commit": {
+      "title": "New Sliver and Metasploit EVTX files including cmd.exe writing to ADM\u2026",
+      "updated": "2023-06-28T20:33:55Z",
+      "sha": "2eecc65698e8666408ece67525577c895676d579"
+    },
+    "license": {
+      "file": "LICENSE",
+      "head": "                    GNU GENERAL PUBLIC LICENSE |                        Version 3, 29 June 2007 |  |  Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/> |  Everyone is permitted to copy and d"
+    }
+  },
+  "openioc11": {
+    "url": "https://github.com/fireeye/OpenIOC_1.1",
+    "default_branch": "master",
+    "head_sha": "f4973b80d4fcf9ae067a09df656ce6dd2d6899ba",
+    "api": {
+      "language": null,
+      "spdx": "Apache-2.0",
+      "default_branch": "master",
+      "pushed_at": "2021-06-11T14:43:22Z",
+      "archived": false,
+      "description": null
+    },
+    "latest_release": null,
+    "last_commit": {
+      "title": "Added eventitem terms file, to support real-time IOCs",
+      "updated": "2020-12-14T20:19:12Z",
+      "sha": "f4973b80d4fcf9ae067a09df656ce6dd2d6899ba"
+    },
+    "license": {
+      "file": "LICENSE",
+      "head": " |                                  Apache License |                            Version 2.0, January 2004 |                         http://www.apache.org/licenses/ |  |    TERMS AND CONDITIONS FOR USE, REPRODUC"
+    }
+  },
+  "stix2-python": {
+    "url": "https://github.com/oasis-open/cti-python-stix2",
+    "default_branch": "master",
+    "head_sha": "2270361774215de49717c1a6028a80c91075b400",
+    "api": {
+      "language": "Python",
+      "spdx": "BSD-3-Clause",
+      "default_branch": "master",
+      "pushed_at": "2026-02-12T06:21:36Z",
+      "archived": false,
+      "description": "OASIS TC Open Repository: Python APIs for STIX 2"
+    },
+    "latest_release": {
+      "title": "v3.0.2 released with many bugs fixed and support for latest Python version",
+      "updated": "2026-02-12T06:22:52Z",
+      "sha": null
+    },
+    "last_commit": {
+      "title": "Merge pull request #642 from chrisr3d/master",
+      "updated": "2026-02-12T06:19:32Z",
+      "sha": "2270361774215de49717c1a6028a80c91075b400"
+    },
+    "license": {
+      "file": "LICENSE",
+      "head": "Copyright (c) [2017], OASIS Open | All rights reserved. |  | Redistribution and use in source and binary forms, with or without | modification, are permitted provided that the following conditions are met: |  | *"
+    }
+  },
+  "tripwire-oss": {
+    "url": "https://github.com/Tripwire/tripwire-open-source",
+    "default_branch": "master",
+    "head_sha": "4c84a884711ad11cd9914fb18cebbd1052149525",
+    "api": {
+      "language": "C++",
+      "spdx": "GPL-2.0",
+      "default_branch": "master",
+      "pushed_at": "2024-02-12T17:27:12Z",
+      "archived": false,
+      "description": "Open Source Tripwire\u00ae"
+    },
+    "latest_release": {
+      "title": "Open Source Tripwire 2.4.3.7",
+      "updated": "2018-03-31T06:07:16Z",
+      "sha": null
+    },
+    "last_commit": {
+      "title": "Set theme jekyll-theme-minimal",
+      "updated": "2019-03-16T19:30:30Z",
+      "sha": "4c84a884711ad11cd9914fb18cebbd1052149525"
+    },
+    "license": {
+      "file": "LICENSE",
+      "head": "                    GNU GENERAL PUBLIC LICENSE |                        Version 2, June 1991 |  |  Copyright (C) 1989, 1991 Free Software Foundation, Inc., <http://fsf.org/> |  51 Franklin Street, Fifth Floor"
+    }
+  },
+  "pysigma-sqlite-wagga40": {
+    "url": "https://github.com/wagga40/pySigma-backend-sqlite",
+    "default_branch": "main",
+    "head_sha": "017306687567723ed2fec271194d1c65f2abfde5",
+    "api": {
+      "language": "Python",
+      "spdx": "LGPL-3.0",
+      "default_branch": "main",
+      "pushed_at": "2026-09-26T13:48:39Z",
+      "archived": false,
+      "description": "pySigma SQlite backend"
+    },
+    "latest_release": null,
+    "last_commit": {
+      "title": "Ignore local AI assistant state and ruff cache",
+      "updated": "2026-09-26T13:48:28Z",
+      "sha": "017306687567723ed2fec271194d1c65f2abfde5"
+    },
+    "license": {
+      "file": "LICENSE",
+      "head": "\r |                    GNU LESSER GENERAL PUBLIC LICENSE\r |                        Version 3, 29 June 2007\r | \r |  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>\r |  Everyone is permitted "
+    }
+  },
+  "pysigma-athena": {
+    "url": "https://github.com/SigmaHQ/pySigma-backend-athena",
+    "default_branch": "main",
+    "head_sha": "e8a11bdb931f54da510a0dd33cbb3dde057c9e5b",
+    "api": {
+      "language": "Python",
+      "spdx": "MIT",
+      "default_branch": "main",
+      "pushed_at": "2025-12-07T16:04:06Z",
+      "archived": false,
+      "description": "An AWS Athena backend for pySigma that converts Sigma detection rules into Athena-compatible SQL queries."
+    },
+    "latest_release": null,
+    "last_commit": {
+      "title": "Fix coverage badge",
+      "updated": "2025-12-07T16:03:46Z",
+      "sha": "e8a11bdb931f54da510a0dd33cbb3dde057c9e5b"
+    },
+    "license": {
+      "file": "LICENSE",
+      "head": "\r | Copyright 2025 Neil Smith\r | \r | Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Softwar"
+    }
+  },
+  "pysigma-sqlite-denizenb": {
+    "url": "https://github.com/DenizenB/pySigma-backend-sqlite",
+    "default_branch": "main",
+    "head_sha": "68c74fd3cfdc7c740300c7b9d7ddf25ab635e45e",
+    "api": {
+      "language": "Python",
+      "spdx": "MIT",
+      "default_branch": "main",
+      "pushed_at": "2023-08-03T19:41:32Z",
+      "archived": false,
+      "description": "An SQLite backend for pySigma"
+    },
+    "latest_release": null,
+    "last_commit": {
+      "title": "initial commit",
+      "updated": "2023-08-03T19:41:14Z",
+      "sha": "68c74fd3cfdc7c740300c7b9d7ddf25ab635e45e"
+    },
+    "license": {
+      "file": "LICENSE",
+      "head": "\r | Copyright 2023 DenizenB\r | \r | Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software "
+    }
+  }
+}

@@ -1,0 +1,887 @@
+{
+  "wazuh": {
+    "url": "https://github.com/wazuh/wazuh",
+    "default_branch": "main",
+    "head_sha": "7c901686a30c28467559687472ca755d2df77230",
+    "api": {
+      "language": "C++",
+      "spdx": "NOASSERTION",
+      "default_branch": "main",
+      "pushed_at": "2026-10-08T13:28:12Z",
+      "archived": false,
+      "description": "Wazuh - The Open Source Security Platform. Unified XDR and SIEM protection for endpoints and cloud workloads.",
+      "html_url": "https://github.com/wazuh/wazuh"
+    },
+    "latest_release": {
+      "title": "Wazuh v4.14.9 RC 2",
+      "updated": "2026-10-08T09:22:01Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/40556106/v4.14.9-rc2"
+    },
+    "last_commit_atom": {
+      "title": "Merge pull request #39867 from wazuh/enhancement/39866-remove-trivial\u2026",
+      "updated": "2026-10-08T10:44:04Z",
+      "sha": "7c901686a30c28467559687472ca755d2df77230",
+      "entry_id": "tag:github.com,2008:Grit::Commit/7c901686a30c28467559687472ca755d2df77230"
+    },
+    "license_file": "LICENSE",
+    "license_detected": "GPL-2.0-only",
+    "license_len": 24734,
+    "lang_markers": []
+  },
+  "ossec-hids": {
+    "url": "https://github.com/ossec/ossec-hids",
+    "default_branch": "main",
+    "head_sha": "10c204af0c780e14565f8aaac4b2bd81a8fe9358",
+    "api": {
+      "language": "C",
+      "spdx": "GPL-2.0",
+      "default_branch": "main",
+      "pushed_at": "2026-10-08T00:56:05Z",
+      "archived": false,
+      "description": "OSSEC is an Open Source Host-based Intrusion Detection System that performs log analysis, file integrity checking, policy monitoring, rootkit detection, real-time alerting and active response.",
+      "html_url": "https://github.com/ossec/ossec-hids"
+    },
+    "latest_release": {
+      "title": "4.4.0",
+      "updated": "2026-10-05T20:19:19Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/12901559/4.4.0"
+    },
+    "last_commit_atom": {
+      "title": "Merge pull request #2331 from atomicturtle/fix/1831-report-new-as-cha\u2026",
+      "updated": "2026-10-08T00:56:04Z",
+      "sha": "10c204af0c780e14565f8aaac4b2bd81a8fe9358",
+      "entry_id": "tag:github.com,2008:Grit::Commit/10c204af0c780e14565f8aaac4b2bd81a8fe9358"
+    },
+    "license_file": "LICENSE",
+    "license_detected": "GPL-2.0-only",
+    "license_len": 24710,
+    "lang_markers": []
+  },
+  "falco": {
+    "url": "https://github.com/falcosecurity/falco",
+    "default_branch": "master",
+    "head_sha": "b608d820c8a380f6a098d8946359070addb7243f",
+    "api": {
+      "language": "C++",
+      "spdx": "Apache-2.0",
+      "default_branch": "master",
+      "pushed_at": "2026-10-05T07:54:26Z",
+      "archived": false,
+      "description": "Cloud Native Runtime Security",
+      "html_url": "https://github.com/falcosecurity/falco"
+    },
+    "latest_release": {
+      "title": "0.45.1-rc1",
+      "updated": "2026-10-05T07:54:26Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/49986046/0.45.1-rc1"
+    },
+    "last_commit_atom": {
+      "title": "fix(chart): update container plugin to 0.7.5",
+      "updated": "2026-10-03T08:25:31Z",
+      "sha": "b608d820c8a380f6a098d8946359070addb7243f",
+      "entry_id": "tag:github.com,2008:Grit::Commit/b608d820c8a380f6a098d8946359070addb7243f"
+    },
+    "license_file": "LICENSE",
+    "license_detected": "Apache-2.0",
+    "license_len": 11348,
+    "lang_markers": [
+      "CMakeLists.txt(C/C++)"
+    ]
+  },
+  "falco-rules": {
+    "url": "https://github.com/falcosecurity/rules",
+    "default_branch": "main",
+    "head_sha": "21ef6d5f5fdd8996b8e5015357e34f53cee2ac9f",
+    "api": {
+      "language": "Go",
+      "spdx": "Apache-2.0",
+      "default_branch": "main",
+      "pushed_at": "2026-09-25T09:48:10Z",
+      "archived": false,
+      "description": "Falco rule repository",
+      "html_url": "https://github.com/falcosecurity/rules"
+    },
+    "latest_release": {
+      "title": "falco-sandbox-rules-6.2.0",
+      "updated": "2026-09-07T07:44:52Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/580805113/falco-sandbox-rules-6.2.0"
+    },
+    "last_commit_atom": {
+      "title": "build(deps): Bump astral-sh/setup-uv in the actions group",
+      "updated": "2026-09-25T09:48:07Z",
+      "sha": "21ef6d5f5fdd8996b8e5015357e34f53cee2ac9f",
+      "entry_id": "tag:github.com,2008:Grit::Commit/21ef6d5f5fdd8996b8e5015357e34f53cee2ac9f"
+    },
+    "license_file": "LICENSE",
+    "license_detected": "Apache-2.0",
+    "license_len": 11348,
+    "lang_markers": []
+  },
+  "tetragon": {
+    "url": "https://github.com/cilium/tetragon",
+    "default_branch": "main",
+    "head_sha": "1ac2010c48c5036c053faf9177756bec53c7c14f",
+    "api": {
+      "language": "C",
+      "spdx": "Apache-2.0",
+      "default_branch": "main",
+      "pushed_at": "2026-10-08T13:26:05Z",
+      "archived": false,
+      "description": "eBPF-based Security Observability and Runtime Enforcement",
+      "html_url": "https://github.com/cilium/tetragon"
+    },
+    "latest_release": {
+      "title": "v1.7.1",
+      "updated": "2026-08-25T11:41:49Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/473137633/v1.7.1"
+    },
+    "last_commit_atom": {
+      "title": "fix: differentiate empty execve args from single, emtpy arg",
+      "updated": "2026-10-08T07:10:32Z",
+      "sha": "1ac2010c48c5036c053faf9177756bec53c7c14f",
+      "entry_id": "tag:github.com,2008:Grit::Commit/1ac2010c48c5036c053faf9177756bec53c7c14f"
+    },
+    "license_file": "LICENSE",
+    "license_detected": "Apache-2.0",
+    "license_len": 11350,
+    "lang_markers": [
+      "go.mod(Go)"
+    ]
+  },
+  "osquery": {
+    "url": "https://github.com/osquery/osquery",
+    "default_branch": "master",
+    "head_sha": "d9db97e3a86cf3e3ed4b3f8abbb8c4175b107855",
+    "api": {
+      "language": "C++",
+      "spdx": "NOASSERTION",
+      "default_branch": "master",
+      "pushed_at": "2026-10-07T19:59:17Z",
+      "archived": false,
+      "description": "SQL powered operating system instrumentation, monitoring, and analytics.",
+      "html_url": "https://github.com/osquery/osquery"
+    },
+    "latest_release": {
+      "title": "5.23.1",
+      "updated": "2026-07-01T17:16:39Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/22394357/5.23.1"
+    },
+    "last_commit_atom": {
+      "title": "Add `gpu_info` table for Linux, macOS, and Windows (#9065)",
+      "updated": "2026-10-07T19:59:17Z",
+      "sha": "d9db97e3a86cf3e3ed4b3f8abbb8c4175b107855",
+      "entry_id": "tag:github.com,2008:Grit::Commit/d9db97e3a86cf3e3ed4b3f8abbb8c4175b107855"
+    },
+    "license_file": "LICENSE",
+    "license_detected": "UNDETECTED",
+    "license_len": 373,
+    "lang_markers": [
+      "CMakeLists.txt(C/C++)"
+    ]
+  },
+  "velociraptor": {
+    "url": "https://github.com/Velocidex/velociraptor",
+    "default_branch": "master",
+    "head_sha": "fa9a5b4cd1a26f4a630f1ccdcb12713efc195af7",
+    "api": {
+      "language": "Go",
+      "spdx": "NOASSERTION",
+      "default_branch": "master",
+      "pushed_at": "2026-10-07T11:34:46Z",
+      "archived": false,
+      "description": "Digging Deeper....",
+      "html_url": "https://github.com/Velocidex/velociraptor"
+    },
+    "latest_release": {
+      "title": "Release 0.77.3",
+      "updated": "2026-10-05T12:30:41Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/126576769/v0.77.3"
+    },
+    "last_commit_atom": {
+      "title": "Feature/carve evtx, (#5063)",
+      "updated": "2026-10-07T11:34:46Z",
+      "sha": "fa9a5b4cd1a26f4a630f1ccdcb12713efc195af7",
+      "entry_id": "tag:github.com,2008:Grit::Commit/fa9a5b4cd1a26f4a630f1ccdcb12713efc195af7"
+    },
+    "license_file": "LICENSE",
+    "license_detected": "AGPL-3.0",
+    "license_len": 26863,
+    "lang_markers": [
+      "go.mod(Go)"
+    ]
+  },
+  "sysmon-config-swiftonsecurity": {
+    "url": "https://github.com/SwiftOnSecurity/sysmon-config",
+    "default_branch": "master",
+    "head_sha": "1836897f12fbd6a0a473665ef6abc34a6b497e31",
+    "api": {
+      "language": null,
+      "spdx": null,
+      "default_branch": "master",
+      "pushed_at": "2024-07-03T17:26:43Z",
+      "archived": false,
+      "description": "Sysmon configuration file template with default high-quality event tracing",
+      "html_url": "https://github.com/SwiftOnSecurity/sysmon-config"
+    },
+    "latest_release": null,
+    "last_commit_atom": {
+      "title": "Merge pull request #151 from Neo23x0/patch-8",
+      "updated": "2021-10-17T01:19:08Z",
+      "sha": "1836897f12fbd6a0a473665ef6abc34a6b497e31",
+      "entry_id": "tag:github.com,2008:Grit::Commit/1836897f12fbd6a0a473665ef6abc34a6b497e31"
+    },
+    "license_file": null,
+    "license_detected": null,
+    "license_len": 0,
+    "lang_markers": []
+  },
+  "sysmon-modular": {
+    "url": "https://github.com/olafhartong/sysmon-modular",
+    "default_branch": "master",
+    "head_sha": "082cba578667a5f57b44a8e64bc02548d2338859",
+    "api": {
+      "language": "Go",
+      "spdx": "MIT",
+      "default_branch": "master",
+      "pushed_at": "2026-09-18T08:03:40Z",
+      "archived": false,
+      "description": "A repository of sysmon configuration modules",
+      "html_url": "https://github.com/olafhartong/sysmon-modular"
+    },
+    "latest_release": {
+      "title": "Generated Sysmon configurations (082cba578667)",
+      "updated": "2026-09-18T08:03:40Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/117379388/configs-082cba578667"
+    },
+    "last_commit_atom": {
+      "title": "Fix repository context for release publishing",
+      "updated": "2026-09-18T08:01:35Z",
+      "sha": "082cba578667a5f57b44a8e64bc02548d2338859",
+      "entry_id": "tag:github.com,2008:Grit::Commit/082cba578667a5f57b44a8e64bc02548d2338859"
+    },
+    "license_file": null,
+    "license_detected": null,
+    "license_len": 0,
+    "lang_markers": []
+  },
+  "aide": {
+    "url": "https://github.com/aide/aide",
+    "default_branch": "master",
+    "head_sha": "b4fc3aee8ad7da205a7d5e8f27c5f99a8936be40",
+    "api": {
+      "language": "C",
+      "spdx": "GPL-2.0",
+      "default_branch": "master",
+      "pushed_at": "2026-09-22T17:23:44Z",
+      "archived": false,
+      "description": "aide source code",
+      "html_url": "https://github.com/aide/aide"
+    },
+    "latest_release": {
+      "title": "v0.19.4",
+      "updated": "2026-08-30T16:24:12Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/166092725/v0.19.4"
+    },
+    "last_commit_atom": {
+      "title": "Add CONTRIBUTING.md and AI policy",
+      "updated": "2026-09-22T17:20:48Z",
+      "sha": "b4fc3aee8ad7da205a7d5e8f27c5f99a8936be40",
+      "entry_id": "tag:github.com,2008:Grit::Commit/b4fc3aee8ad7da205a7d5e8f27c5f99a8936be40"
+    },
+    "license_file": "COPYING",
+    "license_detected": "GPL-2.0-only",
+    "license_len": 18092,
+    "lang_markers": [
+      "configure.ac(C/C++)",
+      "Makefile.am(C/C++)"
+    ]
+  },
+  "openscap": {
+    "url": "https://github.com/OpenSCAP/openscap",
+    "default_branch": "main",
+    "head_sha": "a567a7584203801467f1326137cbe9dbad23edd4",
+    "api": {
+      "language": "XSLT",
+      "spdx": "LGPL-2.1",
+      "default_branch": "main",
+      "pushed_at": "2026-10-08T12:32:03Z",
+      "archived": false,
+      "description": "NIST Certified SCAP 1.2 toolkit",
+      "html_url": "https://github.com/OpenSCAP/openscap"
+    },
+    "latest_release": {
+      "title": "1.4.4",
+      "updated": "2026-04-09T14:56:17Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/19279199/1.4.4"
+    },
+    "last_commit_atom": {
+      "title": "Merge pull request #2441 from Arden97/yescrypt",
+      "updated": "2026-10-08T12:32:02Z",
+      "sha": "a567a7584203801467f1326137cbe9dbad23edd4",
+      "entry_id": "tag:github.com,2008:Grit::Commit/a567a7584203801467f1326137cbe9dbad23edd4"
+    },
+    "license_file": "COPYING",
+    "license_detected": "LGPL-2.1",
+    "license_len": 26436,
+    "lang_markers": [
+      "CMakeLists.txt(C/C++)"
+    ]
+  },
+  "tripwire-oss": {
+    "url": "https://github.com/tripwire/tripwire",
+    "default_branch": null,
+    "head_sha": null,
+    "api": {
+      "error": 404
+    },
+    "latest_release": null,
+    "last_commit_atom": null,
+    "license_file": null,
+    "license_detected": null,
+    "license_len": 0,
+    "lang_markers": []
+  },
+  "chainsaw": {
+    "url": "https://github.com/WithSecureLabs/chainsaw",
+    "default_branch": "master",
+    "head_sha": "af12749f6d0acdcfa274efce2643b5399b9ca8d1",
+    "api": {
+      "language": "Rust",
+      "spdx": "GPL-3.0",
+      "default_branch": "master",
+      "pushed_at": "2026-09-23T19:25:07Z",
+      "archived": false,
+      "description": "Rapidly Search and Hunt through Windows Forensic Artefacts",
+      "html_url": "https://github.com/WithSecureOpenSource/chainsaw"
+    },
+    "latest_release": {
+      "title": "v2.16.5",
+      "updated": "2026-08-25T19:17:44Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/395658506/v2.16.5"
+    },
+    "last_commit_atom": {
+      "title": "ci: add rule-linting workflow, modernize v2.yml toolchain action (#243)",
+      "updated": "2026-09-23T19:25:06Z",
+      "sha": "af12749f6d0acdcfa274efce2643b5399b9ca8d1",
+      "entry_id": "tag:github.com,2008:Grit::Commit/af12749f6d0acdcfa274efce2643b5399b9ca8d1"
+    },
+    "license_file": null,
+    "license_detected": null,
+    "license_len": 0,
+    "lang_markers": [
+      "Cargo.toml(Rust)"
+    ]
+  },
+  "hayabusa": {
+    "url": "https://github.com/Yamato-Security/hayabusa",
+    "default_branch": "main",
+    "head_sha": "19a1d1db87831e976170395051c8dbc7d6c939eb",
+    "api": {
+      "language": "Rust",
+      "spdx": "AGPL-3.0",
+      "default_branch": "main",
+      "pushed_at": "2026-10-04T23:51:36Z",
+      "archived": false,
+      "description": "Hayabusa (\u96bc) is a sigma-based threat hunting and fast forensics timeline generator for Windows event logs.",
+      "html_url": "https://github.com/Yamato-Security/hayabusa"
+    },
+    "latest_release": {
+      "title": "v4.1.0 - Suzumushi Release",
+      "updated": "2026-09-12T23:35:35Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/296518768/v4.1.0"
+    },
+    "last_commit_atom": {
+      "title": "Merge pull request #1931 from Yamato-Security/auto/sync-field-modifie\u2026",
+      "updated": "2026-10-04T23:51:36Z",
+      "sha": "19a1d1db87831e976170395051c8dbc7d6c939eb",
+      "entry_id": "tag:github.com,2008:Grit::Commit/19a1d1db87831e976170395051c8dbc7d6c939eb"
+    },
+    "license_file": "LICENSE.txt",
+    "license_detected": "AGPL-3.0",
+    "license_len": 34188,
+    "lang_markers": [
+      "Cargo.toml(Rust)"
+    ]
+  },
+  "zircolite": {
+    "url": "https://github.com/wagga40/Zircolite",
+    "default_branch": "master",
+    "head_sha": "a575d5fe1bd704bf4d9604b5d327aa53c8bf20f2",
+    "api": {
+      "language": "Python",
+      "spdx": "NOASSERTION",
+      "default_branch": "master",
+      "pushed_at": "2026-10-03T09:52:02Z",
+      "archived": false,
+      "description": "A standalone SIGMA-based detection tool for EVTX, Auditd and Sysmon for Linux logs",
+      "html_url": "https://github.com/wagga40/Zircolite"
+    },
+    "latest_release": {
+      "title": "v4.2.0",
+      "updated": "2026-10-03T09:38:26Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/343939740/v4.2.0"
+    },
+    "last_commit_atom": {
+      "title": "Merge pull request #164 from wagga40/release/v4.2.0",
+      "updated": "2026-10-03T09:24:23Z",
+      "sha": "a575d5fe1bd704bf4d9604b5d327aa53c8bf20f2",
+      "entry_id": "tag:github.com,2008:Grit::Commit/a575d5fe1bd704bf4d9604b5d327aa53c8bf20f2"
+    },
+    "license_file": "LICENSE",
+    "license_detected": "LGPL-3.0",
+    "license_len": 8380,
+    "lang_markers": [
+      "pyproject.toml(Python)",
+      "setup.py(Python)"
+    ]
+  },
+  "deepbluecli": {
+    "url": "https://github.com/ericzimmer/DeepBlueCLI",
+    "default_branch": null,
+    "head_sha": null,
+    "api": {
+      "error": 404
+    },
+    "latest_release": null,
+    "last_commit_atom": null,
+    "license_file": null,
+    "license_detected": null,
+    "license_len": 0,
+    "lang_markers": []
+  },
+  "evtx-omerbenamram": {
+    "url": "https://github.com/omerbenamram/evtx",
+    "default_branch": "master",
+    "head_sha": "7479d02dfaa3bdeb41c5ea87195e84116a032cfc",
+    "api": {
+      "language": "Rust",
+      "spdx": "Apache-2.0",
+      "default_branch": "master",
+      "pushed_at": "2026-10-07T18:13:18Z",
+      "archived": false,
+      "description": "A Fast (and safe) parser for the Windows XML Event Log (EVTX) format",
+      "html_url": "https://github.com/omerbenamram/evtx"
+    },
+    "latest_release": {
+      "title": "v0.12.3",
+      "updated": "2026-09-22T06:28:42Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/178617867/v0.12.3"
+    },
+    "last_commit_atom": {
+      "title": "Merge pull request #305 from omerbenamram/cursor/replace-unmaintained\u2026",
+      "updated": "2026-10-07T18:13:18Z",
+      "sha": "7479d02dfaa3bdeb41c5ea87195e84116a032cfc",
+      "entry_id": "tag:github.com,2008:Grit::Commit/7479d02dfaa3bdeb41c5ea87195e84116a032cfc"
+    },
+    "license_file": null,
+    "license_detected": null,
+    "license_len": 0,
+    "lang_markers": [
+      "Cargo.toml(Rust)"
+    ]
+  },
+  "python-evtx": {
+    "url": "https://github.com/williballenthin/python-evtx",
+    "default_branch": "master",
+    "head_sha": "c0007441657899c39180de10a2be1a0e43dbeaf9",
+    "api": {
+      "language": "Python",
+      "spdx": "Apache-2.0",
+      "default_branch": "master",
+      "pushed_at": "2026-10-06T11:41:15Z",
+      "archived": false,
+      "description": "Pure Python parser for Windows Event Log files (.evtx)",
+      "html_url": "https://github.com/williballenthin/python-evtx"
+    },
+    "latest_release": {
+      "title": "v8.1.0",
+      "updated": "2025-05-02T08:07:37Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/7301482/v8.1.0"
+    },
+    "last_commit_atom": {
+      "title": "Merge pull request #100 from abrignoni/render-fixed-width-arrays",
+      "updated": "2026-10-06T11:41:15Z",
+      "sha": "c0007441657899c39180de10a2be1a0e43dbeaf9",
+      "entry_id": "tag:github.com,2008:Grit::Commit/c0007441657899c39180de10a2be1a0e43dbeaf9"
+    },
+    "license_file": null,
+    "license_detected": null,
+    "license_len": 0,
+    "lang_markers": [
+      "pyproject.toml(Python)"
+    ]
+  },
+  "sigma-specification": {
+    "url": "https://github.com/SigmaHQ/sigma-specification",
+    "default_branch": "main",
+    "head_sha": "ba9251aa834b11a70dbf80836b453dba99c5159e",
+    "api": {
+      "language": null,
+      "spdx": "NOASSERTION",
+      "default_branch": "main",
+      "pushed_at": "2026-09-25T20:43:12Z",
+      "archived": false,
+      "description": "Sigma rule specification",
+      "html_url": "https://github.com/SigmaHQ/sigma-specification"
+    },
+    "latest_release": {
+      "title": "v2.1.0",
+      "updated": "2025-09-12T04:49:05Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/538332740/v2.1.0"
+    },
+    "last_commit_atom": {
+      "title": "Fix typo in sigmahq-filename-convention.md (#209)",
+      "updated": "2026-06-09T17:23:16Z",
+      "sha": "ba9251aa834b11a70dbf80836b453dba99c5159e",
+      "entry_id": "tag:github.com,2008:Grit::Commit/ba9251aa834b11a70dbf80836b453dba99c5159e"
+    },
+    "license_file": "LICENSE",
+    "license_detected": "UNDETECTED",
+    "license_len": 203,
+    "lang_markers": []
+  },
+  "pysigma": {
+    "url": "https://github.com/SigmaHQ/pySigma",
+    "default_branch": "main",
+    "head_sha": "50708bae1fd24c75a5342187e34c126c13c69a18",
+    "api": {
+      "language": "Python",
+      "spdx": "LGPL-2.1",
+      "default_branch": "main",
+      "pushed_at": "2026-10-04T16:27:29Z",
+      "archived": false,
+      "description": "Python library to parse and convert Sigma rules into queries (and whatever else you could imagine)",
+      "html_url": "https://github.com/SigmaHQ/pySigma"
+    },
+    "latest_release": {
+      "title": "v2.0.0",
+      "updated": "2026-10-04T16:30:30Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/376964575/v2.0.0"
+    },
+    "last_commit_atom": {
+      "title": "Fix plugin check test failing on major release",
+      "updated": "2026-10-04T16:26:58Z",
+      "sha": "50708bae1fd24c75a5342187e34c126c13c69a18",
+      "entry_id": "tag:github.com,2008:Grit::Commit/50708bae1fd24c75a5342187e34c126c13c69a18"
+    },
+    "license_file": "LICENSE",
+    "license_detected": "LGPL-2.1",
+    "license_len": 26526,
+    "lang_markers": [
+      "pyproject.toml(Python)"
+    ]
+  },
+  "sigma-rules": {
+    "url": "https://github.com/SigmaHQ/sigma",
+    "default_branch": "master",
+    "head_sha": "8a4813404ea3074890e0cda9272d4d1a8b2941d6",
+    "api": {
+      "language": "Python",
+      "spdx": "NOASSERTION",
+      "default_branch": "master",
+      "pushed_at": "2026-10-06T11:26:20Z",
+      "archived": false,
+      "description": "Main Sigma Rule Repository",
+      "html_url": "https://github.com/SigmaHQ/sigma"
+    },
+    "latest_release": {
+      "title": "Release r2026-07-01",
+      "updated": "2026-07-09T14:51:34Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/77276660/r2026-07-01"
+    },
+    "last_commit_atom": {
+      "title": "Merge PR #6061 from @norbert791 - Add rules to detect PowerShell cmdl\u2026",
+      "updated": "2026-10-06T11:26:20Z",
+      "sha": "8a4813404ea3074890e0cda9272d4d1a8b2941d6",
+      "entry_id": "tag:github.com,2008:Grit::Commit/8a4813404ea3074890e0cda9272d4d1a8b2941d6"
+    },
+    "license_file": "LICENSE",
+    "license_detected": "UNDETECTED",
+    "license_len": 384,
+    "lang_markers": []
+  },
+  "sigma-cli": {
+    "url": "https://github.com/SigmaHQ/sigma-cli",
+    "default_branch": "main",
+    "head_sha": "863c714109c2001050dc99f7d54b97e72bf8463e",
+    "api": {
+      "language": "Python",
+      "spdx": "LGPL-2.1",
+      "default_branch": "main",
+      "pushed_at": "2026-10-04T20:22:52Z",
+      "archived": false,
+      "description": "The Sigma command line interface based on pySigma",
+      "html_url": "https://github.com/SigmaHQ/sigma-cli"
+    },
+    "latest_release": {
+      "title": "v3.1.0",
+      "updated": "2026-07-07T21:51:34Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/460206581/v3.1.0"
+    },
+    "last_commit_atom": {
+      "title": "Merge pull request #102 from elhoim/fix/dict-output-file",
+      "updated": "2026-10-04T20:22:52Z",
+      "sha": "863c714109c2001050dc99f7d54b97e72bf8463e",
+      "entry_id": "tag:github.com,2008:Grit::Commit/863c714109c2001050dc99f7d54b97e72bf8463e"
+    },
+    "license_file": "LICENSE.txt",
+    "license_detected": "LGPL-2.1",
+    "license_len": 26419,
+    "lang_markers": [
+      "pyproject.toml(Python)"
+    ]
+  },
+  "yara": {
+    "url": "https://github.com/VirusTotal/yara",
+    "default_branch": "master",
+    "head_sha": "5e8a8ea41f73e4e24ec91382b7e6a697097b48aa",
+    "api": {
+      "language": "C",
+      "spdx": "BSD-3-Clause",
+      "default_branch": "master",
+      "pushed_at": "2026-09-23T09:48:49Z",
+      "archived": false,
+      "description": "The pattern matching swiss knife",
+      "html_url": "https://github.com/VirusTotal/yara"
+    },
+    "latest_release": {
+      "title": "YARA v4.5.8",
+      "updated": "2026-07-28T07:12:15Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/7037996/v4.5.8"
+    },
+    "last_commit_atom": {
+      "title": "Add yr_get_version to report the version of the library loaded at run\u2026",
+      "updated": "2026-09-23T09:48:49Z",
+      "sha": "5e8a8ea41f73e4e24ec91382b7e6a697097b48aa",
+      "entry_id": "tag:github.com,2008:Grit::Commit/5e8a8ea41f73e4e24ec91382b7e6a697097b48aa"
+    },
+    "license_file": "COPYING",
+    "license_detected": "BSD-3-Clause",
+    "license_len": 1493,
+    "lang_markers": [
+      "configure.ac(C/C++)",
+      "Makefile.am(C/C++)"
+    ]
+  },
+  "yarax": {
+    "url": "https://github.com/VirusTotal/yara-x",
+    "default_branch": "main",
+    "head_sha": "ee7c4c7a01fb4e5f9028e1a6da1b24bfc53cfc11",
+    "api": {
+      "language": "Rust",
+      "spdx": "BSD-3-Clause",
+      "default_branch": "main",
+      "pushed_at": "2026-10-08T11:15:01Z",
+      "archived": false,
+      "description": "A rewrite of YARA in Rust.",
+      "html_url": "https://github.com/VirusTotal/yara-x"
+    },
+    "latest_release": {
+      "title": "v1.21.0",
+      "updated": "2026-09-30T08:12:00Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/551348093/v1.21.0"
+    },
+    "last_commit_atom": {
+      "title": "chore(deps): bump brace-expansion from 2.1.1 to 2.1.7 in /playground \u2026",
+      "updated": "2026-10-08T11:14:52Z",
+      "sha": "ee7c4c7a01fb4e5f9028e1a6da1b24bfc53cfc11",
+      "entry_id": "tag:github.com,2008:Grit::Commit/ee7c4c7a01fb4e5f9028e1a6da1b24bfc53cfc11"
+    },
+    "license_file": "LICENSE",
+    "license_detected": "BSD-3-Clause",
+    "license_len": 1505,
+    "lang_markers": [
+      "Cargo.toml(Rust)"
+    ]
+  },
+  "suricata": {
+    "url": "https://github.com/OISF/suricata",
+    "default_branch": "main",
+    "head_sha": "215961d67239ba2594a0d43f031829ecf710e3e9",
+    "api": {
+      "language": "C",
+      "spdx": "GPL-2.0",
+      "default_branch": "main",
+      "pushed_at": "2026-10-04T05:10:55Z",
+      "archived": false,
+      "description": "Suricata is a network Intrusion Detection System, Intrusion Prevention System and Network Security Monitoring engine developed by the OISF and the Suricata community.",
+      "html_url": "https://github.com/OISF/suricata"
+    },
+    "latest_release": {
+      "title": "8.0.7",
+      "updated": "2026-09-15T13:22:14Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/5410234/suricata-8.0.7"
+    },
+    "last_commit_atom": {
+      "title": "http2: do not log an empty settings array",
+      "updated": "2026-10-03T14:09:37Z",
+      "sha": "215961d67239ba2594a0d43f031829ecf710e3e9",
+      "entry_id": "tag:github.com,2008:Grit::Commit/215961d67239ba2594a0d43f031829ecf710e3e9"
+    },
+    "license_file": "LICENSE",
+    "license_detected": "GPL-2.0-only",
+    "license_len": 18092,
+    "lang_markers": [
+      "configure.ac(C/C++)",
+      "Makefile.am(C/C++)"
+    ]
+  },
+  "elastic-detection-rules": {
+    "url": "https://github.com/elastic/detection-rules",
+    "default_branch": "main",
+    "head_sha": "bc5b7c3e9579a5d4173de1f3f36031e7148070de",
+    "api": {
+      "language": "Python",
+      "spdx": "NOASSERTION",
+      "default_branch": "main",
+      "pushed_at": "2026-10-08T13:11:17Z",
+      "archived": false,
+      "description": null,
+      "html_url": "https://github.com/elastic/detection-rules"
+    },
+    "latest_release": {
+      "title": "dev-v3.0.10",
+      "updated": "2026-10-07T14:33:52Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/273084758/dev-v3.0.10"
+    },
+    "last_commit_atom": {
+      "title": "[Rule Tuning] AWS Control Plane Access by Suspicious Process (#6957)",
+      "updated": "2026-10-08T08:56:08Z",
+      "sha": "bc5b7c3e9579a5d4173de1f3f36031e7148070de",
+      "entry_id": "tag:github.com,2008:Grit::Commit/bc5b7c3e9579a5d4173de1f3f36031e7148070de"
+    },
+    "license_file": "LICENSE.txt",
+    "license_detected": "UNDETECTED",
+    "license_len": 3858,
+    "lang_markers": [
+      "pyproject.toml(Python)"
+    ]
+  },
+  "misp": {
+    "url": "https://github.com/MISP/MISP",
+    "default_branch": "2.5",
+    "head_sha": "fb54b3e4a4ddd7ad7913fffd94284dd0e81b2120",
+    "api": {
+      "language": "PHP",
+      "spdx": "AGPL-3.0",
+      "default_branch": "2.5",
+      "pushed_at": "2026-10-07T19:03:27Z",
+      "archived": false,
+      "description": "MISP (core software) - Open Source Threat Intelligence and Sharing Platform",
+      "html_url": "https://github.com/MISP/MISP"
+    },
+    "latest_release": {
+      "title": "v2.4.222",
+      "updated": "2026-10-01T12:05:12Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/8077402/v2.4.222"
+    },
+    "last_commit_atom": {
+      "title": "new: [statistics] Add object relation usage statistics",
+      "updated": "2026-09-29T14:57:07Z",
+      "sha": "fb54b3e4a4ddd7ad7913fffd94284dd0e81b2120",
+      "entry_id": "tag:github.com,2008:Grit::Commit/fb54b3e4a4ddd7ad7913fffd94284dd0e81b2120"
+    },
+    "license_file": "LICENSE",
+    "license_detected": "AGPL-3.0",
+    "license_len": 34520,
+    "lang_markers": []
+  },
+  "python-stix2": {
+    "url": "https://github.com/oasis-tc/cti-stix2",
+    "default_branch": null,
+    "head_sha": null,
+    "api": {
+      "error": 404
+    },
+    "latest_release": null,
+    "last_commit_atom": null,
+    "license_file": null,
+    "license_detected": null,
+    "license_len": 0,
+    "lang_markers": []
+  },
+  "openioc": {
+    "url": "https://github.com/fireeye/openioc",
+    "default_branch": null,
+    "head_sha": null,
+    "api": {
+      "error": 404
+    },
+    "latest_release": null,
+    "last_commit_atom": null,
+    "license_file": null,
+    "license_detected": null,
+    "license_len": 0,
+    "lang_markers": []
+  },
+  "duckdb": {
+    "url": "https://github.com/duckdb/duckdb",
+    "default_branch": "v2.0-cyanoptera",
+    "head_sha": "0dc65ff31fe1236ad8f47f947f2d5ef6cabe1e92",
+    "api": {
+      "language": "C++",
+      "spdx": "MIT",
+      "default_branch": "v2.0-cyanoptera",
+      "pushed_at": "2026-10-08T13:14:25Z",
+      "archived": false,
+      "description": "DuckDB is an analytical in-process SQL database management system",
+      "html_url": "https://github.com/duckdb/duckdb"
+    },
+    "latest_release": {
+      "title": "DuckDB v1.5.6 Bugfix Release",
+      "updated": "2026-09-28T13:36:49Z",
+      "sha": null,
+      "entry_id": "tag:github.com,2008:Repository/138754790/v1.5.6"
+    },
+    "last_commit_atom": {
+      "title": "Drop the monotone annotation from exp(): libm exp is not monotone (#2\u2026",
+      "updated": "2026-10-08T10:46:33Z",
+      "sha": "0dc65ff31fe1236ad8f47f947f2d5ef6cabe1e92",
+      "entry_id": "tag:github.com,2008:Grit::Commit/0dc65ff31fe1236ad8f47f947f2d5ef6cabe1e92"
+    },
+    "license_file": "LICENSE",
+    "license_detected": "MIT-or-BSD (manual review)",
+    "license_len": 1072,
+    "lang_markers": [
+      "CMakeLists.txt(C/C++)"
+    ]
+  },
+  "sigma2sql": {
+    "url": "https://github.com/Security-Bits/sigma2sql",
+    "default_branch": null,
+    "head_sha": null,
+    "api": {
+      "error": 404
+    },
+    "latest_release": null,
+    "last_commit_atom": null,
+    "license_file": null,
+    "license_detected": null,
+    "license_len": 0,
+    "lang_markers": []
+  }
+}

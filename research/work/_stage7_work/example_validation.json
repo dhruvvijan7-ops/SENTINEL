@@ -1,0 +1,916 @@
+{
+  "stage2_examples": {
+    "total": 121,
+    "fail": 0,
+    "results": [
+      {
+        "index": 1,
+        "ok": true,
+        "category": "process",
+        "type": "process_create"
+      },
+      {
+        "index": 2,
+        "ok": true,
+        "category": "file",
+        "type": "file_creation_time_change"
+      },
+      {
+        "index": 3,
+        "ok": true,
+        "category": "network",
+        "type": "network_connection"
+      },
+      {
+        "index": 4,
+        "ok": true,
+        "category": "service",
+        "type": "sysmon_service_state_change"
+      },
+      {
+        "index": 5,
+        "ok": true,
+        "category": "process",
+        "type": "process_terminate"
+      },
+      {
+        "index": 6,
+        "ok": true,
+        "category": "driver",
+        "type": "driver_load"
+      },
+      {
+        "index": 7,
+        "ok": true,
+        "category": "image_load",
+        "type": "image_load"
+      },
+      {
+        "index": 8,
+        "ok": true,
+        "category": "thread_access",
+        "type": "create_remote_thread"
+      },
+      {
+        "index": 9,
+        "ok": true,
+        "category": "file",
+        "type": "raw_device_read"
+      },
+      {
+        "index": 10,
+        "ok": true,
+        "category": "thread_access",
+        "type": "process_access"
+      },
+      {
+        "index": 11,
+        "ok": true,
+        "category": "file",
+        "type": "file_create"
+      },
+      {
+        "index": 12,
+        "ok": true,
+        "category": "registry",
+        "type": "registry_object_create_delete"
+      },
+      {
+        "index": 13,
+        "ok": true,
+        "category": "registry",
+        "type": "registry_value_set"
+      },
+      {
+        "index": 14,
+        "ok": true,
+        "category": "registry",
+        "type": "registry_rename"
+      },
+      {
+        "index": 15,
+        "ok": true,
+        "category": "file",
+        "type": "file_stream_create"
+      },
+      {
+        "index": 16,
+        "ok": true,
+        "category": "config_check",
+        "type": "sysmon_config_change"
+      },
+      {
+        "index": 17,
+        "ok": true,
+        "category": "pipe",
+        "type": "pipe_create"
+      },
+      {
+        "index": 18,
+        "ok": true,
+        "category": "pipe",
+        "type": "pipe_connect"
+      },
+      {
+        "index": 19,
+        "ok": true,
+        "category": "wmi",
+        "type": "wmi_filter_create"
+      },
+      {
+        "index": 20,
+        "ok": true,
+        "category": "wmi",
+        "type": "wmi_consumer_create"
+      },
+      {
+        "index": 21,
+        "ok": true,
+        "category": "wmi",
+        "type": "wmi_consumer_filter_bind"
+      },
+      {
+        "index": 22,
+        "ok": true,
+        "category": "dns",
+        "type": "dns_query"
+      },
+      {
+        "index": 23,
+        "ok": true,
+        "category": "file",
+        "type": "file_delete"
+      },
+      {
+        "index": 24,
+        "ok": true,
+        "category": "process",
+        "type": "clipboard_change"
+      },
+      {
+        "index": 25,
+        "ok": true,
+        "category": "process",
+        "type": "process_tampering"
+      },
+      {
+        "index": 26,
+        "ok": true,
+        "category": "file",
+        "type": "file_delete"
+      },
+      {
+        "index": 27,
+        "ok": true,
+        "category": "file",
+        "type": "file_block_executable"
+      },
+      {
+        "index": 28,
+        "ok": true,
+        "category": "file",
+        "type": "file_block_shredding"
+      },
+      {
+        "index": 29,
+        "ok": true,
+        "category": "file",
+        "type": "file_executable_detected"
+      },
+      {
+        "index": 30,
+        "ok": true,
+        "category": "third_party_alert",
+        "type": "sysmon_error"
+      },
+      {
+        "index": 31,
+        "ok": true,
+        "category": "fim",
+        "type": "audit_log_cleared"
+      },
+      {
+        "index": 32,
+        "ok": true,
+        "category": "authentication",
+        "type": "logon_success"
+      },
+      {
+        "index": 33,
+        "ok": true,
+        "category": "authentication",
+        "type": "logon_failure"
+      },
+      {
+        "index": 34,
+        "ok": true,
+        "category": "authentication",
+        "type": "logoff"
+      },
+      {
+        "index": 35,
+        "ok": true,
+        "category": "authentication",
+        "type": "logoff_initiated"
+      },
+      {
+        "index": 36,
+        "ok": true,
+        "category": "authentication",
+        "type": "explicit_credential_logon"
+      },
+      {
+        "index": 37,
+        "ok": true,
+        "category": "authentication",
+        "type": "special_privileges_assigned"
+      },
+      {
+        "index": 38,
+        "ok": true,
+        "category": "process",
+        "type": "process_create"
+      },
+      {
+        "index": 39,
+        "ok": true,
+        "category": "process",
+        "type": "process_terminate"
+      },
+      {
+        "index": 40,
+        "ok": true,
+        "category": "service",
+        "type": "service_install"
+      },
+      {
+        "index": 41,
+        "ok": true,
+        "category": "scheduled_task",
+        "type": "scheduled_task_create"
+      },
+      {
+        "index": 42,
+        "ok": true,
+        "category": "account",
+        "type": "account_created"
+      },
+      {
+        "index": 43,
+        "ok": true,
+        "category": "account",
+        "type": "account_enabled"
+      },
+      {
+        "index": 44,
+        "ok": true,
+        "category": "account",
+        "type": "password_reset"
+      },
+      {
+        "index": 45,
+        "ok": true,
+        "category": "account",
+        "type": "account_deleted"
+      },
+      {
+        "index": 46,
+        "ok": true,
+        "category": "group_membership",
+        "type": "member_added_to_global_group"
+      },
+      {
+        "index": 47,
+        "ok": true,
+        "category": "group_membership",
+        "type": "member_added_to_local_group"
+      },
+      {
+        "index": 48,
+        "ok": true,
+        "category": "account",
+        "type": "account_changed"
+      },
+      {
+        "index": 49,
+        "ok": true,
+        "category": "account",
+        "type": "account_locked_out"
+      },
+      {
+        "index": 50,
+        "ok": true,
+        "category": "group_membership",
+        "type": "member_added_to_universal_group"
+      },
+      {
+        "index": 51,
+        "ok": true,
+        "category": "account",
+        "type": "account_unlocked"
+      },
+      {
+        "index": 52,
+        "ok": true,
+        "category": "authentication",
+        "type": "kerberos_tgt_requested"
+      },
+      {
+        "index": 53,
+        "ok": true,
+        "category": "authentication",
+        "type": "kerberos_service_ticket_requested"
+      },
+      {
+        "index": 54,
+        "ok": true,
+        "category": "authentication",
+        "type": "kerberos_preauth_failed"
+      },
+      {
+        "index": 55,
+        "ok": true,
+        "category": "authentication",
+        "type": "credential_validation"
+      },
+      {
+        "index": 56,
+        "ok": true,
+        "category": "network",
+        "type": "network_share_access"
+      },
+      {
+        "index": 57,
+        "ok": true,
+        "category": "network",
+        "type": "network_share_access_check"
+      },
+      {
+        "index": 58,
+        "ok": true,
+        "category": "network",
+        "type": "wfp_connection_permitted"
+      },
+      {
+        "index": 59,
+        "ok": true,
+        "category": "network",
+        "type": "wfp_bind_permitted"
+      },
+      {
+        "index": 60,
+        "ok": true,
+        "category": "config_check",
+        "type": "firewall_rule_added"
+      },
+      {
+        "index": 61,
+        "ok": true,
+        "category": "config_check",
+        "type": "firewall_rule_modified"
+      },
+      {
+        "index": 62,
+        "ok": true,
+        "category": "config_check",
+        "type": "firewall_rule_deleted"
+      },
+      {
+        "index": 63,
+        "ok": true,
+        "category": "service",
+        "type": "service_crash"
+      },
+      {
+        "index": 64,
+        "ok": true,
+        "category": "service",
+        "type": "service_state_change"
+      },
+      {
+        "index": 65,
+        "ok": true,
+        "category": "service",
+        "type": "service_start_type_change"
+      },
+      {
+        "index": 66,
+        "ok": true,
+        "category": "service",
+        "type": "service_config_change"
+      },
+      {
+        "index": 67,
+        "ok": true,
+        "category": "service",
+        "type": "service_install"
+      },
+      {
+        "index": 68,
+        "ok": true,
+        "category": "config_check",
+        "type": "log_clear"
+      },
+      {
+        "index": 69,
+        "ok": true,
+        "category": "powershell",
+        "type": "engine_state_change"
+      },
+      {
+        "index": 70,
+        "ok": true,
+        "category": "powershell",
+        "type": "engine_state_change"
+      },
+      {
+        "index": 71,
+        "ok": true,
+        "category": "powershell",
+        "type": "provider_state_change"
+      },
+      {
+        "index": 72,
+        "ok": true,
+        "category": "powershell",
+        "type": "pipeline_execution"
+      },
+      {
+        "index": 73,
+        "ok": true,
+        "category": "powershell",
+        "type": "module_logging"
+      },
+      {
+        "index": 74,
+        "ok": true,
+        "category": "powershell",
+        "type": "script_block_logging"
+      },
+      {
+        "index": 75,
+        "ok": true,
+        "category": "powershell",
+        "type": "pipeline_execution"
+      },
+      {
+        "index": 76,
+        "ok": true,
+        "category": "powershell",
+        "type": "pipeline_execution"
+      },
+      {
+        "index": 77,
+        "ok": true,
+        "category": "wmi",
+        "type": "wmi_operation"
+      },
+      {
+        "index": 78,
+        "ok": true,
+        "category": "wmi",
+        "type": "wmi_client_failure"
+      },
+      {
+        "index": 79,
+        "ok": true,
+        "category": "wmi",
+        "type": "wmi_operation"
+      },
+      {
+        "index": 80,
+        "ok": true,
+        "category": "third_party_alert",
+        "type": "malware_detected"
+      },
+      {
+        "index": 81,
+        "ok": true,
+        "category": "file",
+        "type": "malware_action"
+      },
+      {
+        "index": 82,
+        "ok": true,
+        "category": "config_check",
+        "type": "realtime_protection_disabled"
+      },
+      {
+        "index": 83,
+        "ok": true,
+        "category": "config_check",
+        "type": "settings_change"
+      },
+      {
+        "index": 84,
+        "ok": true,
+        "category": "scheduled_task",
+        "type": "task_register"
+      },
+      {
+        "index": 85,
+        "ok": true,
+        "category": "scheduled_task",
+        "type": "task_update"
+      },
+      {
+        "index": 86,
+        "ok": true,
+        "category": "scheduled_task",
+        "type": "task_delete"
+      },
+      {
+        "index": 87,
+        "ok": true,
+        "category": "scheduled_task",
+        "type": "task_action_start"
+      },
+      {
+        "index": 88,
+        "ok": true,
+        "category": "scheduled_task",
+        "type": "task_action_complete"
+      },
+      {
+        "index": 89,
+        "ok": true,
+        "category": "authentication",
+        "type": "session_logon"
+      },
+      {
+        "index": 90,
+        "ok": true,
+        "category": "authentication",
+        "type": "session_shell_start"
+      },
+      {
+        "index": 91,
+        "ok": true,
+        "category": "authentication",
+        "type": "session_logoff"
+      },
+      {
+        "index": 92,
+        "ok": true,
+        "category": "authentication",
+        "type": "session_disconnect"
+      },
+      {
+        "index": 93,
+        "ok": true,
+        "category": "authentication",
+        "type": "session_reconnect"
+      },
+      {
+        "index": 94,
+        "ok": true,
+        "category": "authentication",
+        "type": "session_disconnected_by_session"
+      },
+      {
+        "index": 95,
+        "ok": true,
+        "category": "authentication",
+        "type": "rdp_auth"
+      },
+      {
+        "index": 96,
+        "ok": true,
+        "category": "config_check",
+        "type": "applocker_audit"
+      },
+      {
+        "index": 97,
+        "ok": true,
+        "category": "config_check",
+        "type": "applocker_audit"
+      },
+      {
+        "index": 98,
+        "ok": true,
+        "category": "config_check",
+        "type": "applocker_enforce"
+      },
+      {
+        "index": 99,
+        "ok": true,
+        "category": "config_check",
+        "type": "applocker_enforce"
+      },
+      {
+        "index": 100,
+        "ok": true,
+        "category": "network",
+        "type": "network_connection"
+      },
+      {
+        "index": 101,
+        "ok": true,
+        "category": "dns",
+        "type": "dns_query"
+      },
+      {
+        "index": 102,
+        "ok": true,
+        "category": "http",
+        "type": "http_request"
+      },
+      {
+        "index": 103,
+        "ok": true,
+        "category": "tls",
+        "type": "tls_handshake"
+      },
+      {
+        "index": 104,
+        "ok": true,
+        "category": "third_party_alert",
+        "type": "zeek_notice"
+      },
+      {
+        "index": 105,
+        "ok": true,
+        "category": "file",
+        "type": "file_seen"
+      },
+      {
+        "index": 106,
+        "ok": true,
+        "category": "third_party_alert",
+        "type": "suricata_alert"
+      },
+      {
+        "index": 107,
+        "ok": true,
+        "category": "http",
+        "type": "http_request"
+      },
+      {
+        "index": 108,
+        "ok": true,
+        "category": "dns",
+        "type": "dns_query"
+      },
+      {
+        "index": 109,
+        "ok": true,
+        "category": "tls",
+        "type": "tls_handshake"
+      },
+      {
+        "index": 110,
+        "ok": true,
+        "category": "network",
+        "type": "network_connection"
+      },
+      {
+        "index": 111,
+        "ok": true,
+        "category": "file",
+        "type": "file_seen"
+      },
+      {
+        "index": 112,
+        "ok": true,
+        "category": "config_check",
+        "type": "port_scan"
+      },
+      {
+        "index": 113,
+        "ok": true,
+        "category": "config_check",
+        "type": "connection_inventory"
+      },
+      {
+        "index": 114,
+        "ok": true,
+        "category": "scheduled_task",
+        "type": "task_inventory"
+      },
+      {
+        "index": 115,
+        "ok": true,
+        "category": "service",
+        "type": "service_inventory"
+      },
+      {
+        "index": 116,
+        "ok": true,
+        "category": "service",
+        "type": "service_config_inventory"
+      },
+      {
+        "index": 117,
+        "ok": true,
+        "category": "registry",
+        "type": "registry_export"
+      },
+      {
+        "index": 118,
+        "ok": true,
+        "category": "process",
+        "type": "process_inventory"
+      },
+      {
+        "index": 119,
+        "ok": true,
+        "category": "artifact",
+        "type": "autostart_inventory"
+      },
+      {
+        "index": 120,
+        "ok": true,
+        "category": "executable",
+        "type": "executable_inventory"
+      },
+      {
+        "index": 121,
+        "ok": true,
+        "category": "artifact_finding",
+        "type": "virustotal_detection"
+      }
+    ]
+  },
+  "stage5_rules": {
+    "total": 25,
+    "fail": 0,
+    "results": [
+      {
+        "index": 1,
+        "ok": true,
+        "id": "7c1a9e40-2f6b-4d8a-9c3e-1b2d3e4f5a60",
+        "kind": "sigma"
+      },
+      {
+        "index": 2,
+        "ok": true,
+        "id": "3d5e7f80-1a2b-4c6d-8e9f-0a1b2c3d4e51",
+        "kind": "sigma"
+      },
+      {
+        "index": 3,
+        "ok": true,
+        "id": "9b8c7d6e-5f4a-4b3c-8d2e-1f0a9b8c7d62",
+        "kind": "sigma"
+      },
+      {
+        "index": 4,
+        "ok": true,
+        "id": "1e2f3a4b-5c6d-4e7f-8a9b-0c1d2e3f4a53",
+        "kind": "sigma"
+      },
+      {
+        "index": 5,
+        "ok": true,
+        "id": "0f9e8d7c-6b5a-4c3d-2e1f-0a9b8c7d6e54",
+        "kind": "sigma"
+      },
+      {
+        "index": 6,
+        "ok": true,
+        "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c55",
+        "kind": "correlation"
+      },
+      {
+        "index": 7,
+        "ok": true,
+        "id": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d66",
+        "kind": "correlation"
+      },
+      {
+        "index": 8,
+        "ok": true,
+        "id": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e77",
+        "kind": "correlation"
+      },
+      {
+        "index": 9,
+        "ok": true,
+        "id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f88",
+        "kind": "correlation"
+      },
+      {
+        "index": 10,
+        "ok": true,
+        "id": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a99",
+        "kind": "ioc"
+      },
+      {
+        "index": 11,
+        "ok": true,
+        "id": "f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0a",
+        "kind": "ioc"
+      },
+      {
+        "index": 12,
+        "ok": true,
+        "id": "1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c1b",
+        "kind": "fim"
+      },
+      {
+        "index": 13,
+        "ok": true,
+        "id": "2b3c4d5e-6f7a-4b8c-9d0e-1f2a3b4c5d2c",
+        "kind": "fim"
+      },
+      {
+        "index": 14,
+        "ok": true,
+        "id": "3c4d5e6f-7a8b-4c9d-0e1f-2a3b4c5d6e3d",
+        "kind": "sca"
+      },
+      {
+        "index": 15,
+        "ok": true,
+        "id": "4d5e6f7a-8b9c-4d0e-1f2a-3b4c5d6e7f4e",
+        "kind": "sca"
+      },
+      {
+        "index": 16,
+        "ok": true,
+        "id": "5e6f7a8b-9c0d-4e1f-2a3b-4c5d6e7f8a5f",
+        "kind": "statistical"
+      },
+      {
+        "index": 17,
+        "ok": true,
+        "id": "6f7a8b9c-0d1e-4f2a-3b4c-5d6e7f8a9b6a",
+        "kind": "statistical"
+      },
+      {
+        "index": 18,
+        "ok": true,
+        "id": "AF-001",
+        "kind": "artifact"
+      },
+      {
+        "index": 19,
+        "ok": true,
+        "id": "AF-002",
+        "kind": "artifact"
+      },
+      {
+        "index": 20,
+        "ok": true,
+        "id": "AF-003",
+        "kind": "artifact"
+      },
+      {
+        "index": 21,
+        "ok": true,
+        "id": "AF-004",
+        "kind": "artifact"
+      },
+      {
+        "index": 22,
+        "ok": true,
+        "id": "AF-005",
+        "kind": "artifact"
+      },
+      {
+        "index": 23,
+        "ok": true,
+        "id": "AF-006",
+        "kind": "artifact"
+      },
+      {
+        "index": 24,
+        "ok": true,
+        "id": "AF-007",
+        "kind": "artifact"
+      },
+      {
+        "index": 25,
+        "ok": true,
+        "id": "AF-008",
+        "kind": "artifact"
+      }
+    ]
+  },
+  "stage3_af_rules": {
+    "total": 5,
+    "fail": 0,
+    "results": [
+      {
+        "id": "AF-001",
+        "ok": true
+      },
+      {
+        "id": "AF-002",
+        "ok": true
+      },
+      {
+        "id": "AF-003",
+        "ok": true
+      },
+      {
+        "id": "AF-004",
+        "ok": true
+      },
+      {
+        "id": "AF-005",
+        "ok": true
+      }
+    ]
+  }
+}

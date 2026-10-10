@@ -1,0 +1,634 @@
+﻿{
+    "method":  "Get-WinEvent -FilterHashtable; EventRecord.ToXml(); regex \u003cData Name=\"...\"\u003e",
+    "harvested_on":  "2026-10-09T10:04:40.6047683+05:30",
+    "os_caption":  "Microsoft Windows 11 Home Single Language",
+    "os_build":  "26200",
+    "elevated":  false,
+    "logs":  [
+                 {
+                     "log":  "System",
+                     "log_exists":  true,
+                     "log_error":  null,
+                     "events":  [
+                                    {
+                                        "id":  104,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  7034,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Service Control Manager\u0027 Guid=\u0027{555908d1-a6d7-4695-8e1e-26931d2012f4}\u0027 EventSourceName=\u0027Service Control Manager\u0027/\u003e\u003cEventID Qualifiers=\u002749152\u0027\u003e7034\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e2\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x8080000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-09-30T13:25:40.9931197Z\u0027/\u003e\u003cEventRecordID\u003e71278\u003c/EventRecordID\u003e\u003cCorrelation/\u003e\u003cExecution ProcessID=\u00271576\u0027 ThreadID=\u002723872\u0027/\u003e\u003cChannel\u003eSystem\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity/\u003e\u003c/System\u003e\u003cEventData\u003e\u003cData Name=\u0027param1\u0027\u003eClaude\u003c/Data\u003e\u003cData Name=\u0027param2\u0027\u003e1\u003c/Data\u003e\u003cBinary\u003e43006F0077006F0072006B0056004D0053006500720076006900630065000000\u003c/Binary\u003e\u003c/EventData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-09-30T18:55:40.9931197+05:30",
+                                        "provider":  "Service Control Manager",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  7036,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027VfpExt\u0027/\u003e\u003cEventID Qualifiers=\u002716384\u0027\u003e7036\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x80000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-09T03:14:29.6847423Z\u0027/\u003e\u003cEventRecordID\u003e72886\u003c/EventRecordID\u003e\u003cCorrelation/\u003e\u003cExecution ProcessID=\u00274\u0027 ThreadID=\u002721568\u0027/\u003e\u003cChannel\u003eSystem\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity/\u003e\u003c/System\u003e\u003cEventData\u003e\u003cData\u003e\u003c/Data\u003e\u003cData\u003eFilter restart complete\u003c/Data\u003e\u003cBinary\u003e0000000002002C00000000007C1B0040000000000000000000000000000000000000000000000000\u003c/Binary\u003e\u003c/EventData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-09T08:44:29.6847423+05:30",
+                                        "provider":  "VfpExt",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  7040,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Service Control Manager\u0027 Guid=\u0027{555908d1-a6d7-4695-8e1e-26931d2012f4}\u0027 EventSourceName=\u0027Service Control Manager\u0027/\u003e\u003cEventID Qualifiers=\u002716384\u0027\u003e7040\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x8080000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-09T03:24:33.0097777Z\u0027/\u003e\u003cEventRecordID\u003e72925\u003c/EventRecordID\u003e\u003cCorrelation/\u003e\u003cExecution ProcessID=\u00271576\u0027 ThreadID=\u002730920\u0027/\u003e\u003cChannel\u003eSystem\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-18\u0027/\u003e\u003c/System\u003e\u003cEventData\u003e\u003cData Name=\u0027param1\u0027\u003eBackground Intelligent Transfer Service\u003c/Data\u003e\u003cData Name=\u0027param2\u0027\u003eauto start\u003c/Data\u003e\u003cData Name=\u0027param3\u0027\u003edemand start\u003c/Data\u003e\u003cData Name=\u0027param4\u0027\u003eBITS\u003c/Data\u003e\u003c/EventData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-09T08:54:33.0097777+05:30",
+                                        "provider":  "Service Control Manager",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  7043,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Service Control Manager\u0027 Guid=\u0027{555908d1-a6d7-4695-8e1e-26931d2012f4}\u0027 EventSourceName=\u0027Service Control Manager\u0027/\u003e\u003cEventID Qualifiers=\u002749152\u0027\u003e7043\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e2\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x8080000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-05-28T02:02:10.5020782Z\u0027/\u003e\u003cEventRecordID\u003e44369\u003c/EventRecordID\u003e\u003cCorrelation ActivityID=\u0027{c7df42c1-e03b-000a-740a-91c83be0dc01}\u0027/\u003e\u003cExecution ProcessID=\u00271400\u0027 ThreadID=\u002711948\u0027/\u003e\u003cChannel\u003eSystem\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity/\u003e\u003c/System\u003e\u003cEventData\u003e\u003cData Name=\u0027param1\u0027\u003eWindows Security Service\u003c/Data\u003e\u003cBinary\u003e530065006300750072006900740079004800650061006C007400680053006500720076006900630065000000\u003c/Binary\u003e\u003c/EventData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-05-28T07:32:10.5020782+05:30",
+                                        "provider":  "Service Control Manager",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  7045,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Service Control Manager\u0027 Guid=\u0027{555908d1-a6d7-4695-8e1e-26931d2012f4}\u0027 EventSourceName=\u0027Service Control Manager\u0027/\u003e\u003cEventID Qualifiers=\u002716384\u0027\u003e7045\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x8080000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-09T03:16:33.3071024Z\u0027/\u003e\u003cEventRecordID\u003e72904\u003c/EventRecordID\u003e\u003cCorrelation/\u003e\u003cExecution ProcessID=\u00271576\u0027 ThreadID=\u002731248\u0027/\u003e\u003cChannel\u003eSystem\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-18\u0027/\u003e\u003c/System\u003e\u003cEventData\u003e\u003cData Name=\u0027ServiceName\u0027\u003eChatGPT\u003c/Data\u003e\u003cData Name=\u0027ImagePath\u0027\u003e\"C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.1002.7124.0_x64__2p2nqsd0c76g0\\app\\resources\\codex-windows-sandbox-service.exe\"\u003c/Data\u003e\u003cData Name=\u0027ServiceType\u0027\u003euser mode service\u003c/Data\u003e\u003cData Name=\u0027StartType\u0027\u003eauto start\u003c/Data\u003e\u003cData Name=\u0027AccountName\u0027\u003eLocalSystem\u003c/Data\u003e\u003c/EventData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-09T08:46:33.3071024+05:30",
+                                        "provider":  "Service Control Manager",
+                                        "count_queried":  -1
+                                    }
+                                ],
+                     "log_recordcount":  30858,
+                     "log_is_enabled":  true
+                 },
+                 {
+                     "log":  "Windows PowerShell",
+                     "log_exists":  true,
+                     "log_error":  null,
+                     "events":  [
+                                    {
+                                        "id":  400,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027PowerShell\u0027/\u003e\u003cEventID Qualifiers=\u00270\u0027\u003e400\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e4\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x80000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-09T04:34:39.7711688Z\u0027/\u003e\u003cEventRecordID\u003e49769\u003c/EventRecordID\u003e\u003cCorrelation/\u003e\u003cExecution ProcessID=\u002725916\u0027 ThreadID=\u00270\u0027/\u003e\u003cChannel\u003eWindows PowerShell\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity/\u003e\u003c/System\u003e\u003cEventData\u003e\u003cData\u003eAvailable\u003c/Data\u003e\u003cData\u003eNone\u003c/Data\u003e\u003cData\u003e\tNewEngineState=Available\r\n\tPreviousEngineState=None\r\n\r\n\tSequenceNumber=13\r\n\r\n\tHostName=ConsoleHost\r\n\tHostVersion=5.1.26100.9444\r\n\tHostId=8b5a1d01-7e7a-4bde-ac5e-f65eefe8c287\r\n\tHostApplication=C:\\windows\\System32\\WindowsPowerShell\\v1.0\\powershell.EXE -NoLogo -NoProfile -NonInteractive -Command \u0026amp; \"C:\\Users\\dhruv\\OneDrive\\Desktop\\College\\Light HIDS\\_stage2_work\\harvest_local_events.ps1\"\r\n\tEngineVersion=5.1.26100.9444\r\n\tRunspaceId=3d04b614-6f40-45ef-a245-3edc3a56bf81\r\n\tPipelineId=\r\n\tCommandName=\r\n\tCommandType=\r\n\tScriptName=\r\n\tCommandPath=\r\n\tCommandLine=\u003c/Data\u003e\u003c/EventData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-09T10:04:39.7711688+05:30",
+                                        "provider":  "PowerShell",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  403,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027PowerShell\u0027/\u003e\u003cEventID Qualifiers=\u00270\u0027\u003e403\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e4\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x80000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-09T04:34:15.5385112Z\u0027/\u003e\u003cEventRecordID\u003e49762\u003c/EventRecordID\u003e\u003cCorrelation/\u003e\u003cExecution ProcessID=\u002716440\u0027 ThreadID=\u00270\u0027/\u003e\u003cChannel\u003eWindows PowerShell\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity/\u003e\u003c/System\u003e\u003cEventData\u003e\u003cData\u003eStopped\u003c/Data\u003e\u003cData\u003eAvailable\u003c/Data\u003e\u003cData\u003e\tNewEngineState=Stopped\r\n\tPreviousEngineState=Available\r\n\r\n\tSequenceNumber=23\r\n\r\n\tHostName=ConsoleHost\r\n\tHostVersion=5.1.26100.9444\r\n\tHostId=8a5d8a78-6fbd-4b6a-8048-90754f8588b5\r\n\tHostApplication=C:\\windows\\System32\\WindowsPowerShell\\v1.0\\powershell.EXE -NoLogo -NoProfile -NonInteractive -Command python -c \"import jsonschema; print(\u0027jsonschema OK\u0027, jsonschema.__version__)\"\r\n\tEngineVersion=5.1.26100.9444\r\n\tRunspaceId=5a1a0ee0-50e7-454f-9bfa-5823332390b9\r\n\tPipelineId=\r\n\tCommandName=\r\n\tCommandType=\r\n\tScriptName=\r\n\tCommandPath=\r\n\tCommandLine=\u003c/Data\u003e\u003c/EventData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-09T10:04:15.5385112+05:30",
+                                        "provider":  "PowerShell",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  600,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027PowerShell\u0027/\u003e\u003cEventID Qualifiers=\u00270\u0027\u003e600\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e6\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x80000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-09T04:34:39.7678482Z\u0027/\u003e\u003cEventRecordID\u003e49768\u003c/EventRecordID\u003e\u003cCorrelation/\u003e\u003cExecution ProcessID=\u002725916\u0027 ThreadID=\u00270\u0027/\u003e\u003cChannel\u003eWindows PowerShell\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity/\u003e\u003c/System\u003e\u003cEventData\u003e\u003cData\u003eVariable\u003c/Data\u003e\u003cData\u003eStarted\u003c/Data\u003e\u003cData\u003e\tProviderName=Variable\r\n\tNewProviderState=Started\r\n\r\n\tSequenceNumber=11\r\n\r\n\tHostName=ConsoleHost\r\n\tHostVersion=5.1.26100.9444\r\n\tHostId=8b5a1d01-7e7a-4bde-ac5e-f65eefe8c287\r\n\tHostApplication=C:\\windows\\System32\\WindowsPowerShell\\v1.0\\powershell.EXE -NoLogo -NoProfile -NonInteractive -Command \u0026amp; \"C:\\Users\\dhruv\\OneDrive\\Desktop\\College\\Light HIDS\\_stage2_work\\harvest_local_events.ps1\"\r\n\tEngineVersion=\r\n\tRunspaceId=\r\n\tPipelineId=\r\n\tCommandName=\r\n\tCommandType=\r\n\tScriptName=\r\n\tCommandPath=\r\n\tCommandLine=\u003c/Data\u003e\u003c/EventData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-09T10:04:39.7678482+05:30",
+                                        "provider":  "PowerShell",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  800,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    }
+                                ],
+                     "log_recordcount":  8801,
+                     "log_is_enabled":  true
+                 },
+                 {
+                     "log":  "Microsoft-Windows-PowerShell/Operational",
+                     "log_exists":  true,
+                     "log_error":  null,
+                     "events":  [
+                                    {
+                                        "id":  4103,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Microsoft-Windows-PowerShell\u0027 Guid=\u0027{a0c1853b-5c40-4b15-8766-3cf1c58f985a}\u0027/\u003e\u003cEventID\u003e4103\u003c/EventID\u003e\u003cVersion\u003e1\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e106\u003c/Task\u003e\u003cOpcode\u003e20\u003c/Opcode\u003e\u003cKeywords\u003e0x0\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-09-30T13:31:32.5897071Z\u0027/\u003e\u003cEventRecordID\u003e67645\u003c/EventRecordID\u003e\u003cCorrelation ActivityID=\u0027{18f1b1a2-405c-0002-79fa-43195c40dd01}\u0027/\u003e\u003cExecution ProcessID=\u002734480\u0027 ThreadID=\u00274912\u0027/\u003e\u003cChannel\u003eMicrosoft-Windows-PowerShell/Operational\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-21-392970859-1592143220-1055403080-1001\u0027/\u003e\u003c/System\u003e\u003cEventData\u003e\u003cData Name=\u0027ContextInfo\u0027\u003e        Severity = Informational\r\n        Host Name = ConsoleHost\r\n        Host Version = 5.1.26100.9444\r\n        Host ID = cd1c8ee3-71a5-42ab-98f7-1f56710b1f0f\r\n        Host Application = powershell.exe -NoProfile -ExecutionPolicy Bypass -Command $ErrorActionPreference=\u0027SilentlyContinue\u0027\n$code=@\u0027\nusing System; using System.Runtime.InteropServices;\npublic static class NativeMethods {\n  [DllImport(user32.dll,SetLastError=true,CharSet=CharSet.Auto)]\n  public static extern IntPtr SendMessageTimeout(IntPtr hWnd,uint Msg,UIntPtr wParam,IntPtr lParam,uint fuFlags,uint uTimeout,out UIntPtr lpdwResult);\n}\n\u0027@\nAdd-Type -TypeDefinition $code -ErrorAction SilentlyContinue | Out-Null\n$out=[UIntPtr]::Zero\n[void][NativeMethods]::SendMessageTimeout([IntPtr]0xffff,0x1A,[UIntPtr]::Zero,[IntPtr]::Zero,0x2,5000,[ref]$out)\nStart-Sleep -Milliseconds 200\nGet-Process ShellExperienceHost -ErrorAction SilentlyContinue | Stop-Process -Force\nStart-Sleep -Milliseconds 300\nGet-Process explorer -ErrorAction SilentlyContinue | Stop-Process -Force\r\n        Engine Version = 5.1.26100.9444\r\n        Runspace ID = e2b94bfd-ed3e-4f8a-be33-d253e7f1ee0f\r\n        Pipeline ID = 1\r\n        Command Name = Add-Type\r\n        Command Type = Cmdlet\r\n        Script Name = \r\n        Command Path = \r\n        Sequence Number = 23\r\n        User = DHRUVS_VICTUS\\dhruv\r\n        Connected User = \r\n        Shell ID = Microsoft.PowerShell\r\n\u003c/Data\u003e\u003cData Name=\u0027UserData\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027Payload\u0027\u003eCommandInvocation(Add-Type): \"Add-Type\"\r\nParameterBinding(Add-Type): name=\"TypeDefinition\"; value=\"using System; using System.Runtime.InteropServices;\npublic static class NativeMethods {\n  [DllImport(user32.dll,SetLastError=true,CharSet=CharSet.Auto)]\n  public static extern IntPtr SendMessageTimeout(IntPtr hWnd,uint Msg,UIntPtr wParam,IntPtr lParam,uint fuFlags,uint uTimeout,out UIntPtr lpdwResult);\n}\"\r\nParameterBinding(Add-Type): name=\"ErrorAction\"; value=\"SilentlyContinue\"\r\nCommandInvocation(Out-Null): \"Out-Null\"\r\nNonTerminatingError(Add-Type): \"c:\\Users\\dhruv\\AppData\\Local\\Temp\\dig12vz1.0.cs(3) : The name \u0027user32\u0027 does not exist in the current context\n\nc:\\Users\\dhruv\\AppData\\Local\\Temp\\dig12vz1.0.cs(2) : public static class NativeMethods {\n\nc:\\Users\\dhruv\\AppData\\Local\\Temp\\dig12vz1.0.cs(3) : \u0026gt;\u0026gt;\u0026gt;   [DllImport(user32.dll,SetLastError=true,CharSet=CharSet.Auto)]\n\nc:\\Users\\dhruv\\AppData\\Local\\Temp\\dig12vz1.0.cs(4) :   public static extern IntPtr SendMessageTimeout(IntPtr hWnd,uint Msg,UIntPtr wParam,IntPtr lParam,uint fuFlags,uint uTimeout,out UIntPtr lpdwResult);\n\"\r\nTerminatingError(Add-Type): \"Cannot add type. Compilation errors occurred.\"\r\n\u003c/Data\u003e\u003c/EventData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-09-30T19:01:32.5897071+05:30",
+                                        "provider":  "Microsoft-Windows-PowerShell",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  4104,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Microsoft-Windows-PowerShell\u0027 Guid=\u0027{a0c1853b-5c40-4b15-8766-3cf1c58f985a}\u0027/\u003e\u003cEventID\u003e4104\u003c/EventID\u003e\u003cVersion\u003e1\u003c/Version\u003e\u003cLevel\u003e3\u003c/Level\u003e\u003cTask\u003e2\u003c/Task\u003e\u003cOpcode\u003e15\u003c/Opcode\u003e\u003cKeywords\u003e0x0\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-08T16:26:20.0105082Z\u0027/\u003e\u003cEventRecordID\u003e72802\u003c/EventRecordID\u003e\u003cCorrelation ActivityID=\u0027{18f1b1a2-405c-0007-6a85-461a5c40dd01}\u0027/\u003e\u003cExecution ProcessID=\u00273468\u0027 ThreadID=\u002712784\u0027/\u003e\u003cChannel\u003eMicrosoft-Windows-PowerShell/Operational\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-21-392970859-1592143220-1055403080-1001\u0027/\u003e\u003c/System\u003e\u003cEventData\u003e\u003cData Name=\u0027MessageNumber\u0027\u003e1\u003c/Data\u003e\u003cData Name=\u0027MessageTotal\u0027\u003e1\u003c/Data\u003e\u003cData Name=\u0027ScriptBlockText\u0027\u003e#!/usr/bin/env pwsh\r\n\r\nSet-StrictMode -Version \u0027Latest\u0027\r\n\r\n$NODE_EXE=\"$PSScriptRoot/node.exe\"\r\nif (-not (Test-Path $NODE_EXE)) {\r\n  $NODE_EXE=\"$PSScriptRoot/node\"\r\n}\r\nif (-not (Test-Path $NODE_EXE)) {\r\n  $NODE_EXE=\"node\"\r\n}\r\n\r\n$NPM_PREFIX_JS=\"$PSScriptRoot/node_modules/npm/bin/npm-prefix.js\"\r\n$NPM_CLI_JS=\"$PSScriptRoot/node_modules/npm/bin/npm-cli.js\"\r\n$NPM_PREFIX=(\u0026amp; $NODE_EXE $NPM_PREFIX_JS)\r\n\r\nif ($LASTEXITCODE -ne 0) {\r\n  Write-Host \"Could not determine Node.js install directory\"\r\n  exit 1\r\n}\r\n\r\n$NPM_PREFIX_NPM_CLI_JS=\"$NPM_PREFIX/node_modules/npm/bin/npm-cli.js\"\r\nif (Test-Path $NPM_PREFIX_NPM_CLI_JS) {\r\n  $NPM_CLI_JS=$NPM_PREFIX_NPM_CLI_JS\r\n}\r\n\r\nif ($MyInvocation.ExpectingInput) { # takes pipeline input\r\n  $input | \u0026amp; $NODE_EXE $NPM_CLI_JS $args\r\n} elseif (-not $MyInvocation.Line) { # used \"-File\" argument\r\n  \u0026amp; $NODE_EXE $NPM_CLI_JS $args\r\n} else { # used \"-Command\" argument\r\n  if (($MyInvocation | Get-Member -Name \u0027Statement\u0027) -and $MyInvocation.Statement) {\r\n    $NPM_ORIGINAL_COMMAND = $MyInvocation.Statement\r\n  } else {\r\n    $NPM_ORIGINAL_COMMAND = (\r\n      [Management.Automation.InvocationInfo].GetProperty(\u0027ScriptPosition\u0027, [Reflection.BindingFlags] \u0027Instance, NonPublic\u0027)\r\n    ).GetValue($MyInvocation).Text\r\n  }\r\n\r\n  $NODE_EXE = $NODE_EXE.Replace(\"``\", \"````\")\r\n  $NPM_CLI_JS = $NPM_CLI_JS.Replace(\"``\", \"````\")\r\n\r\n  $NPM_COMMAND_ARRAY = [Management.Automation.Language.Parser]::ParseInput($NPM_ORIGINAL_COMMAND, [ref] $null, [ref] $null).\r\n    EndBlock.Statements.PipelineElements.CommandElements.Extent.Text\r\n  $NPM_ARGS = ($NPM_COMMAND_ARRAY | Select-Object -Skip 1) -join \u0027 \u0027\r\n\r\n  Invoke-Expression \"\u0026amp; `\"$NODE_EXE`\" `\"$NPM_CLI_JS`\" $NPM_ARGS\"\r\n}\r\n\r\nexit $LASTEXITCODE\r\n\u003c/Data\u003e\u003cData Name=\u0027ScriptBlockId\u0027\u003ed8bf42e3-4f0c-46c9-8794-41d6bf5ba3e0\u003c/Data\u003e\u003cData Name=\u0027Path\u0027\u003eC:\\Program Files\\nodejs\\npm.ps1\u003c/Data\u003e\u003c/EventData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-08T21:56:20.0105082+05:30",
+                                        "provider":  "Microsoft-Windows-PowerShell",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  4105,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  4106,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    }
+                                ],
+                     "log_recordcount":  7128,
+                     "log_is_enabled":  true
+                 },
+                 {
+                     "log":  "Microsoft-Windows-Windows Defender/Operational",
+                     "log_exists":  true,
+                     "log_error":  null,
+                     "events":  [
+                                    {
+                                        "id":  1006,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  1007,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  1008,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  1009,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  1010,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  1011,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  1012,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  1116,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Microsoft-Windows-Windows Defender\u0027 Guid=\u0027{11cd958a-c507-4ef3-b3f2-5fd9dfbd2c78}\u0027/\u003e\u003cEventID\u003e1116\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e3\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x8000000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-08T14:55:43.5563739Z\u0027/\u003e\u003cEventRecordID\u003e5432\u003c/EventRecordID\u003e\u003cCorrelation ActivityID=\u0027{18f1b1a2-405c-000e-4cf8-35195c40dd01}\u0027/\u003e\u003cExecution ProcessID=\u002712580\u0027 ThreadID=\u002725140\u0027/\u003e\u003cChannel\u003eMicrosoft-Windows-Windows Defender/Operational\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-18\u0027/\u003e\u003c/System\u003e\u003cEventData\u003e\u003cData Name=\u0027Product Name\u0027\u003eMicrosoft Defender Antivirus\u003c/Data\u003e\u003cData Name=\u0027Product Version\u0027\u003e4.18.26080.4\u003c/Data\u003e\u003cData Name=\u0027Detection ID\u0027\u003e{CDF36DC1-A236-4131-A603-00FFE0588A74}\u003c/Data\u003e\u003cData Name=\u0027Detection Time\u0027\u003e2026-10-08T14:55:43.466Z\u003c/Data\u003e\u003cData Name=\u0027Unused\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027Unused2\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027Threat ID\u0027\u003e2147725066\u003c/Data\u003e\u003cData Name=\u0027Threat Name\u0027\u003eHackTool:PowerShell/Mimikatz\u003c/Data\u003e\u003cData Name=\u0027Severity ID\u0027\u003e4\u003c/Data\u003e\u003cData Name=\u0027Severity Name\u0027\u003eHigh\u003c/Data\u003e\u003cData Name=\u0027Category ID\u0027\u003e34\u003c/Data\u003e\u003cData Name=\u0027Category Name\u0027\u003eTool\u003c/Data\u003e\u003cData Name=\u0027FWLink\u0027\u003ehttps://go.microsoft.com/fwlink/?linkid=37020\u0026amp;name=HackTool:PowerShell/Mimikatz\u0026amp;threatid=2147725066\u0026amp;enterprise=0\u003c/Data\u003e\u003cData Name=\u0027Status Code\u0027\u003e1\u003c/Data\u003e\u003cData Name=\u0027Status Description\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027State\u0027\u003e1\u003c/Data\u003e\u003cData Name=\u0027Source ID\u0027\u003e3\u003c/Data\u003e\u003cData Name=\u0027Source Name\u0027\u003eReal-Time Protection\u003c/Data\u003e\u003cData Name=\u0027Process Name\u0027\u003eC:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\u003c/Data\u003e\u003cData Name=\u0027Detection User\u0027\u003eDhruvs_Victus\\dhruv\u003c/Data\u003e\u003cData Name=\u0027Unused3\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027Path\u0027\u003efile:_C:\\Users\\dhruv\\AppData\\Local\\Temp\\opencode\\research\\velociraptor-docs\\content\\knowledge_base\\tips\\decimaldecode.md\u003c/Data\u003e\u003cData Name=\u0027Origin ID\u0027\u003e1\u003c/Data\u003e\u003cData Name=\u0027Origin Name\u0027\u003eLocal machine\u003c/Data\u003e\u003cData Name=\u0027Execution ID\u0027\u003e1\u003c/Data\u003e\u003cData Name=\u0027Execution Name\u0027\u003eSuspended\u003c/Data\u003e\u003cData Name=\u0027Type ID\u0027\u003e0\u003c/Data\u003e\u003cData Name=\u0027Type Name\u0027\u003eConcrete\u003c/Data\u003e\u003cData Name=\u0027Pre Execution Status\u0027\u003e0\u003c/Data\u003e\u003cData Name=\u0027Action ID\u0027\u003e9\u003c/Data\u003e\u003cData Name=\u0027Action Name\u0027\u003eNot Applicable\u003c/Data\u003e\u003cData Name=\u0027Unused4\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027Error Code\u0027\u003e0x00000000\u003c/Data\u003e\u003cData Name=\u0027Error Description\u0027\u003eThe operation completed successfully. \u003c/Data\u003e\u003cData Name=\u0027Unused5\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027Post Clean Status\u0027\u003e0\u003c/Data\u003e\u003cData Name=\u0027Additional Actions ID\u0027\u003e0\u003c/Data\u003e\u003cData Name=\u0027Additional Actions String\u0027\u003eNo additional actions required\u003c/Data\u003e\u003cData Name=\u0027Remediation User\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027Unused6\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027Security intelligence Version\u0027\u003eAV: 1.459.601.0, AS: 1.459.601.0, NIS: 1.459.601.0\u003c/Data\u003e\u003cData Name=\u0027Engine Version\u0027\u003eAM: 1.1.26080.3, NIS: 1.1.26080.3\u003c/Data\u003e\u003c/EventData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-08T20:25:43.5563739+05:30",
+                                        "provider":  "Microsoft-Windows-Windows Defender",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  1117,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Microsoft-Windows-Windows Defender\u0027 Guid=\u0027{11cd958a-c507-4ef3-b3f2-5fd9dfbd2c78}\u0027/\u003e\u003cEventID\u003e1117\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x8000000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-08T14:56:49.2307586Z\u0027/\u003e\u003cEventRecordID\u003e5433\u003c/EventRecordID\u003e\u003cCorrelation ActivityID=\u0027{e0272337-03af-425c-b728-38f04d8d0350}\u0027/\u003e\u003cExecution ProcessID=\u002712580\u0027 ThreadID=\u002717600\u0027/\u003e\u003cChannel\u003eMicrosoft-Windows-Windows Defender/Operational\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-18\u0027/\u003e\u003c/System\u003e\u003cEventData\u003e\u003cData Name=\u0027Product Name\u0027\u003eMicrosoft Defender Antivirus\u003c/Data\u003e\u003cData Name=\u0027Product Version\u0027\u003e4.18.26080.4\u003c/Data\u003e\u003cData Name=\u0027Detection ID\u0027\u003e{CDF36DC1-A236-4131-A603-00FFE0588A74}\u003c/Data\u003e\u003cData Name=\u0027Detection Time\u0027\u003e2026-10-08T14:55:43.466Z\u003c/Data\u003e\u003cData Name=\u0027Unused\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027Unused2\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027Threat ID\u0027\u003e2147725066\u003c/Data\u003e\u003cData Name=\u0027Threat Name\u0027\u003eHackTool:PowerShell/Mimikatz\u003c/Data\u003e\u003cData Name=\u0027Severity ID\u0027\u003e4\u003c/Data\u003e\u003cData Name=\u0027Severity Name\u0027\u003eHigh\u003c/Data\u003e\u003cData Name=\u0027Category ID\u0027\u003e34\u003c/Data\u003e\u003cData Name=\u0027Category Name\u0027\u003eTool\u003c/Data\u003e\u003cData Name=\u0027FWLink\u0027\u003ehttps://go.microsoft.com/fwlink/?linkid=37020\u0026amp;name=HackTool:PowerShell/Mimikatz\u0026amp;threatid=2147725066\u0026amp;enterprise=0\u003c/Data\u003e\u003cData Name=\u0027Status Code\u0027\u003e3\u003c/Data\u003e\u003cData Name=\u0027Status Description\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027State\u0027\u003e2\u003c/Data\u003e\u003cData Name=\u0027Source ID\u0027\u003e3\u003c/Data\u003e\u003cData Name=\u0027Source Name\u0027\u003eReal-Time Protection\u003c/Data\u003e\u003cData Name=\u0027Process Name\u0027\u003eC:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\u003c/Data\u003e\u003cData Name=\u0027Detection User\u0027\u003eDhruvs_Victus\\dhruv\u003c/Data\u003e\u003cData Name=\u0027Unused3\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027Path\u0027\u003efile:_C:\\Users\\dhruv\\AppData\\Local\\Temp\\opencode\\research\\velociraptor-docs\\content\\knowledge_base\\tips\\decimaldecode.md\u003c/Data\u003e\u003cData Name=\u0027Origin ID\u0027\u003e1\u003c/Data\u003e\u003cData Name=\u0027Origin Name\u0027\u003eLocal machine\u003c/Data\u003e\u003cData Name=\u0027Execution ID\u0027\u003e1\u003c/Data\u003e\u003cData Name=\u0027Execution Name\u0027\u003eSuspended\u003c/Data\u003e\u003cData Name=\u0027Type ID\u0027\u003e0\u003c/Data\u003e\u003cData Name=\u0027Type Name\u0027\u003eConcrete\u003c/Data\u003e\u003cData Name=\u0027Pre Execution Status\u0027\u003e0\u003c/Data\u003e\u003cData Name=\u0027Action ID\u0027\u003e2\u003c/Data\u003e\u003cData Name=\u0027Action Name\u0027\u003eQuarantine\u003c/Data\u003e\u003cData Name=\u0027Unused4\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027Error Code\u0027\u003e0x00000000\u003c/Data\u003e\u003cData Name=\u0027Error Description\u0027\u003eThe operation completed successfully. \u003c/Data\u003e\u003cData Name=\u0027Unused5\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027Post Clean Status\u0027\u003e0\u003c/Data\u003e\u003cData Name=\u0027Additional Actions ID\u0027\u003e0\u003c/Data\u003e\u003cData Name=\u0027Additional Actions String\u0027\u003eNo additional actions required\u003c/Data\u003e\u003cData Name=\u0027Remediation User\u0027\u003eNT AUTHORITY\\SYSTEM\u003c/Data\u003e\u003cData Name=\u0027Unused6\u0027\u003e\u003c/Data\u003e\u003cData Name=\u0027Security intelligence Version\u0027\u003eAV: 1.459.601.0, AS: 1.459.601.0, NIS: 1.459.601.0\u003c/Data\u003e\u003cData Name=\u0027Engine Version\u0027\u003eAM: 1.1.26080.3, NIS: 1.1.26080.3\u003c/Data\u003e\u003c/EventData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-08T20:26:49.2307586+05:30",
+                                        "provider":  "Microsoft-Windows-Windows Defender",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  1118,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  1119,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  5001,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Microsoft-Windows-Windows Defender\u0027 Guid=\u0027{11cd958a-c507-4ef3-b3f2-5fd9dfbd2c78}\u0027/\u003e\u003cEventID\u003e5001\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x8000000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272025-10-22T11:25:39.1097979Z\u0027/\u003e\u003cEventRecordID\u003e126\u003c/EventRecordID\u003e\u003cCorrelation/\u003e\u003cExecution ProcessID=\u00275568\u0027 ThreadID=\u002710704\u0027/\u003e\u003cChannel\u003eMicrosoft-Windows-Windows Defender/Operational\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-18\u0027/\u003e\u003c/System\u003e\u003cEventData\u003e\u003cData Name=\u0027Product Name\u0027\u003eMicrosoft Defender Antivirus\u003c/Data\u003e\u003cData Name=\u0027Product Version\u0027\u003e4.18.24090.11\u003c/Data\u003e\u003c/EventData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2025-10-22T16:55:39.1097979+05:30",
+                                        "provider":  "Microsoft-Windows-Windows Defender",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  5007,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Microsoft-Windows-Windows Defender\u0027 Guid=\u0027{11cd958a-c507-4ef3-b3f2-5fd9dfbd2c78}\u0027/\u003e\u003cEventID\u003e5007\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x8000000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-09T03:32:46.3877763Z\u0027/\u003e\u003cEventRecordID\u003e5460\u003c/EventRecordID\u003e\u003cCorrelation/\u003e\u003cExecution ProcessID=\u002712580\u0027 ThreadID=\u002721040\u0027/\u003e\u003cChannel\u003eMicrosoft-Windows-Windows Defender/Operational\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-18\u0027/\u003e\u003c/System\u003e\u003cEventData\u003e\u003cData Name=\u0027Product Name\u0027\u003eMicrosoft Defender Antivirus\u003c/Data\u003e\u003cData Name=\u0027Product Version\u0027\u003e4.18.26080.4\u003c/Data\u003e\u003cData Name=\u0027Old Value\u0027\u003eHKLM\\SOFTWARE\\Microsoft\\Windows Defender\\CoreService\\WdConfigHash = 0xDA61671A\u003c/Data\u003e\u003cData Name=\u0027New Value\u0027\u003eHKLM\\SOFTWARE\\Microsoft\\Windows Defender\\CoreService\\WdConfigHash = 0x100D2E74\u003c/Data\u003e\u003c/EventData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-09T09:02:46.3877763+05:30",
+                                        "provider":  "Microsoft-Windows-Windows Defender",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  5012,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    }
+                                ],
+                     "log_recordcount":  5462,
+                     "log_is_enabled":  true
+                 },
+                 {
+                     "log":  "Microsoft-Windows-WMI-Activity/Operational",
+                     "log_exists":  true,
+                     "log_error":  null,
+                     "events":  [
+                                    {
+                                        "id":  5857,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Microsoft-Windows-WMI-Activity\u0027 Guid=\u0027{1418ef04-b0b4-4623-bf7e-d74ab47bbdaa}\u0027/\u003e\u003cEventID\u003e5857\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e0\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x4000000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-09T04:34:14.1747309Z\u0027/\u003e\u003cEventRecordID\u003e289056\u003c/EventRecordID\u003e\u003cCorrelation ActivityID=\u0027{18f1b1a2-405c-000b-e635-44195c40dd01}\u0027/\u003e\u003cExecution ProcessID=\u002713660\u0027 ThreadID=\u002717288\u0027/\u003e\u003cChannel\u003eMicrosoft-Windows-WMI-Activity/Operational\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-20\u0027/\u003e\u003c/System\u003e\u003cUserData\u003e\u003cOperation_StartedOperational xmlns=\u0027http://manifests.microsoft.com/win/2006/windows/WMI\u0027\u003e\u003cProviderName\u003eCIMWin32\u003c/ProviderName\u003e\u003cCode\u003e0x0\u003c/Code\u003e\u003cHostProcess\u003ewmiprvse.exe\u003c/HostProcess\u003e\u003cProcessID\u003e13660\u003c/ProcessID\u003e\u003cProviderPath\u003e%systemroot%\\system32\\wbem\\cimwin32.dll\u003c/ProviderPath\u003e\u003c/Operation_StartedOperational\u003e\u003c/UserData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-09T10:04:14.1747309+05:30",
+                                        "provider":  "Microsoft-Windows-WMI-Activity",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  5858,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Microsoft-Windows-WMI-Activity\u0027 Guid=\u0027{1418ef04-b0b4-4623-bf7e-d74ab47bbdaa}\u0027/\u003e\u003cEventID\u003e5858\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e2\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x4000000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-09T04:34:33.4504134Z\u0027/\u003e\u003cEventRecordID\u003e289057\u003c/EventRecordID\u003e\u003cCorrelation/\u003e\u003cExecution ProcessID=\u00274344\u0027 ThreadID=\u002725784\u0027/\u003e\u003cChannel\u003eMicrosoft-Windows-WMI-Activity/Operational\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-18\u0027/\u003e\u003c/System\u003e\u003cUserData\u003e\u003cOperation_ClientFailure xmlns=\u0027http://manifests.microsoft.com/win/2006/windows/WMI\u0027\u003e\u003cId\u003e{00000000-0000-0000-0000-000000000000}\u003c/Id\u003e\u003cClientMachine\u003eDHRUVS_VICTUS\u003c/ClientMachine\u003e\u003cUser\u003eNT AUTHORITY\\SYSTEM\u003c/User\u003e\u003cClientProcessId\u003e3660\u003c/ClientProcessId\u003e\u003cComponent\u003eUnknown\u003c/Component\u003e\u003cOperation\u003eStart IWbemServices::CreateInstanceEnum - root\\wmi : HpqBIntM\u003c/Operation\u003e\u003cResultCode\u003e0x80041032\u003c/ResultCode\u003e\u003cPossibleCause\u003eUnknown\u003c/PossibleCause\u003e\u003c/Operation_ClientFailure\u003e\u003c/UserData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-09T10:04:33.4504134+05:30",
+                                        "provider":  "Microsoft-Windows-WMI-Activity",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  5859,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  5860,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Microsoft-Windows-WMI-Activity\u0027 Guid=\u0027{1418ef04-b0b4-4623-bf7e-d74ab47bbdaa}\u0027/\u003e\u003cEventID\u003e5860\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e0\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x4000000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-09T03:17:56.1733684Z\u0027/\u003e\u003cEventRecordID\u003e288722\u003c/EventRecordID\u003e\u003cCorrelation/\u003e\u003cExecution ProcessID=\u00274344\u0027 ThreadID=\u002729032\u0027/\u003e\u003cChannel\u003eMicrosoft-Windows-WMI-Activity/Operational\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-18\u0027/\u003e\u003c/System\u003e\u003cUserData\u003e\u003cOperation_TemporaryEssStarted xmlns=\u0027http://manifests.microsoft.com/win/2006/windows/WMI\u0027\u003e\u003cNamespaceName\u003eroot\\wmi\u003c/NamespaceName\u003e\u003cQuery\u003eselect * from hpqbevnt\u003c/Query\u003e\u003cUser\u003eDhruvs_Victus\\dhruv\u003c/User\u003e\u003cProcessid\u003e20272\u003c/Processid\u003e\u003cClientMachine\u003eDHRUVS_VICTUS\u003c/ClientMachine\u003e\u003cPossibleCause\u003eTemporary\u003c/PossibleCause\u003e\u003c/Operation_TemporaryEssStarted\u003e\u003c/UserData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-09T08:47:56.1733684+05:30",
+                                        "provider":  "Microsoft-Windows-WMI-Activity",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  5861,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    }
+                                ],
+                     "log_recordcount":  1289,
+                     "log_is_enabled":  true
+                 },
+                 {
+                     "log":  "Microsoft-Windows-TaskScheduler/Operational",
+                     "log_exists":  true,
+                     "log_error":  null,
+                     "events":  [
+                                    {
+                                        "id":  106,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  140,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  141,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  200,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  201,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  102,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  129,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  329,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    }
+                                ],
+                     "log_recordcount":  null,
+                     "log_is_enabled":  false
+                 },
+                 {
+                     "log":  "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational",
+                     "log_exists":  true,
+                     "log_error":  null,
+                     "events":  [
+                                    {
+                                        "id":  21,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Microsoft-Windows-TerminalServices-LocalSessionManager\u0027 Guid=\u0027{5d896912-022d-40aa-a3a8-4fa5515c76d7}\u0027/\u003e\u003cEventID\u003e21\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x1000000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-09T03:15:59.8227726Z\u0027/\u003e\u003cEventRecordID\u003e3370\u003c/EventRecordID\u003e\u003cCorrelation ActivityID=\u0027{f481e412-7025-43b8-baf2-00f54bdb0000}\u0027/\u003e\u003cExecution ProcessID=\u00272040\u0027 ThreadID=\u002714040\u0027/\u003e\u003cChannel\u003eMicrosoft-Windows-TerminalServices-LocalSessionManager/Operational\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-18\u0027/\u003e\u003c/System\u003e\u003cUserData\u003e\u003cEventXML xmlns=\u0027Event_NS\u0027\u003e\u003cUser\u003eDHRUVS_VICTUS\\dhruv\u003c/User\u003e\u003cSessionID\u003e26\u003c/SessionID\u003e\u003cAddress\u003eLOCAL\u003c/Address\u003e\u003c/EventXML\u003e\u003c/UserData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-09T08:45:59.8227726+05:30",
+                                        "provider":  "Microsoft-Windows-TerminalServices-LocalSessionManager",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  22,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Microsoft-Windows-TerminalServices-LocalSessionManager\u0027 Guid=\u0027{5d896912-022d-40aa-a3a8-4fa5515c76d7}\u0027/\u003e\u003cEventID\u003e22\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x1000000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-09T03:16:01.7327133Z\u0027/\u003e\u003cEventRecordID\u003e3371\u003c/EventRecordID\u003e\u003cCorrelation ActivityID=\u0027{f481e412-7025-43b8-baf2-00f54bdb0000}\u0027/\u003e\u003cExecution ProcessID=\u00272040\u0027 ThreadID=\u002722804\u0027/\u003e\u003cChannel\u003eMicrosoft-Windows-TerminalServices-LocalSessionManager/Operational\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-18\u0027/\u003e\u003c/System\u003e\u003cUserData\u003e\u003cEventXML xmlns=\u0027Event_NS\u0027\u003e\u003cUser\u003eDHRUVS_VICTUS\\dhruv\u003c/User\u003e\u003cSessionID\u003e26\u003c/SessionID\u003e\u003cAddress\u003eLOCAL\u003c/Address\u003e\u003c/EventXML\u003e\u003c/UserData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-09T08:46:01.7327133+05:30",
+                                        "provider":  "Microsoft-Windows-TerminalServices-LocalSessionManager",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  23,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Microsoft-Windows-TerminalServices-LocalSessionManager\u0027 Guid=\u0027{5d896912-022d-40aa-a3a8-4fa5515c76d7}\u0027/\u003e\u003cEventID\u003e23\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x1000000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-08T17:07:21.4944255Z\u0027/\u003e\u003cEventRecordID\u003e3363\u003c/EventRecordID\u003e\u003cCorrelation ActivityID=\u0027{f4810bd0-aaff-4748-8daf-3eefaaad0000}\u0027/\u003e\u003cExecution ProcessID=\u00272040\u0027 ThreadID=\u002710456\u0027/\u003e\u003cChannel\u003eMicrosoft-Windows-TerminalServices-LocalSessionManager/Operational\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-18\u0027/\u003e\u003c/System\u003e\u003cUserData\u003e\u003cEventXML xmlns=\u0027Event_NS\u0027\u003e\u003cUser\u003eDHRUVS_VICTUS\\dhruv\u003c/User\u003e\u003cSessionID\u003e25\u003c/SessionID\u003e\u003c/EventXML\u003e\u003c/UserData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-08T22:37:21.4944255+05:30",
+                                        "provider":  "Microsoft-Windows-TerminalServices-LocalSessionManager",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  24,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Microsoft-Windows-TerminalServices-LocalSessionManager\u0027 Guid=\u0027{5d896912-022d-40aa-a3a8-4fa5515c76d7}\u0027/\u003e\u003cEventID\u003e24\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x1000000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-08T17:07:21.5571582Z\u0027/\u003e\u003cEventRecordID\u003e3367\u003c/EventRecordID\u003e\u003cCorrelation/\u003e\u003cExecution ProcessID=\u00272040\u0027 ThreadID=\u002714040\u0027/\u003e\u003cChannel\u003eMicrosoft-Windows-TerminalServices-LocalSessionManager/Operational\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-18\u0027/\u003e\u003c/System\u003e\u003cUserData\u003e\u003cEventXML xmlns=\u0027Event_NS\u0027\u003e\u003cUser\u003eDHRUVS_VICTUS\\dhruv\u003c/User\u003e\u003cSessionID\u003e25\u003c/SessionID\u003e\u003cAddress\u003eLOCAL\u003c/Address\u003e\u003c/EventXML\u003e\u003c/UserData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-08T22:37:21.5571582+05:30",
+                                        "provider":  "Microsoft-Windows-TerminalServices-LocalSessionManager",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  25,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Microsoft-Windows-TerminalServices-LocalSessionManager\u0027 Guid=\u0027{5d896912-022d-40aa-a3a8-4fa5515c76d7}\u0027/\u003e\u003cEventID\u003e25\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x1000000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-09-20T16:04:59.6275575Z\u0027/\u003e\u003cEventRecordID\u003e3205\u003c/EventRecordID\u003e\u003cCorrelation ActivityID=\u0027{f4816fb0-3e04-4a5a-9945-5e7357260000}\u0027/\u003e\u003cExecution ProcessID=\u00272040\u0027 ThreadID=\u002714848\u0027/\u003e\u003cChannel\u003eMicrosoft-Windows-TerminalServices-LocalSessionManager/Operational\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-18\u0027/\u003e\u003c/System\u003e\u003cUserData\u003e\u003cEventXML xmlns=\u0027Event_NS\u0027\u003e\u003cUser\u003eDHRUVS_VICTUS\\dhruv\u003c/User\u003e\u003cSessionID\u003e8\u003c/SessionID\u003e\u003cAddress\u003eLOCAL\u003c/Address\u003e\u003c/EventXML\u003e\u003c/UserData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-09-20T21:34:59.6275575+05:30",
+                                        "provider":  "Microsoft-Windows-TerminalServices-LocalSessionManager",
+                                        "count_queried":  -1
+                                    },
+                                    {
+                                        "id":  39,
+                                        "found":  true,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  "\u003cEvent xmlns=\u0027http://schemas.microsoft.com/win/2004/08/events/event\u0027\u003e\u003cSystem\u003e\u003cProvider Name=\u0027Microsoft-Windows-TerminalServices-LocalSessionManager\u0027 Guid=\u0027{5d896912-022d-40aa-a3a8-4fa5515c76d7}\u0027/\u003e\u003cEventID\u003e39\u003c/EventID\u003e\u003cVersion\u003e0\u003c/Version\u003e\u003cLevel\u003e4\u003c/Level\u003e\u003cTask\u003e0\u003c/Task\u003e\u003cOpcode\u003e0\u003c/Opcode\u003e\u003cKeywords\u003e0x1000000000000000\u003c/Keywords\u003e\u003cTimeCreated SystemTime=\u00272026-10-08T17:07:21.5268533Z\u0027/\u003e\u003cEventRecordID\u003e3364\u003c/EventRecordID\u003e\u003cCorrelation/\u003e\u003cExecution ProcessID=\u00272040\u0027 ThreadID=\u002714040\u0027/\u003e\u003cChannel\u003eMicrosoft-Windows-TerminalServices-LocalSessionManager/Operational\u003c/Channel\u003e\u003cComputer\u003eDhruvs_Victus\u003c/Computer\u003e\u003cSecurity UserID=\u0027S-1-5-18\u0027/\u003e\u003c/System\u003e\u003cUserData\u003e\u003cEventXML xmlns=\u0027Event_NS\u0027\u003e\u003cTargetSession\u003e25\u003c/TargetSession\u003e\u003cSource\u003e25\u003c/Source\u003e\u003c/EventXML\u003e\u003c/UserData\u003e\u003c/Event\u003e",
+                                        "error":  null,
+                                        "time_created":  "2026-10-08T22:37:21.5268533+05:30",
+                                        "provider":  "Microsoft-Windows-TerminalServices-LocalSessionManager",
+                                        "count_queried":  -1
+                                    }
+                                ],
+                     "log_recordcount":  1914,
+                     "log_is_enabled":  true
+                 },
+                 {
+                     "log":  "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational",
+                     "log_exists":  true,
+                     "log_error":  null,
+                     "events":  [
+                                    {
+                                        "id":  1149,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  1150,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    }
+                                ],
+                     "log_recordcount":  0,
+                     "log_is_enabled":  true
+                 },
+                 {
+                     "log":  "Security",
+                     "log_exists":  false,
+                     "log_error":  "Could not retrieve information about the Security log. Error: Attempted to perform an unauthorized operation..",
+                     "events":  [
+
+                                ]
+                 },
+                 {
+                     "log":  "Microsoft-Windows-Sysmon/Operational",
+                     "log_exists":  false,
+                     "log_error":  "There is not an event log on the localhost computer that matches \"Microsoft-Windows-Sysmon/Operational\".",
+                     "events":  [
+
+                                ]
+                 },
+                 {
+                     "log":  "Microsoft-Windows-AppLocker/EXE and DLL",
+                     "log_exists":  true,
+                     "log_error":  null,
+                     "events":  [
+                                    {
+                                        "id":  8003,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    },
+                                    {
+                                        "id":  8004,
+                                        "found":  false,
+                                        "field_names":  [
+
+                                                        ],
+                                        "sample_xml":  null,
+                                        "error":  "No events were found that match the specified selection criteria."
+                                    }
+                                ],
+                     "log_recordcount":  11,
+                     "log_is_enabled":  true
+                 }
+             ]
+}

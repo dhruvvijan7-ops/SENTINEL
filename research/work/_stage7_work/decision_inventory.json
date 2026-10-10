@@ -1,0 +1,2058 @@
+{
+  "inventory": {
+    "stage-1": {
+      "file": "stage-1-landscape-and-rule-engine-decision.md",
+      "lines": 663,
+      "decisions_heading_line": 497,
+      "decisions_format": "yaml",
+      "decisions": {
+        "yaml_key": "decisions",
+        "items": [
+          {
+            "id": "D-001",
+            "decision": "Evidence base for Stage 1 = 4 companion research files in this workspace + verification metadata (34 repo rows + 12 non-repo sources) + 2 delegated reports (LIGHT-HIDS; Sysmon/Sysinternals). Claims outside them are labelled INFERRED or UNVERIFIED.",
+            "status": "ACCEPTED",
+            "evidence": [
+              "§1",
+              "§1.2"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "D-002",
+            "decision": "Product-fit gap (matrix M1): no studied product combines offline file-upload analysis, Windows/EVTX depth, and a modern Sigma engine inside a commercially usable licence envelope. Sentinel pursues exactly that gap.",
+            "status": "ACCEPTED",
+            "evidence": [
+              "§3 C1/C2/C6",
+              "§2"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "D-003",
+            "decision": "MVP scope frozen as MVP-1..MVP-8 (EVTX ingest, Sigma pack, PCAP/TShark+Suricata, YARA scan, endpoint-export static analysis, evidence-preserving alerts, staged job lifecycle, benchmark harness). FIM, SCAP/SCA, live agents, LIGHT-HIDS ML explicitly out/deferred with triggers.",
+            "status": "ACCEPTED",
+            "evidence": [
+              "§4.1",
+              "§4.2",
+              "§4.3"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "D-004",
+            "decision": "RED-001 rule-engine: Option C primary (compile detections to SQL executed on canonical events in PostgreSQL; correlation as compiled plans), mandatory native row-level evaluator as fallback + conformance oracle; Option B (fully native) is the contingency if PoC thresholds T2/T3 fail; Option A rejected standalone; Option D (external hunter) dev-oracle only.",
+            "status": "RECOMMENDED_PENDING_POC",
+            "evidence": [
+              "§5.1",
+              "§5.3",
+              "§5.4",
+              "§5.5"
+            ],
+            "confidence": "medium-high",
+            "poc_gate": "ENGINE_POC.md — T1 100% conformance on implemented constructs; T2 >=95% SQL compile rate; T3 zero path divergences + >=3x speedup at N1"
+          },
+          {
+            "id": "D-005",
+            "decision": "Shipped runtime must not embed LGPL/GPL/AGPL code: converter tooling runs isolated (C1 acceptable in PoC only); standing preference is C2 = our own Sigma-to-PostgreSQL backend, judged against the public conformance suite.",
+            "status": "ACCEPTED",
+            "evidence": [
+              "§2.1",
+              "§2.3",
+              "§5.4 C1/C2"
+            ],
+            "confidence": "high",
+            "legal_gate": "counsel review of LGPL-3.0 (MED-HIGH flag) before dependency freeze"
+          },
+          {
+            "id": "D-006",
+            "decision": "Canonical event envelope + canonical rule document (sentinel-rule/v1) fixed as normative; aliasing lives in one import layer; compiled SQL stored per rule as evidence; tenant_id on every row from day 1.",
+            "status": "ACCEPTED",
+            "evidence": [
+              "§6.1",
+              "§6.2",
+              "§5.6"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "D-007",
+            "decision": "Three classification axes kept separate and never collapsed: alerts.severity (LOW|MEDIUM|HIGH), alerts.level_original (upstream verbatim), events.classification (public|internal|restricted).",
+            "status": "ACCEPTED_INTERPRETATION",
+            "evidence": [
+              "§6.4"
+            ],
+            "confidence": "medium"
+          },
+          {
+            "id": "D-008",
+            "decision": "v1 adapters: Sigma (primary, incl. correlation), Falco, YARA, Suricata, Wazuh-XML (customer-owned rules only), Sysmon config (telemetry profile, not detection). Every unsupported construct produces an explicit reason code; silent skips forbidden.",
+            "status": "ACCEPTED",
+            "evidence": [
+              "§6.3",
+              "§7.1 item 3"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "D-009",
+            "decision": "Licence rules of engagement (§2.3) binding: no copying from Wazuh/Chainsaw/ Hayabusa-code/Velociraptor/MISP/Elastic/ET-GPL-range/SwiftOnSecurity; allowed imports = SigmaHQ rules (DRL 1.1 w/ author carried to alerts), sysmon-modular (MIT), Falco rules (Apache-2.0), ComplianceAsCode (BSD-3), Feodo (CC0); HIGH legal flags need sign-off before dependency freeze.",
+            "status": "ACCEPTED",
+            "evidence": [
+              "§2.1",
+              "§2.2",
+              "§2.3"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "D-010",
+            "decision": "Performance truth policy: no throughput/memory number ships unless produced by the MVP-8 harness (protocol §5.7; targets §4.4). Public third-party numbers are directional context only (labelled PROPOSED - TO BENCHMARK).",
+            "status": "ACCEPTED",
+            "evidence": [
+              "§4.4",
+              "§5.1",
+              "§7.2 avoid-3"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "D-011",
+            "decision": "Architecture lessons adopted as named principles: one alias layer (Chainsaw), run-wide correlation + profiles + FP knobs (Hayabusa), layered prefilter/unified workspace/CSV hardening (Zircolite), layered rule trees + self-benchmark stats (Wazuh), version gating + validation-first CLI + ordered override semantics (Falco).",
+            "status": "ACCEPTED",
+            "evidence": [
+              "§7.1..§7.5"
+            ],
+            "confidence": "high"
+          },
+          {
+            "id": "D-012",
+            "decision": "Job status semantics: any partial parse/convert/execute => COMPLETED_WITH_WARNINGS (never SUCCESS, never silent drop); empty rule pack => exactly zero detections; parse errors keep original bytes reachable via raw_ref.",
+            "status": "ACCEPTED",
+            "evidence": [
+              "§4.4",
+              "§5.6"
+            ],
+            "confidence": "high"
+          }
+        ],
+        "parser": "safe_load"
+      },
+      "decisions_count": 12,
+      "open_questions_heading_line": 626,
+      "open_questions": {
+        "yaml_key": null,
+        "items": [
+          {
+            "id": "Q1"
+          },
+          {
+            "id": "Q2"
+          },
+          {
+            "id": "Q3"
+          },
+          {
+            "id": "Q4"
+          },
+          {
+            "id": "Q5"
+          },
+          {
+            "id": "Q6"
+          },
+          {
+            "id": "Q7"
+          },
+          {
+            "id": "Q8"
+          },
+          {
+            "id": "Q9"
+          },
+          {
+            "id": "Q10"
+          },
+          {
+            "id": "Q11"
+          },
+          {
+            "id": "Q12"
+          }
+        ],
+        "parser": "numbered_prose"
+      },
+      "open_questions_count": 12,
+      "open_questions_format": "numbered_prose",
+      "not_verified_heading_line": 641,
+      "not_verified": null,
+      "not_verified_count": 8,
+      "not_verified_format": "prose"
+    },
+    "stage-2": {
+      "file": "stage-2-canonical-event-and-mappings.md",
+      "lines": 13050,
+      "decisions_heading_line": 12581,
+      "decisions_format": "yaml",
+      "decisions": {
+        "yaml_key": "decisions",
+        "items": [
+          {
+            "id": "D2-001",
+            "title": "Bare JSON null forbidden; value-state object carries null/unknown/invalid/conflicting/inferred",
+            "decision": "Canonical events never contain a bare null except time.utc (only when time.state is unknown/invalid). Absent = omitted key. Source-null, unknown, unparsable, conflicting and Sentinel-inferred values are expressed with the {$state,...} object. Rationale: detectors must be able to distinguish \"source says empty\" from \"source has no value\" from \"parser could not parse\" — bare null conflates all three.",
+            "evidence": [
+              "C-SCHEMA",
+              "A-SWIFT-CFG",
+              "B-LOC-HARVEST"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-002",
+            "title": "Three-level semantic classification (file format -> semantic data type -> security behaviour) resolves Stage-1 Q1",
+            "decision": "Level 1 = source.format enum (container); Level 2 = source.record.type + channel/provider/EID or header set (record shape); Level 3 = event.category (26 values) + event.type + action/outcome, with event.derived_by marking source-vs-Sentinel authorship. Stage-1's severity/level_original axes (D-007) remain separate and are NOT conflated with these levels.",
+            "evidence": [
+              "C-SCHEMA",
+              "A-SYSMON-DOC-DL",
+              "B-LOC-HARVEST",
+              "A6-SIGMAHQ-INV"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-003",
+            "title": "Timestamp policy — never guess a timezone",
+            "decision": "time.timezone_source is one of source_explicit | source_documented_utc | run_configuration | none. Sysmon UtcTime and Zeek ts are documented UTC (source_documented_utc); EVTX TimeCreated SystemTime is UTC by format (source_explicit); netstat/schtask exports carry no timestamp (timezone_source: none, utc: null, state: unknown). A run-config override yields state: inferred. Precision is recorded per event (millisecond for EVTX/Zeek-epoch-float, etc.).",
+            "evidence": [
+              "A-SYSMON-DOC-DL",
+              "B-LOC-HARVEST",
+              "A5-ZEEK-DOC"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-004",
+            "title": "Provenance — event.derived_by plus optional $source_ref / sources[]",
+            "decision": "event.derived_by (source|sentinel) classifies the whole classification decision; field-level inference uses {$state: inferred}; cross-artifact lineage (Zeek notice enriched from conn) uses sources[]. Sentinel classifications are never presented as source claims.",
+            "evidence": [
+              "C-SCHEMA",
+              "A-SWIFT-CFG"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-005",
+            "title": "Process identity hierarchy — GUID primary, documented PID-reuse failure mode",
+            "decision": "Primary identity = (host, process.guid) where Sysmon supplies ProcessGuid. Fallback = (host, pid, exe, start_time) marked inferred. PID-only linkage (Security 4688 has no ProcessGuid; netstat PID column) is documented as carrying a PID-reuse failure mode and must not be used by detectors for high-assurance parent/child chains.",
+            "evidence": [
+              "A-SYSMON-DOC-EV",
+              "A-SWIFT-CFG",
+              "A-SEC-4688",
+              "B-NETSTAT-DOC"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-006",
+            "title": "Sysmon field names evidenced by config-schema (SwiftOnSecurity + sysmon-modular), MS docs summary-level only",
+            "decision": "Microsoft's Sysmon pages document event names, tags and UTC semantics but list no per-field inventories. Exact EventData element names come from the published config-schema field names in SwiftOnSecurity's sysmon-config @1836897f (VERIFIED, community) and the olafhartong/sysmon-modular @082cba578667 corpus (VERIFIED, community). `sysmon -s` output (the documented full schema) was not runnable on this host (Sysmon not installed) — listed in NOT_VERIFIED.",
+            "evidence": [
+              "A-SYSMON-DOC-DL",
+              "A-SYSMON-DOC-EV",
+              "A-SWIFT-CFG",
+              "A-SYSMON-MODULAR",
+              "B-LOC-HARVEST"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-007",
+            "title": "Security-channel event pages are archived Microsoft Learn previous-versions pages; field names transcribed from Event XML blocks",
+            "decision": "Current-pattern URLs (learn.microsoft.com/.../event-<id>) redirect to archived previous-versions pages (source repo MicrosoftDocs/officearchive-pr). Field names are the <Data Name=\"...\"> element names inside each page's Event XML block. Each redirected URL is recorded in the Verification Log. 4728/4756 have no dedicated page (404) — field equivalence to 4732 documented as INFERRED (A-SEC-GRPMGMT).",
+            "evidence": [
+              "A2-SEC-PAGES",
+              "A3-SEC-PAGES",
+              "A-SEC-GRPMGMT"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-008",
+            "title": "Defender 1116/1117 typed as third_party_alert with full 42-element capture; unmapped list documented",
+            "decision": "Defender detection/action events become category third_party_alert (vendor=Microsoft, product=Defender Antivirus), rule_id=Threat ID, rule_name=Threat Name, severity_raw=Severity Name, observable=Path, mitigation=Action Name. All 42 EventData element names (incl. space-bearing names and Unused* placeholders) are mapped or listed as unmapped. 5007 -> config_check; 5001 -> config_check (RTP disabled).",
+            "derived_by": "sentinel (Defender's taxonomy is not Sentinel's).",
+            "evidence": [
+              "B-LOC-HARVEST",
+              "B-DEFENDER-DOC"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-009",
+            "title": "RDP LSM 21-25/39 classified as authentication with Sentinel-authored event.type names",
+            "decision": "LSM events (User/SessionID/Address elements, VERIFIED-LOCAL) are typed rdp_logon/rdp_logoff/rdp_shadow_notify/rdp_disconnect with",
+            "derived_by": "sentinel. SessionID mapped to authentication.logon_id is",
+            "evidence": [
+              "B-LOC-HARVEST",
+              "B-LSM-DOC",
+              "C-DFIR-LSM"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-010",
+            "title": "Snapshot exports (netstat/schtasks/sc/reg/autoruns/sigcheck) emit derived_by: sentinel snapshot events",
+            "decision": "These sources describe configuration or point-in-time state, not events. Each row/record becomes one canonical event with",
+            "derived_by": "sentinel, event.type *_snapshot or config-oriented names,",
+            "evidence": [
+              "B-NETSTAT-DOC",
+              "B-SCHTASKS-DOC",
+              "B-SC-DOC",
+              "B-REG-DOC",
+              "B-EXPORTCSV-DOC",
+              "B-AUTORUNS-UNVERIFIED"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-011",
+            "title": "WMI 5860 element Processid casing preserved exactly (lowercase d)",
+            "decision": "Local harvest shows 5860 uses <Processid> (lowercase d) while 5858 uses <ClientProcessId> (uppercase P). Parsers must match element names case-sensitively. Both map to canonical wmi.client_process_id / wmi.process.pid per SEC-B table; the casing divergence is called out as a parser trap in the Sigma pipeline config too.",
+            "evidence": [
+              "B-LOC-HARVEST"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-012",
+            "title": "Lossless raw + unmapped[]; schema objects are additionalProperties:false",
+            "decision": "Every canonical event carries raw (verbatim source record) and may carry unmapped[] (named source fields with no canonical home). Typed payload objects reject unknown keys (additionalProperties: false) so schema drift is caught at parse time rather than silently ignored. $-prefixed keys are reserved for the state machinery.",
+            "evidence": [
+              "C-SCHEMA"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-013",
+            "title": "host/user required but may be empty objects",
+            "decision": "host and user are always present (never omitted) so detectors can rely on the keys' existence; they may be {} when the source carries no host or user attributes (e.g. some netstat/CSV snapshots).",
+            "evidence": [
+              "C-SCHEMA",
+              "B-NETSTAT-DOC"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-014",
+            "title": "Sigma field-mapping pipelines are configuration data, not code",
+            "decision": "§3 declares per-logsource Sigma field-name -> canonical-path mappings plus declarative value transforms as YAML. This keeps the parser/detector separation intact (detectors consume only canonical events; Sigma rules are translated through this config layer) and avoids a pySigma runtime dependency on the detector path. Corpus pin: SigmaHQ/sigma-rules @8a4813404e. Pipeline shape mirrors pySigma structure for future adaptability (pySigma-pipeline-windows @5d7170663e, pySigma-pipeline-sysmon @965d57c232 both LGPL-2.1-only — licence compatible per Stage-1 licence register).",
+            "evidence": [
+              "A6-SIGMAHQ-INV",
+              "A6-PIPE-WINDOWS",
+              "A6-PIPE-SYSMON",
+              "STAGE1-D004",
+              "STAGE1-D008"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-015",
+            "title": "Security-event %%-code direction mapping left UNVERIFIED; parsers emit unknown",
+            "decision": "5156 Direction %%14592-style codes are documented as message-table strings, but the numeric -> inbound/outbound mapping was not corroborated by an allowed primary source in this stage. Parsers emit $state: unknown for network.direction from 5156 until corroborated (OPEN_QUESTIONS Q2-007).",
+            "evidence": [
+              "A-SEC-5156"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-016",
+            "title": "LSM SessionID -> authentication.logon_id is INFERRED; schema v1 has no dedicated session field",
+            "decision": "RDP SessionID is a session identifier, not a logon LUID; mapping it to authentication.logon_id is an INFERRED equivalence flagged in SEC-B and OPEN_QUESTIONS Q2-009. Detectors needing strict logon-LUID semantics must not treat LSM SessionID as equivalent.",
+            "evidence": [
+              "B-LOC-HARVEST",
+              "B-LSM-DOC"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-017",
+            "title": "Sysmon EID 255 (error) carries no verified EventData field names; minimal envelope-only example",
+            "decision": "No allowed source listed EID 255 EventData elements. EX-SYSMON-255 is envelope-only (time/host/user/source/raw, empty-ish payload) and is labelled UNVERIFIED. Parsers must not invent EID 255 fields.",
+            "evidence": [
+              "A-SYSMON-DOC-EV",
+              "A-SWIFT-CFG"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-018",
+            "title": "documents/archive_member categories reserved; no harvested source maps to them in Stage 2",
+            "decision": "schema v1 defines document and archive_member payloads for future offline-analysis sources (office metadata, archive listings). No current source maps to them; examples section documents this as a deliberate coverage gap (categories exist, examples do not).",
+            "evidence": [
+              "C-SCHEMA",
+              "C-COVERAGE"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-019",
+            "title": "Zeek column binding is header-driven (#fields), never positional",
+            "decision": "Zeek TSV logs declare their column set in a #fields header line that varies by policy. Parsers MUST bind by header name. ts is an epoch float (documented UTC); converted to time.utc with precision microsecond and timezone_source: source_documented_utc.",
+            "evidence": [
+              "A5-ZEEK-DOC",
+              "A5-ZEEK-SRC"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-020",
+            "title": "Classic PowerShell 400/403/600 unnamed <Data> elements documented as positional + Key=Value detail blob",
+            "decision": "Classic PowerShell events render three UNNAMED <Data></Data> elements (engine state, previous state, detail blob). The blob's Key=Value lines (NewEngineState, HostApplication, ...) are parsed into powershell.* fields per SEC-B; SequenceNumber has no schema home (Q2-013). Empty CommandLine inside the blob -> $state: \"null\".",
+            "evidence": [
+              "B-LOC-HARVEST",
+              "B-PS-MANIFEST"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-021",
+            "title": "Sysmon 7036-style unnamed System-event Data elements (param1/param2) and Binary UTF-16 carrier documented",
+            "decision": "System 7036 uses unnamed <Data></Data> positional elements plus a Binary hex field whose bytes decode (UTF-16LE) to the service name — both carriers documented in SEC-B; parsers may use either, preferring the named/decoded carrier when present, and must record which carrier was used in unmapped[] provenance if both disagree.",
+            "evidence": [
+              "B-LOC-HARVEST",
+              "B-SYS-ARCHIVE"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-022",
+            "title": "AppLocker 8003/8004/8006/8007 element names UNVERIFIED (templates only, no local samples)",
+            "decision": "Message templates verified from Microsoft docs; EventData element names could not be corroborated (channel enabled but no AppLocker events on this host). EX-WIN-AL* examples use template parameters, labelled UNVERIFIED. Parsers treat these fields as optional, never required.",
+            "evidence": [
+              "B-LOC-HARVEST",
+              "B-APPLOCKER-DOC"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-023",
+            "title": "TaskScheduler Operational events UNVERIFIED element names (channel disabled locally)",
+            "decision": "106/140/141/200/201 templates verified from Microsoft docs; element names UNVERIFIED (channel exists but recorded zero events on this host). Parser strategy: render message text, parse Task Name/Path as INFERRED key-values, keep payload minimal.",
+            "evidence": [
+              "B-LOC-HARVEST",
+              "B-TASKSCHED-DOC"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D2-024",
+            "title": "schema_version const canonical-event/v1; semver-style evolution promised by filename, not schema",
+            "decision": "The literal string \"canonical-event/v1\" is the version gate. Breaking changes ship as canonical_event_v2.schema.json; additive changes bump a doc-level revision note. Detectors pin to a schema_version string.",
+            "evidence": [
+              "C-SCHEMA",
+              "STAGE1-D001"
+            ],
+            "status": "accepted"
+          }
+        ],
+        "parser": "tolerant",
+        "safe_load_error": "mapping values are not allowed here\n  in \"<unicode string>\", line 115, column 88:\n     ... toruns/sigcheck) emit derived_by: sentinel snapshot events\n                                         ^"
+      },
+      "decisions_count": 24,
+      "open_questions_heading_line": 12860,
+      "open_questions_format": "yaml",
+      "open_questions": {
+        "yaml_key": "open_questions",
+        "items": [
+          {
+            "id": "Q2-001",
+            "title": "Sysmon Hashes KEY=value,KEY=value rendering format not source-confirmed",
+            "detail": "SEC-A flagged the exact Sysmon Hashes string format (comma-separated KEY=value pairs, key names SHA256/MD5/IMPHASH/...) as UNVERIFIED — observed in config-schema and community docs but not in a Microsoft per-field specification. Parsers must tolerate alternative separators and unknown keys (route to hashes.other).",
+            "blocking": "parser implementation for Sysmon hash splitting",
+            "candidate_resolution": "run `sysmon -s` on an elevated Windows host with Sysmon installed and capture the canonical schema string."
+          },
+          {
+            "id": "Q2-002",
+            "title": "ElevatedToken true/false vs %16384-style renderings",
+            "detail": "Local observation shows `%%1842`-style message-table strings; the boolean renderings (true/false) seen in community docs are not source-confirmed. Parsers must accept both plus the %% form and emit $state: unknown when the rendering is unrecognized.",
+            "blocking": "nothing (tolerant parser suffices)",
+            "candidate_resolution": "capture 4624/4672 events with both renderings on an elevated host."
+          },
+          {
+            "id": "Q2-003",
+            "title": "Literal EventType strings for Sysmon registry (createKey/setValue/...) and pipe (CreatePipe/ConnectPipe)",
+            "detail": "Registry EID 12/13/14 EventType literal strings and pipe EID 17/18 operation strings are UNVERIFIED against Microsoft docs; observed in community configs. Mapping to the registry.operation / pipe.operation enums is INFERRED.",
+            "blocking": "nothing (enum mapping table is tolerant)",
+            "candidate_resolution": "capture real EID 12/13/14/17/18 events on a Sysmon host."
+          },
+          {
+            "id": "Q2-004",
+            "title": "Sysmon EID 255 EventData field names unknown",
+            "detail": "No allowed source listed EID 255 (Sysmon error) EventData elements. EX-SYSMON-255 is envelope-only (D2-017). Parsers must not invent fields.",
+            "blocking": "nothing (error events carry no useful payload for detectors)",
+            "candidate_resolution": "sysmon -s` full schema capture."
+          },
+          {
+            "id": "Q2-005",
+            "title": "Security 4688 has no ProcessGuid — PID-reuse risk for parent/child chains",
+            "detail": "Sysmon EID 1 supplies ProcessGuid; Security 4688 supplies only ProcessId/ParentProcessId. Cross-source correlation (4688 + Sysmon) must not silently merge on PID alone (D2-005).",
+            "blocking": "detector rules that join 4688 to Sysmon process events",
+            "candidate_resolution": "use Sysmon EID 1 as the primary process source; treat 4688 as lower-fidelity supplementary."
+          },
+          {
+            "id": "Q2-006",
+            "title": "Nmap service/OS fields (product, version, osmatch) have no schema home",
+            "detail": "Nmap XML service product/version/name and osmatch name/accuracy are captured in unmapped[] (SEC-B Nmap table). A future schema revision may add network.service / host.os.match fields.",
+            "blocking": "nothing (unmapped captures losslessly)",
+            "candidate_resolution": "Stage-3 backlog if Nmap-based detection needs them."
+          },
+          {
+            "id": "Q2-007",
+            "title": "5156 Direction %%-code numeric -> inbound/outbound mapping UNVERIFIED",
+            "detail": "",
+            "D2-015": "%%14592-style direction codes are message-table strings; the",
+            "blocking": "WFP-based direction-sensitive detectors",
+            "candidate_resolution": "capture 5156 events with known-direction traffic and correlate, or find the message-table source."
+          },
+          {
+            "id": "Q2-008",
+            "title": "LSM RCM 1149 EventData element names UNVERIFIED",
+            "detail": "RemoteConnectionManager channel exists but recorded zero 1149 events on this host; element names (user/domain/IP) come from message templates only. EX-WIN-RCM1149 labelled UNVERIFIED.",
+            "blocking": "nothing (parser treats fields as optional)",
+            "candidate_resolution": "trigger an RDP logon and capture 1149."
+          },
+          {
+            "id": "Q2-009",
+            "title": "LSM SessionID -> authentication.logon_id equivalence is INFERRED",
+            "detail": "",
+            "D2-016": "RDP SessionID is a session id, not a logon LUID; schema v1 has",
+            "blocking": "logon-session-correlation detectors across LSM + Security",
+            "candidate_resolution": "Stage-3 schema revision may add authentication.session_id."
+          },
+          {
+            "id": "Q2-010",
+            "title": "Autoruns/sigcheck/schtasks CSV headers UNVERIFIED against vendor docs",
+            "detail": "Sysinternals pages do not publish CSV column sets; parsers bind by header row at runtime (D2-010). Column-name drift across versions is possible.",
+            "binding": "none for schema (header-driven), but example values are illustrative",
+            "candidate_resolution": "capture real autorunsc -c / sigcheck -c output on this host (tools not installed in Stage 2)."
+          },
+          {
+            "id": "Q2-011",
+            "title": "sc query / sc qc field lists partially UNVERIFIED (sc qc page 404)",
+            "detail": "",
+            "SEC-B": "sc query fields verified; sc qc field list came back 404.",
+            "binding": "nothing (snapshot source, tolerant parser)",
+            "candidate_resolution": "run sc qc on this host and capture real output."
+          },
+          {
+            "id": "Q2-012",
+            "title": "WMI 5859/5861 and TaskScheduler element names UNVERIFIED (no local samples)",
+            "detail": "D2-022/D2-023: message templates verified; EventData elements not corroborated. Examples use template parameters, labelled UNVERIFIED.",
+            "binding": "nothing (optional fields)",
+            "candidate_resolution": "enable the channels and exercise WMI filter/consumer creation + Task Scheduler actions."
+          },
+          {
+            "id": "Q2-013",
+            "title": "Classic PowerShell SequenceNumber has no schema home",
+            "detail": "The classic-PS detail blob includes SequenceNumber (and some blobs include PipelineId already mapped); SequenceNumber is captured in unmapped[]. Low detector value.",
+            "binding": "nothing",
+            "candidate_resolution": "leave in unmapped[] unless a detector needs it."
+          },
+          {
+            "id": "Q2-014",
+            "title": "Sysmon EID 15/16/19/20/21/23/24/26/27/28/29 sub-fields partially unmapped",
+            "detail": "SEC-A lists several Sysmon sub-fields with no schema home (NewThreadId, clipboard payload, PreviousCreationUtcTime, ConfigurationFileHash, remote-host SourceHostname, etc.). All are captured in unmapped[].",
+            "binding": "nothing for current detectors",
+            "candidate_resolution": "Stage-3 schema backlog if rules need them."
+          },
+          {
+            "id": "Q2-015",
+            "title": "Zeek notice/files record fields beyond the mapped core have no schema home",
+            "detail": "Zeek notice (note/script) and files (fuid/tx_hosts) carry fields with no canonical home; captured in unmapped[]. files.mime_type maps to file.type (INFERRED — file.type is the level-2 semantic type slot).",
+            "binding": "nothing",
+            "candidate_resolution": "Stage-3 if notice-driven detection needs first-class fields."
+          },
+          {
+            "id": "Q2-016",
+            "title": "Sysmon EID 9 (raw-access) and EID 16 (config-change) category choices are INFERRED",
+            "detail": "EID 9 maps to file (raw device access) per SEC-A; EID 16 maps to config_check. Both are Sentinel-authored category assignments (derived_by: sentinel) — the sources themselves do not publish a category taxonomy.",
+            "binding": "nothing",
+            "candidate_resolution": "revisit if detectors find the mapping unnatural."
+          }
+        ],
+        "parser": "tolerant",
+        "safe_load_error": "while scanning for the next token\nfound character '`' that cannot start any token\n  in \"<unicode string>\", line 40, column 27:\n        candidate_resolution: `sysmon -s` full schema capture.\n          "
+      },
+      "open_questions_count": 16,
+      "not_verified_heading_line": 13015,
+      "not_verified": {
+        "yaml_key": null,
+        "items": [
+          {
+            "row": 1
+          },
+          {
+            "row": 2
+          },
+          {
+            "row": 3
+          },
+          {
+            "row": 4
+          },
+          {
+            "row": 5
+          },
+          {
+            "row": 6
+          },
+          {
+            "row": 7
+          },
+          {
+            "row": 8
+          },
+          {
+            "row": 9
+          },
+          {
+            "row": 10
+          },
+          {
+            "row": 11
+          },
+          {
+            "row": 12
+          },
+          {
+            "row": 13
+          },
+          {
+            "row": 14
+          },
+          {
+            "row": 15
+          },
+          {
+            "row": 16
+          },
+          {
+            "row": 17
+          },
+          {
+            "row": 18
+          },
+          {
+            "row": 19
+          },
+          {
+            "row": 20
+          },
+          {
+            "row": 21
+          },
+          {
+            "row": 22
+          },
+          {
+            "row": 23
+          }
+        ],
+        "parser": "markdown_table"
+      },
+      "not_verified_count": 23,
+      "not_verified_format": "markdown_table"
+    },
+    "stage-3": {
+      "file": "stage-3-ingestion-and-artifact-triage.md",
+      "lines": 3937,
+      "decisions_heading_line": 3221,
+      "decisions_format": "yaml",
+      "decisions": {
+        "yaml_key": "decisions",
+        "items": [
+          {
+            "id": "D3-001",
+            "title": "EVTX parser is the Rust `evtx` binding, with pure-Python python-evtx as fallback; libevtx excluded on licence",
+            "decision": "Primary: PyPI `evtx` 0.13.1 (MIT) wrapping omerbenamram/evtx (Apache-2.0 / MIT OR Apache-2.0 dual, active 2026-10-07, no OSV advisories). Fallback when the native wheel cannot be installed: williballenthin/python-evtx 0.8.1 (Apache-2.0, active, Production/Stable). libyal/libevtx is excluded: LGPL-3.0-or-later is copyleft and Stage-1 D-008 excludes GPL/AGPL-class code from the linked build; no PyPI distribution exists for its bindings either, so it would also require an external-process arrangement with no compensating benefit.",
+            "evidence": [
+              "TL-EVTX-RUST",
+              "TL-PYEVTX",
+              "TL-LIBEVTX",
+              "PRIOR-STAGE1"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-002",
+            "title": "TShark is external-process only, pinned >= 4.6.9, and may use only flags documented in that man page",
+            "decision": "TShark runs as a subprocess under the ExternalProcessRunner (D3-024) with a job object, timeout, restricted token and no network. It is pinned at >= 4.6.9 because that release fixed 19 advisories including CVE-2026-96419 and CVE-2026-5402, both described as possible code execution against attacker-controlled input — a pin, not a preference. Only -T ek, -T fields, -T json, -Y, -l, -e and -E are used, all documented in the TShark 4.6.9 man page; -n (no name resolution) is mandatory so a capture cannot trigger DNS egress (§9.4).",
+            "evidence": [
+              "TL-TSHARK",
+              "PRIOR-STAGE1"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-003",
+            "title": "pandas/polars are not on the ingest path; polars' 2.0.0 distribution change is recorded",
+            "decision": "No bulk tabular library is needed while every supported source has a real schema and streams through ijson or stdlib csv. If Stage 4 adds bulk analytics, pandas 3.x (win_amd64 wheel confirmed present) is the default. polars 2.0.0 publishes only a pure-python meta-wheel plus sdist under the `polars` distribution with no platform-native wheel, so the usual assumption that the native engine ships in that package no longer holds and must be re-checked before adoption.",
+            "evidence": [
+              "TL-PANDAS",
+              "TL-POLARS"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-004",
+            "title": "Drain3 excluded from Stage 3 on maintenance grounds",
+            "decision": "MIT-licensed and algorithmically sound, but ~8 months without a commit as of retrieval, and unnecessary while every supported source is structured. Revisit only if a free-text source is added. The maintenance flag is on the record so the decision is not re-litigated from memory.",
+            "evidence": [
+              "TL-DRAIN3"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-005",
+            "title": "Three-signal identification; magic is authoritative for container, Magika for semantic type, extension is never authoritative",
+            "decision": "S1 libmagic (via python-magic, puremagic fallback), S2 Magika, S3 filename/content-type/agent hints. S3 never overrides S1 or S2 and is consulted only when both are absent. Disagreements are recorded in the identification record rather than silently resolved, because extension spoofing and polyglots are ordinary in malware and a system that collapses its signals cannot express its own uncertainty.",
+            "evidence": [
+              "ID-LIBMAGIC",
+              "ID-PYMAGIC",
+              "ID-PYMAGIC-WIN",
+              "ID-PUREMAGIC",
+              "ID-MAGIKA",
+              "ID-FILETYPE"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-006",
+            "title": "Deterministic selection rule; a magic-vs-Magika disagreement routes to BOTH parsers, not to one",
+            "decision": "§2.3's rule is total and deterministic. When magic and Magika disagree, magic's family is selected with confidence=low, disagreement.present is set, and — because that disagreement is also the polyglot signal — the triage stage runs both family parsers under the §10 budgets instead of choosing. Extension disagreement is recorded but never reroutes.",
+            "evidence": [
+              "ID-MAGIKA",
+              "ID-LIBMAGIC"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-007",
+            "title": "The gate does no content parsing; filenames never cause rejection; storage is content-addressed",
+            "decision": "The gate authenticates, bounds, sanitises names, hashes and persists. Identification, parsing, scanning and extraction are triage concerns. The client filename is adversarial evidence: it is preserved verbatim as original_filename, sanitised for display, and never used to build a path and never a reject reason (a weird name is signal, not error). Storage is keyed by sha256 only, so a name-collision attack has no target.",
+            "evidence": [
+              "UP-FASTAPI",
+              "UP-UVICORN",
+              "UP-MSNAME"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-008",
+            "title": "Windows filename sanitiser is normative and includes reserved device names and their superscript forms",
+            "decision": "§1.4's seven-step sanitiser is normative: strip control bytes, replace the invalid character set, strip trailing spaces/periods, prefix reserved device stems (CON/PRN/AUX/NUL/COM1-9/LPT1-9 and the ISO-8859-1 superscript variants) with an underscore, truncate display names without splitting a code point, fall back to a hash prefix on empty, and case-fold for comparison only. Long paths are avoided structurally by short content-addressed segments rather than by the \\\\?\\ prefix.",
+            "evidence": [
+              "UP-MSNAME"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-009",
+            "title": "The server never reads NTFS alternate data streams; agents lift Zone.Identifier into structured upload fields",
+            "decision": "A colon in a client filename is replaced before anything sees the string, and the server never opens an ADS. When an artifact is collected from an endpoint, the agent copies the :Zone.Identifier stream into motw_zone_id / motw_referrer_url before upload, because the server cannot see an endpoint's streams. [MS-FSCC] is the normative reference for the stream name and the \"[ZoneTransfer] / ZoneId=\" payload.",
+            "evidence": [
+              "UP-MSADS",
+              "DOC-MOTW"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-010",
+            "title": "Apache Tika excluded from the default build",
+            "decision": "Apache-2.0 and functionally attractive, but its own security page states that neither tika-server nor tika-grpc is a security boundary, that only trusted callers may reach them, and that in-process AutoDetectParser denial of service is \"not a security vulnerability\". Adopting it means owning a JVM isolation story that this stage has not designed. Deferred to Q3-008.",
+            "evidence": [
+              "DOC-TIKA",
+              "PRIOR-STAGE1"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-011",
+            "title": "PyMuPDF and pypdfium2 excluded on two independent grounds; Poppler available only as an optional external text extractor",
+            "decision": "PyMuPDF is AGPL-3.0 (Stage-1 D-008 excludes AGPL) and its headline capability is rendering (§9.1 excludes rendering). pypdfium2 renders and is multi-licensed. Both are excluded twice over. Poppler's pdftotext is GPL-2.0-only and parse-only, so it is licence-safe as an external process and behaviourally safe for text extraction, but is not in the default build; pikepdf/qpdf + pypdf + pdfminer.six cover the default path.",
+            "evidence": [
+              "DOC-PYMUPDF",
+              "DOC-PDFIUM2",
+              "DOC-POPPLER",
+              "DOC-PIKEPDF",
+              "DOC-QPDF",
+              "DOC-PYPDF",
+              "DOC-PDFMINER"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-012",
+            "title": "ZIP safety is Sentinel's own responsibility; TAR delegates to the standard library's data filter and then adds stricter checks",
+            "decision": "The zipfile documentation itself names decompression bombs as a hazard and provides no limit, so §10's counters are the only defence on the ZIP path and carry the fixture load in category B. tarfile has PEP 706 extraction filters (default `data` since 3.14) whose own documentation warns they do not prevent *all* unsafe behaviour, so Sentinel passes data_filter and applies §10.2's stricter path rules on top.",
+            "evidence": [
+              "ARC-ZIPFILE",
+              "ARC-TARFILE"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-013",
+            "title": "libarchive-c chosen for 7z/ISO/CAB/CPIO; py7zr excluded by default on LGPL-2.1",
+            "decision": "libarchive-c is CC0-1.0 over a BSD-3-Clause libarchive — both compatible with Stage-1 D-008 — and covers the non-ZIP container set in one binding. py7zr is active and well-maintained but LGPL-2.1-or-later, which D-008 excludes from the linked build; it may be enabled only after a written licence review (Q3-007). Whichever 7z library ships must be pinned: the py7zr 1.1.3 release note is literally \"Fix multiple vulnerabilities\".",
+            "evidence": [
+              "ARC-LIBARCHIVE",
+              "ARC-PY7ZR",
+              "PRIOR-STAGE1"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-014",
+            "title": "RAR is listed with rarfile (ISC) but extraction requires an operator-installed external tool; unrar is never vendored",
+            "decision": "rarfile's README states that decompression executes an external tool (unrar/unar/7zip/bsdtar). Sentinel therefore reads headers and emits archive_member facts without any external tool, and extracts only if the operator has installed one; when absent, members are listed but not extracted and the run is COMPLETED_WITH_WARNINGS with a dependency_missing entry. The unrar licence is restrictive and its binaries are not redistributed (Q3-010).",
+            "evidence": [
+              "ARC-RARFILE",
+              "ARC-7ZIP"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-015",
+            "title": "unblob and binwalk are external-process optional and off by default",
+            "decision": "Both are MIT and active. unblob extracts recursively over 30+ formats and binwalk carves embedded files — exactly the behaviour §10 bounds — so both are admitted only as operator-enabled enrichment inside the quarantined worker with §10's budgets applied by the runner, and only on leaf artifacts no family parser claimed.",
+            "evidence": [
+              "ARC-UNBLOB",
+              "ARC-BINWALK"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-016",
+            "title": "YARA-X is the scanning engine; YARA 4.5.8 is not",
+            "decision": "YARA 4.5.8 (BSD-3-Clause) is in maintenance mode per its own README. YARA-X (BSD-3-Clause — not Apache-2.0 as commonly assumed) reached production stability in June 2025 and is used in VirusTotal production scanning billions of files. YARA-X is chosen; the rules corpus is kept 4.x-compatible and compatibility is verified in Stage 4 rather than assumed.",
+            "evidence": [
+              "ARC-YARA",
+              "ARC-YARAX"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-017",
+            "title": "ClamAV is external-process optional; its signature database is staged out-of-band",
+            "decision": "GPL-2.0, so it may not be linked; as an external process the licence is satisfied. It is not in the default build because its value overlaps YARA-X and because signature updates require network egress, which §9.4 forbids inside the triage worker — the database must be staged out-of-band and mounted read-only.",
+            "evidence": [
+              "ARC-CLAMAV",
+              "PRIOR-STAGE1"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-018",
+            "title": "ssdeep excluded; TLSH chosen for fuzzy hashing",
+            "decision": "The ssdeep Python bindings are LGPL-3.0-or-later *and* have had no commit since 2021-12 — two independent disqualifiers. py-tlsh 5.0.0 is dual-licensed Apache-2.0 OR BSD-2-Clause and actively maintained; the current PyPI name is py-tlsh, not python-tlsh.",
+            "evidence": [
+              "ARC-SSDEEP",
+              "ARC-TLSH"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-019",
+            "title": "Image metadata comes from exifread + Pillow; hachoir excluded; ExifTool is external-process optional only",
+            "decision": "exifread (BSD-3-Clause) and Pillow (MIT-CMU) cover JPEG/TIFF EXIF and format/dimension metadata in-process. Pillow's documented MAX_IMAGE_PIXELS (89,478,485) and DecompressionBombError are relied upon and additionally capped to a stricter Sentinel value. hachoir is GPL-2.0 and excluded. ExifTool is dual Artistic-1.0 OR GPL with no LICENSE file on GitHub (the README is the only licence statement); as a separate Perl process the licence is satisfied, so it stays available as operator-enabled enrichment for non-image formats (Q3-013).",
+            "evidence": [
+              "ARC-EXIFREAD",
+              "ARC-PILLOW",
+              "ARC-HACHOIR",
+              "ARC-EXIFTOOL"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-020",
+            "title": "capa, FLOSS and Detect-It-Easy are optional capability layers, off by default; PyPI squatters are named explicitly",
+            "decision": "capa (Apache-2.0, v9.4.0) and FLOSS (Apache-2.0) are licence-compatible in-process optionals; both are static and capa's README is explicit that it handles obfuscation poorly. DIE (MIT — not GPL) is external-process optional because it is a Qt application. Warning recorded for deployment: the PyPI distributions named `capa` (0.1) and `floss` (0.1.0) are unrelated squatters; only the GitHub projects are the real tools, and they are not installed from PyPI.",
+            "evidence": [
+              "ARC-CAPA",
+              "ARC-FLOSS",
+              "ARC-DIE"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-021",
+            "title": "oletools static analysis allowed; XLMMacroDeobfuscator excluded from the default build",
+            "decision": "olevba/oleid/oleobj read and classify bytes and are admitted. The XLM emulator interprets macro semantics (\"without fully performing the code\" per its README) which crosses §9.2's boundary, so it is excluded from the default build and may be enabled only under §9.8's containment with a recorded policy exception.",
+            "evidence": [
+              "DOC-OLETOOLS",
+              "DOC-XLM"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-022",
+            "title": "The static-only prohibition list of §9 is normative and binding on every component, including external processes",
+            "decision": "No rendering, no macro execution, no document interpreters, no network egress, no loading artifact bytes into Sentinel's process, no reference dereferencing, no destructive operations. §9.8 defines the single, expensive, review-gated escape route for a future exception. The list is a design constraint, not a configuration surface.",
+            "evidence": [
+              "DOC-PYMUPDF",
+              "DOC-PDFIUM2",
+              "DOC-TIKA",
+              "ARC-EXIFTOOL",
+              "PRIOR-STAGE1"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-023",
+            "title": "Parser interface is Protocol-based with a shared error taxonomy; per-record exceptions are forbidden; COMPLETED_WITH_WARNINGS is mandatory",
+            "decision": "TelemetryParser and ContentExtractor are typing.Protocols so third-party and external-process adapters need not inherit. A malformed record is caught, counted and recorded with a locator; exceptions escape only for parser bugs. The eight-kind taxonomy (unsupported_format, truncated_input, corrupt_record, encoding, resource_limit, dependency_missing, source_contract, internal) is normative, and a harvest that lost 3 of 400,000 records returns COMPLETED_WITH_WARNINGS rather than lying with COMPLETED or discarding the good records.",
+            "evidence": [
+              "PRIOR-STAGE2"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-024",
+            "title": "All subprocess spawning belongs to an ExternalProcessRunner, never to a parser object",
+            "decision": "Parsers remain side-effect-free (no temp files, no processes, no path opens beyond the stream they are handed). The pipeline component that owns spawning also owns the job object, timeout, restricted token, no-network property, stderr capture, exit-status check and scratch cleanup. This keeps §3.2's no-side-effects rule true even for TShark, ClamAV and ExifTool.",
+            "evidence": [
+              "TL-TSHARK",
+              "ARC-CLAMAV",
+              "ARC-EXIFTOOL"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-025",
+            "title": "orjson is not used to parse untrusted JSON; ijson is",
+            "decision": "orjson carries two recursion-depth advisories (CVE-2024-27454, CVE-2025-67221) and Suricata EVE JSON is attacker-influenceable through sensor configuration. Ingest parsing uses ijson (BSD-3-Clause AND ISC, no advisories), which also streams. orjson remains permitted for *serialising Sentinel-produced data* with a documented depth cap; that is a different trust boundary (Q3-011).",
+            "evidence": [
+              "TL-ORJSON",
+              "TL-IJSON",
+              "TL-SURICATA"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-026",
+            "title": "defusedxml is mandatory on every XML path",
+            "decision": "Nmap XML, OOXML parts, SVG, HTML-ish containers and any other XML Sentinel opens go through defusedxml (PSFL). The openpyxl documentation itself recommends it against billion-laughs attacks. The library's last release is 2021-03 — recorded as frozen-but-safe in §0, not abandoned.",
+            "evidence": [
+              "TL-DEFUSEDXML",
+              "DOC-OPENPYXL",
+              "FX-CATALOGUE"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-027",
+            "title": "Artifact analysis is a graph, not a file; `references` edges are terminal",
+            "decision": "Nodes are materialised (bytes + sha256) or structural (a position inside a parent). Edges are contains/extracted_from/references/derived_from/ signed_by/motw_on/same_bytes_as. references edges are recorded and detected upon but never followed — the structural expression of §9.6. Traversal is bounded by the §6.3 limits and by sha256-based cycle/shared-subtree termination.",
+            "evidence": [
+              "PRIOR-STAGE2"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-028",
+            "title": "Encrypted content is never analysed without an operator-supplied password list, and the result is reported as a fact, never as a pass",
+            "decision": "Detection is structural only; no guessing. Decryption runs only when a workspace password list exists, the scheme is supported and the attempt is inside budget (3 attempts, 5 s each — PROPOSED - TO BENCHMARK). Passwords are never logged, never returned and never written into facts. Decrypted bytes go to quarantine, are re-identified and triaged as a child node. The terminal state is encrypted_content_not_analyzed, never clean.",
+            "evidence": [
+              "DOC-MSOFFCRYPTO",
+              "DOC-QPDF",
+              "ARC-ZIPFILE",
+              "ARC-RARFILE"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-029",
+            "title": "Triage never emits a verdict; the words clean/safe/benign/malicious are banned from the triage vocabulary by name",
+            "decision": "The only outputs are facts, flags, analysis_status and (via §12.4 rules) artifact_finding events whose `finding` is a rule id, not an adjective. The eleven-value analysis_status enum is normative, with partial as a first-class state rather than a hidden one. A patch introducing a banned word is rejected on sight.",
+            "evidence": [
+              "PRIOR-STAGE2"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-030",
+            "title": "Archive extraction follows the normative algorithm of §10 (lexical sanitisation, realpath ancestry containment, O_EXCL|O_NOFOLLOW, never creating links)",
+            "decision": "Member paths are sanitised lexically before any filesystem call, the target's real ancestry is asserted to be inside the quarantine root, the file is opened O_CREAT|O_EXCL|O_NOFOLLOW with mode 0o600, the copy is counted as it streams against both a declared size and a hard cap, and symlinks/hardlinks/device nodes are recorded as facts but never created. This is deliberately stricter than tarfile's own data_filter, which does allow in-destination links.",
+            "evidence": [
+              "ARC-TARFILE",
+              "ARC-ZIPFILE",
+              "UP-MSNAME",
+              "FX-CATALOGUE"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-031",
+            "title": "Extractors emit facts only; facts reach detectors solely as artifact_finding events produced by configuration rules",
+            "decision": "§12's rule keeps the \"detectors consume only canonical events\" invariant intact while giving artifact analysis its own vocabulary. The mapper populates the categories Stage 2 reserved (document, archive_member, executable, artifact); high-cardinality observations stay in the artifact_fact sidecar; fact-to-finding rules (configuration data, attributed like detection content per Stage-1 D-004) emit artifact_finding events. An extractor PR containing a verdict-shaped `if` is rejected on sight.",
+            "evidence": [
+              "PRIOR-STAGE1",
+              "PRIOR-STAGE2"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-032",
+            "title": "Authenticode is reported as presence and identity, with signature.status = unverified_offline",
+            "decision": "Offline verification requires revocation and timestamping lookups, which §9.4 forbids inside the triage worker. Sentinel therefore reports signed/signer from the PE attribute-certificate table and sets status to unverified_offline, rather than implying a chain was validated. An online verifier would be a §9.8 policy exception (Q3-021).",
+            "evidence": [
+              "ARC-PEFILE",
+              "ARC-LIEF",
+              "ARC-DNFILE"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-033",
+            "title": "LNK is parsed in-house; no third-party LNK library was opened for Stage 3",
+            "decision": "The Shell Link binary format is specified and small enough to implement conservatively for the fields in §5.4. No verified third-party Python LNK parser was opened during Stage-3 research, so the in-house parser is the honest choice and its unverified-structure claims are listed in NOT_VERIFIED rather than being attributed to a library that was not read.",
+            "evidence": [],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-034",
+            "title": "Disk images and encrypted volumes are identified and then refused, never mounted",
+            "decision": "Mounting executes a filesystem driver over attacker-controlled bytes, which §9.3 prohibits. VHD/VHDX/VMDK/BitLocker/EFS artefacts are identified, get analysis_status not_analyzed_by_policy, and produce no further events. ISO may be listed through libarchive without mounting.",
+            "evidence": [
+              "ARC-LIBARCHIVE"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-035",
+            "title": "Identification samples a bounded head and tail and never reads the whole artifact",
+            "decision": "Magic sampling reads the first 8 KiB and last 4 KiB (PROPOSED - TO BENCHMARK); Magika uses its own bounded window. Anything requiring a whole-file read is triage, not identification, and carries the §5 budgets instead.",
+            "evidence": [
+              "ID-LIBMAGIC",
+              "ID-MAGIKA"
+            ],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-036",
+            "title": "Rejected uploads are audited with a partial hash, never a whole-file hash",
+            "decision": "The audit row records timestamp, principal, tenant, reject code, declared and received sizes, and the sha256 of the first 64 KiB only. A whole-file hash of rejected content would let an attacker confirm the presence of a known-bad file they were just told not to upload.",
+            "evidence": [],
+            "status": "accepted"
+          },
+          {
+            "id": "D3-037",
+            "title": "The Stage-2 reserved categories are filled by the mapper; every artifact event carries derived_by: sentinel",
+            "decision": "No uploaded file carries a source taxonomy, so every mapper-produced event sets event.derived_by: sentinel (Stage-2 D2-004). raw holds the JSON-serialised fact bundle that produced the event and unmapped[] holds facts the mapper declined to place — the documented adaptation of Stage-2 D2-012 for artifact events, preserving the property that nothing an extractor observed is dropped.",
+            "evidence": [
+              "PRIOR-STAGE2"
+            ],
+            "status": "accepted"
+          }
+        ],
+        "parser": "safe_load"
+      },
+      "decisions_count": 37,
+      "open_questions_heading_line": 3675,
+      "open_questions_format": "yaml",
+      "open_questions": {
+        "yaml_key": "open_questions",
+        "items": [
+          {
+            "id": "Q3-001",
+            "title": "TShark job-object containment has not been designed to implementation detail",
+            "detail": "§4.2.2 specifies the containment contract (job object with memory/CPU caps, timeout, restricted token, no network, read-only input, pipe-only stdout) but the concrete Windows job-object and token configuration is not designed here. Given 4.6.9's \"possible code execution\" advisories this is the highest-risk open item in Stage 3.",
+            "blocking": "enabling pcap ingest",
+            "candidate_resolution": "Stage-4 design of the ExternalProcessRunner with a dedicated threat model; FX-F-07 as the regression fixture."
+          },
+          {
+            "id": "Q3-002",
+            "title": "No throughput numbers exist for any parser",
+            "detail": "Every budget in §4 and §5 is PROPOSED - TO BENCHMARK. The fixture corpus (§11) is specified but has not been built or run.",
+            "blocking": "capacity planning, worker sizing",
+            "candidate_resolution": "Stage-4 benchmark run over all 240 fixtures; replace each PROPOSED value with a MEASURED (method) value."
+          },
+          {
+            "id": "Q3-003",
+            "title": "Which libmagic build ships on Windows, and who signs it",
+            "detail": "python-magic needs a native libmagic; ID-PYMAGIC-WIN records the bitness-mismatch failure mode and points at third-party 64-bit DLL distributions. Shipping an unsigned third-party DLL in a commercial product is not acceptable, and python-magic-bin is deprecated since 2017.",
+            "blocking": "Windows packaging of the identification stage",
+            "candidate_resolution": "build and sign libmagic in our own toolchain, or make puremagic (ID-PUREMAGIC, pure Python) the sole Windows path and accept its smaller magic database."
+          },
+          {
+            "id": "Q3-004",
+            "title": "Magika model version pinning and update process",
+            "detail": "The model ships in the repository (standard_v3_3 at retrieval) and its accuracy claim comes from the README and an ICSE 2025 paper. Sentinel needs a policy for pinning a model version, for validating an update against the fixture corpus, and for recording the model id in every identification record.",
+            "blocking": "production identification",
+            "candidate_resolution": "Stage-4 pin + regression run; store model id in identification.magika.model."
+          },
+          {
+            "id": "Q3-005",
+            "title": "Magika accuracy on Windows-specific families is unmeasured",
+            "detail": "The ~99% figure is an aggregate over the published label set. Accuracy specifically on PE/Office/LNK/CHM inputs, and on the truncated and polyglot shapes of §11 categories B and C, is unknown.",
+            "blocking": "trusting S2 in the selection rule",
+            "candidate_resolution": "measure over the fixture corpus; if S2 is weak on a family, lower that family's confidence band in §2.3 configuration."
+          },
+          {
+            "id": "Q3-006",
+            "title": "Magika model licence needs a legal confirmation",
+            "detail": "§0 records that assets/models/standard_v3_3/ contains no separate licence file and that the model is therefore treated as Apache-2.0 by inclusion with the repository. That is an inference from the absence of a file, not a licence grant that was read.",
+            "blocking": "commercial distribution",
+            "candidate_resolution": "written confirmation from the Magika maintainers, or a legal opinion on the repository-licence-covers-the-model reading."
+          },
+          {
+            "id": "Q3-007",
+            "title": "py7zr LGPL-2.1 enablement review",
+            "detail": "D3-013 excludes py7zr by default on licence. libarchive-c covers 7z, but if a pure-Python 7z path is ever wanted, the LGPL question must be answered in writing rather than from memory.",
+            "blocking": "nothing today",
+            "candidate_resolution": "licence counsel review; record the outcome as a D3 amendment."
+          },
+          {
+            "id": "Q3-008",
+            "title": "Tika adoption needs an isolation design that does not exist yet",
+            "detail": "Tika's own security documentation says the server and gRPC front ends are not security boundaries and that in-process parser denial of service is not treated as a vulnerability. Using it means owning a JVM process isolation story under §9.8.",
+            "blocking": "nothing today",
+            "candidate_resolution": "decide explicitly to never adopt, or design the isolation and add §11 fixtures for it."
+          },
+          {
+            "id": "Q3-009",
+            "title": "Pure-Python pcap alternatives were not evaluated",
+            "detail": "Only TShark was opened. dpkt, scapy and pyshark were not researched in this stage, so the claim \"TShark is the only pcap parser\" means \"the only one verified\", not \"the only one that could work\".",
+            "blocking": "nothing today",
+            "candidate_resolution": "evaluate if TShark's containment (Q3-001) proves too expensive."
+          },
+          {
+            "id": "Q3-010",
+            "title": "RAR extraction tool policy",
+            "detail": "D3-014 lists RAR without extracting unless an operator installs unrar/unar/7zip/bsdtar. Which of those is acceptable for redistribution or for customer-side installation is a licensing and support question, not an engineering one.",
+            "blocking": "RAR extraction as a supported feature",
+            "candidate_resolution": "decide per tool; document the supported option and the fact that it is optional."
+          },
+          {
+            "id": "Q3-011",
+            "title": "orjson depth cap and serialisation use",
+            "detail": "D3-025 bars orjson from parsing untrusted JSON but leaves it available for serialising Sentinel-produced data. The depth cap value and the enforcement point are not specified.",
+            "blocking": "nothing today",
+            "candidate_resolution": "specify a cap in the serialiser's contract during Stage 4."
+          },
+          {
+            "id": "Q3-012",
+            "title": "Mach-O parsing has no verified library",
+            "detail": "§5.5 parses Mach-O headers and load commands in-house because no third-party Mach-O library was opened. Sentinel is Windows-first so this is low priority, but the in-house claims are unverified (NOT_VERIFIED).",
+            "blocking": "nothing today",
+            "candidate_resolution": "either research a library in Stage 4 or drop Mach-O beyond identification."
+          },
+          {
+            "id": "Q3-013",
+            "title": "ExifTool enablement policy",
+            "detail": "Dual Artistic-1.0 OR GPL, Perl, external process. Licence-safe when run as a separate process and valuable for non-image metadata, but it is a per-invocation process with its own parser attack surface.",
+            "blocking": "nothing today",
+            "candidate_resolution": "decide whether to offer it as operator-enabled enrichment with §9.8 containment."
+          },
+          {
+            "id": "Q3-014",
+            "title": "OneNote parsing maturity",
+            "detail": "pyOneNote's last PyPI release is 0.0.2 (2023-03) and one-extract describes itself as an interim solution. Both are parse-only and correctly licensed, but neither is a mature library, and encrypted-notebook support was not verified.",
+            "blocking": "OneNote triage as a supported feature",
+            "candidate_resolution": "keep both as optional cross-checks, or invest in an in-house parser, or drop the family."
+          },
+          {
+            "id": "Q3-015",
+            "title": "Email formats (.eml/.msg) are out of Stage-3 scope",
+            "detail": "Malspam attachments are a primary real-world source of uploaded artifacts and neither format is in §5.",
+            "blocking": "nothing today",
+            "candidate_resolution": "add a Stage-4 scope decision; MSG is OLE-based and would reuse §5.2."
+          },
+          {
+            "id": "Q3-016",
+            "title": "NSIS/Inno installers are identified but not unpacked",
+            "detail": "§5.9 lists them and stops. No verified unpacker was opened.",
+            "blocking": "installer triage",
+            "candidate_resolution": "research SevenZip/innoextract-class tools with the same licence and containment bars as everything else."
+          },
+          {
+            "id": "Q3-017",
+            "title": "Should high-cardinality facts ever get canonical schema homes",
+            "detail": "§12.3 deliberately leaves pe.import.*, pe.section.* and similar as sidecar facts. If detectors eventually need them as first-class fields, that is a Stage-2 schema evolution (canonical-event/v2 or an additive revision), not a Stage-3 change.",
+            "blocking": "nothing today",
+            "candidate_resolution": "revisit when a real detection need appears."
+          },
+          {
+            "id": "Q3-018",
+            "title": "Fact-to-finding rule language",
+            "detail": "§12.4 sketches a YAML rule shape. Stage 1 chose Sigma-compatible content for telemetry detection (D-004, D2-014); artifact facts do not fit the Sigma logsource model, so this is a second, smaller rule language. Whether to build it, or to express artifact rules in the same DRL pipeline, is undecided.",
+            "blocking": "implementing §12.4",
+            "candidate_resolution": "Stage-4 decision with a written comparison."
+          },
+          {
+            "id": "Q3-019",
+            "title": "Content-addressed dedup scope under multi-tenancy",
+            "detail": "§1.7 dedups per tenant in Stage 3 because deployment is single-tenant (Stage-1 D-012) while rows carry tenant/workspace ids. Whether a later multi-tenant deployment dedups across tenants (and the confidentiality implications of a cross-tenant dedup oracle) is not decided.",
+            "blocking": "nothing today",
+            "candidate_resolution": "decide before any multi-tenant migration; the row schema already permits either."
+          },
+          {
+            "id": "Q3-020",
+            "title": "Whether document events are emitted only when metadata exists",
+            "detail": "§12.3 emits a `document` event only when at least one metadata fact exists. An alternative is one document event per document artifact with state-object fields for everything absent. The current choice avoids event noise; the alternative is more uniform.",
+            "blocking": "nothing today",
+            "candidate_resolution": "revisit after the first detector that consumes document events."
+          },
+          {
+            "id": "Q3-021",
+            "title": "Online signature verification",
+            "detail": "§9.4 forbids egress, so D3-032 reports unverified_offline. An operator may want real Authenticode verification, which would be a §9.8 policy exception with revocation-checking egress from a dedicated component.",
+            "blocking": "nothing today",
+            "candidate_resolution": "only if a customer requirement appears; design under §9.8."
+          },
+          {
+            "id": "Q3-022",
+            "title": "Zeek v9 and Suricata 8.0.x field-name drift against the Stage-2 corpus pin",
+            "detail": "Stage 2 pinned its mapping work against a specific Zeek source clone and the Suricata EVE docs as retrieved then. Zeek v9.0.0 and Suricata 8.0.7 were verified as current in §0, but the mapping tables were not re-diffed against them.",
+            "blocking": "nothing today",
+            "candidate_resolution": "Stage-4 re-diff of the SEC-B network tables against the current releases; treat any drift as a Stage-2 amendment."
+          }
+        ],
+        "parser": "safe_load"
+      },
+      "open_questions_count": 22,
+      "not_verified_heading_line": 3892,
+      "not_verified": {
+        "yaml_key": null,
+        "items": [
+          {
+            "row": 1
+          },
+          {
+            "row": 2
+          },
+          {
+            "row": 3
+          },
+          {
+            "row": 4
+          },
+          {
+            "row": 5
+          },
+          {
+            "row": 6
+          },
+          {
+            "row": 7
+          },
+          {
+            "row": 8
+          },
+          {
+            "row": 9
+          },
+          {
+            "row": 10
+          },
+          {
+            "row": 11
+          },
+          {
+            "row": 12
+          },
+          {
+            "row": 13
+          },
+          {
+            "row": 14
+          },
+          {
+            "row": 15
+          },
+          {
+            "row": 16
+          },
+          {
+            "row": 17
+          },
+          {
+            "row": 18
+          },
+          {
+            "row": 19
+          },
+          {
+            "row": 20
+          },
+          {
+            "row": 21
+          },
+          {
+            "row": 22
+          },
+          {
+            "row": 23
+          },
+          {
+            "row": 24
+          },
+          {
+            "row": 25
+          },
+          {
+            "row": 26
+          },
+          {
+            "row": 27
+          },
+          {
+            "row": 28
+          },
+          {
+            "row": 29
+          },
+          {
+            "row": 30
+          }
+        ],
+        "parser": "markdown_table"
+      },
+      "not_verified_count": 30,
+      "not_verified_format": "markdown_table"
+    },
+    "stage-4": {
+      "file": "stage-4-threat-model-and-windows-sandbox.md",
+      "lines": 309,
+      "decisions_heading_line": 209,
+      "decisions_format": "yaml",
+      "decisions": {
+        "yaml_key": "decisions",
+        "items": [
+          {
+            "id": "D4-001",
+            "decision": "Use Windows Sandbox (.wsb, networking disabled, read-only mapped input) as the Hardened isolation tier for active-content and archive detonation; use restricted token + Job Object (+ AppContainer where packaging allows) as Baseline for lower-risk parsers.",
+            "status": "proposed",
+            "evidence": "Microsoft Windows Sandbox docs (editions Pro/Enterprise/Education, not Home; hypervisor isolation; networking enabled by default must be disabled via <Networking>Disable</Networking>; single instance limit); AppContainer capability SID model (default-deny network without capability); JOBOBJECT structs verified to lack network/file members.",
+            "alternatives_rejected": "",
+            "consequences": "Two-tier ops; WSB unavailable on Home SKU and single-instance limits throughput on hardened path; CLI automation (`wsb start/exec/stop`) requires Windows 11 24H2+ — earlier hosts drive WSB via GUI `.wsb` launch only; must monitor .wsb config drift.",
+            "depends_on": [
+              "D3-001",
+              "D3-024"
+            ]
+          },
+          {
+            "id": "D4-002",
+            "decision": "Implement ExternalProcessRunner per §4.2 (fixed path, argv-only, scrubbed env, private workdir, stream+cap output, timeout+tree-kill, no shell).",
+            "status": "proposed",
+            "evidence": "Stage-3 D3-024 contract; Windows CreateProcess command-injection class (T-19).",
+            "alternatives_rejected": "",
+            "consequences": "Slightly more runner code; strict path validation required.",
+            "depends_on": [
+              "D3-024"
+            ]
+          },
+          {
+            "id": "D4-003",
+            "decision": "Enforce Ed25519 detached signatures on all rule-packs and IOC bundles; pin public keys in config; dual-key rotation.",
+            "status": "proposed",
+            "evidence": "TUF/sigstore patterns; Stage-1 D-004 rule-engine trust; supply-chain T-06/T-12.",
+            "alternatives_rejected": "",
+            "consequences": "Key custody responsibility; offline verification tooling needed. Storage implication resolved (C-11-fix, Stage-8 round 1): `ioc_pack.status` DDL default is `pending_verify` (was `active`) — packs are inserted unverified and only flip to `active` after signature verification, matching this decision's verify-before-trust posture.",
+            "depends_on": []
+          },
+          {
+            "id": "D4-004",
+            "decision": "Prefer non-backtracking regex semantics for user-authored rules (Rust regex crate or equivalent) with compile-time timeout; restrict Python re to fixed internal patterns with possessive/atomic constructs where CPython ≥3.11.",
+            "status": "proposed",
+            "evidence": "Python re docs (possessive quantifiers / atomic groups added 3.11); ReDoS threat T-04.",
+            "alternatives_rejected": "",
+            "consequences": "Some exotic regex features unsupported; document in rule schema.",
+            "depends_on": [
+              "D-004"
+            ]
+          },
+          {
+            "id": "D4-005",
+            "decision": "Run every third-party/native parser as an external process under the isolation stack; in-process only for memory-safe, schema-validated pure-Python/Rust helpers.",
+            "status": "proposed",
+            "evidence": "Stage-3 parser interface; T-03/T-20 memory-safety history.",
+            "alternatives_rejected": "",
+            "consequences": "IPC overhead; must validate all results as hostile.",
+            "depends_on": [
+              "D3-002",
+              "D3-037"
+            ]
+          }
+        ],
+        "parser": "tolerant",
+        "safe_load_error": "mapping values are not allowed here\n  in \"<unicode string>\", line 29, column 138:\n     ... lved (C-11-fix, Stage-8 round 1): `ioc_pack.status` DDL default  ... \n                                       "
+      },
+      "decisions_count": 5,
+      "open_questions_heading_line": 264,
+      "open_questions": {
+        "yaml_key": null,
+        "items": [
+          {
+            "id": "Q4-001"
+          },
+          {
+            "id": "Q4-002"
+          },
+          {
+            "id": "Q4-003"
+          },
+          {
+            "id": "Q4-004"
+          },
+          {
+            "id": "Q4-005"
+          },
+          {
+            "id": "Q4-006"
+          }
+        ],
+        "parser": "markdown_table"
+      },
+      "open_questions_count": 6,
+      "open_questions_format": "markdown_table",
+      "not_verified_heading_line": 277,
+      "not_verified": {
+        "yaml_key": null,
+        "items": [
+          {
+            "id": "Exact CPU/memory `PROPOSED - TO BENCHMARK` numbers for job-object limits"
+          },
+          {
+            "id": "DPAPI best-practice integration details for key wrapping on non-domain-joined hosts"
+          },
+          {
+            "id": "WinAFL vs AFL++ parity on Windows-native binaries"
+          },
+          {
+            "id": "AppContainer support gaps for specific legacy DLLs used by oletools/pdfium"
+          },
+          {
+            "id": "Full CVE inventory for poppler/pdfium/libarchive versions pinned"
+          },
+          {
+            "id": "Cosign Windows binary distribution URL stability"
+          },
+          {
+            "id": "CPython version on target deployment (affects `re` possessive-quantifier availability)"
+          }
+        ],
+        "parser": "markdown_table"
+      },
+      "not_verified_count": 7,
+      "not_verified_format": "markdown_table"
+    },
+    "stage-5": {
+      "file": "stage-5-dynamic-rule-engine.md",
+      "lines": 1754,
+      "decisions_heading_line": 1371,
+      "decisions_format": "yaml",
+      "decisions": {
+        "yaml_key": "decisions",
+        "items": [
+          {
+            "id": "D5-001",
+            "decision": "One stored document schema (sentinel-rule/v1, rule_schema.json) with a kind discriminator over seven families. Sigma/correlation keep their spec shape verbatim; artifact rules keep Stage-3 AF when/emit/severity_hint/attribution verbatim (non-UUID AF-xxx ids accepted). Unknown upstream attributes are never dropped silently: they live in rule_source and surface as reason codes.",
+            "status": "accepted",
+            "evidence": [
+              "stage-1:6.2",
+              "stage-3:12.4",
+              "rule_schema.json"
+            ],
+            "alternatives_rejected": [
+              "Two schemas (sigma doc + artifact doc): doubles the governance pipeline, reopens Q3-018.",
+              "Store verbatim upstream YAML only: no stable engine contract, no additive guarantee."
+            ],
+            "consequences": [
+              "one lint gate",
+              "one pack format",
+              "one audit trail for all detections."
+            ],
+            "depends_on": [
+              "D-004",
+              "D2-014",
+              "D3-029"
+            ]
+          },
+          {
+            "id": "D5-002",
+            "decision": "Detector interface = prepare/process/finalize (+cost_report, teardown) with two residence modes (db-resident default: SQL at finalize; stream: native process + buffered finalize). Both modes compile from the same document; findings carry detection_path.",
+            "status": "accepted",
+            "evidence": [
+              "stage-1:5.5",
+              "stage-1:5.6.2",
+              "stage-1:6.2"
+            ],
+            "alternatives_rejected": [
+              "SQL-only: cannot serve bus-native workloads or serve as a conformance oracle.",
+              "Native-only: contradicts D-004 Option C primary."
+            ],
+            "consequences": [
+              "two execution paths to keep in lockstep; conformance tier T-C enforces it."
+            ],
+            "depends_on": [
+              "D-004"
+            ]
+          },
+          {
+            "id": "D5-003",
+            "decision": "Normative support matrix (SUPPORTED/SUPPORTED_LATER/NOT_SUPPORTED) with a registered reason-code vocabulary; every import and every job accounts for every rule; NO silent semantic change - each deviation is OK_PARTIAL or REJECTED with a code.",
+            "status": "accepted",
+            "evidence": [
+              "stage-1:6.3",
+              "stage-1:5.6.3"
+            ],
+            "alternatives_rejected": [
+              "Best-effort parsing with silent skips (Zircolite-style accounting is the floor, not the ceiling)."
+            ],
+            "consequences": [
+              "job reports always list non-OK rules; dashboards can alert on reason codes."
+            ],
+            "depends_on": [
+              "D5-001"
+            ]
+          },
+          {
+            "id": "D5-004",
+            "decision": "User regex is RE2-class only (google-re2), matching the Sigma spec's own restricted flavor; four-layer ReDoS defense (grammar lint, no raw regex to PostgreSQL ~, statement_timeout + native deadlines, quarantine circuit breaker). Two consecutive trips quarantine the rule for the job.",
+            "status": "accepted",
+            "evidence": [
+              "stage-4:D4-004",
+              "sigma-spec:rules",
+              "pysigma:2.0.0",
+              "postgres:18"
+            ],
+            "alternatives_rejected": [
+              "PostgreSQL POSIX ARE (~): backtracking engine on hostile input, explicitly cautioned by the docs.",
+              "Reject all regex: breaks 224 corpus files for no security gain once RE2 is in place."
+            ],
+            "consequences": [
+              "RE2 in the runtime dependency set (BSD-3); no lookahead/backrefs ever."
+            ],
+            "depends_on": [
+              "D4-004"
+            ]
+          },
+          {
+            "id": "D5-005",
+            "decision": "Wildcards (*, ?) compile to ILIKE/starts_with + literal expansion, never to regex.",
+            "status": "accepted",
+            "evidence": [
+              "sigma-spec:escape-rules",
+              "postgres:18"
+            ],
+            "alternatives_rejected": [
+              "Translate wildcards to regex: unnecessary engine exposure for a trivial translation."
+            ],
+            "consequences": [
+              "prefilter-friendly patterns; index usage preserved where possible."
+            ],
+            "depends_on": [
+              "D5-004"
+            ]
+          },
+          {
+            "id": "D5-006",
+            "decision": "Case handling is default-insensitive (ILIKE / casefold) exactly as the spec requires; |cased flips to binary compare; encodings/case are compile-time value expansions, never per-event runtime transforms.",
+            "status": "accepted",
+            "evidence": [
+              "sigma-spec:modifiers"
+            ],
+            "alternatives_rejected": [
+              "Per-event base64/utf16 expansion: cost blow-up, no semantic difference."
+            ],
+            "consequences": [
+              "compile output is literal value sets; conformance corpus must include |cased fixtures."
+            ],
+            "depends_on": []
+          },
+          {
+            "id": "D5-007",
+            "decision": "IOC values never live in rule documents. Signed packs (D4-003) feed a two-stage membership test: in-house Bloom prefilter (stdlib hashlib, no third-party BF lib) then exact confirm. Staleness and missing packs surface as reason codes; last-known-good retained.",
+            "status": "accepted",
+            "evidence": [
+              "stage-1:5.3.2",
+              "stage-4:D4-003",
+              "stage-1:2.1"
+            ],
+            "alternatives_rejected": [
+              "Embed indicators in rules: rules become intelligence, defeats pack rotation and D4-003 signing.",
+              "Third-party Bloom library: new supply-chain surface for a solved problem."
+            ],
+            "consequences": [
+              "pack format + load path; Bloom rebuild cost at load (bounded by entry caps)."
+            ],
+            "depends_on": [
+              "D4-003"
+            ]
+          },
+          {
+            "id": "D5-008",
+            "decision": "FIM is event-driven only (fim/file canonical events, old/new pairs when present) plus optional uploaded-baseline diffs. Live-host FIM agents are out of scope (Stage-1 4.2). Cold start with a required-but-missing baseline = SNAPSHOT_MISSING + inert + warnings.",
+            "status": "accepted",
+            "evidence": [
+              "stage-1:4.2",
+              "stage-2:fim-mapping"
+            ],
+            "alternatives_rejected": [
+              "Host-side baseline daemon: new agent surface, out of MVP scope."
+            ],
+            "consequences": [
+              "upload_pair workflow is analyst-driven; no silent green."
+            ],
+            "depends_on": [
+              "D2-014"
+            ]
+          },
+          {
+            "id": "D5-009",
+            "decision": "SCA = config_check events + our own check packs. Benchmark control IDs may be cited factually; benchmark wording may never be shipped (CIS commercial terms). unknown status never counts as pass.",
+            "status": "accepted",
+            "evidence": [
+              "stage-1:4.2",
+              "stage-1:2.3",
+              "cis-terms:2026",
+              "stage-3:D3-029"
+            ],
+            "alternatives_rejected": [
+              "Ship CIS/OVAL content: commercial licence breach risk for a distributed product."
+            ],
+            "consequences": [
+              "check coverage is self-owned; framework mapping is reference data only."
+            ],
+            "depends_on": []
+          },
+          {
+            "id": "D5-010",
+            "decision": "Statistical detectors are declarative (rate/rare_value/proportion) with median+MAD, EWMA, or raw thresholds. No ML (Stage-1 4.3). Warm-up is explicit (suppress/flag) and always accounted via BASELINE_WARMUP.",
+            "status": "accepted",
+            "evidence": [
+              "stage-1:4.3",
+              "postgres:18"
+            ],
+            "alternatives_rejected": [
+              "Vendor ML baselines: unexplainable alerts, training-data governance burden, out of scope."
+            ],
+            "consequences": [
+              "baselines are rows in rule_baseline; resets are audited actions."
+            ],
+            "depends_on": []
+          },
+          {
+            "id": "D5-011",
+            "decision": "Correlations run over finding streams (not raw events), windows are tumbling date_bin buckets at MVP (sliding = SUPPORTED_LATER with an explicit OK_PARTIAL code), group cardinality and window state are hard-capped, member-rule state (inactive/suppressed) is always reported.",
+            "status": "accepted",
+            "evidence": [
+              "sigma-spec:correlation",
+              "postgres:18"
+            ],
+            "alternatives_rejected": [
+              "Exact sliding windows at MVP: state cost unbounded, no corpus need (0 correlation rules in corpus)."
+            ],
+            "consequences": [
+              "declared approximation of interval semantics; Q5-003 tracks the exactness question."
+            ],
+            "depends_on": [
+              "D5-002"
+            ]
+          },
+          {
+            "id": "D5-012",
+            "decision": "Cost classes (prefilter/standard/heavy/window) assigned at lint, enforced at run with per-rule budgets; breaches quarantine the rule for the job and mark the job COMPLETED_WITH_WARNINGS. Budgets are PROPOSED - TO BENCHMARK (T3/T4).",
+            "status": "accepted",
+            "evidence": [
+              "stage-1:5.7",
+              "stage-4:T-04"
+            ],
+            "alternatives_rejected": [
+              "Unmetered evaluation: one pathological rule can starve the job (T-04)."
+            ],
+            "consequences": [
+              "cost_report() telemetry becomes Stage-6 dashboard input."
+            ],
+            "depends_on": [
+              "D5-004"
+            ]
+          },
+          {
+            "id": "D5-013",
+            "decision": "Governance = Ed25519-signed packs (D4-003) + DRL author attribution to every alert + MITRE copyright line in exports + NOTICE entries + shadow mode with two-person promotion + audited kill switch + per-pack canary rule (PIPELINE_SILENT when the canary produces nothing).",
+            "status": "accepted",
+            "evidence": [
+              "stage-1:2.3",
+              "stage-4:D4-003",
+              "drl:LICENSE",
+              "mitre:LICENSE.txt",
+              "stage-2:shadow_mode",
+              "stage-3:D3-033"
+            ],
+            "alternatives_rejected": [
+              "Unsigned local rules only: no tamper evidence for packs that will be edited by bots for years."
+            ],
+            "consequences": [
+              "pack publishing becomes a signed release step; key rotation is ops material (Stage-6)."
+            ],
+            "depends_on": [
+              "D4-003"
+            ]
+          },
+          {
+            "id": "D5-014",
+            "decision": "Empty-pack invariant: the engine with zero rules emits exactly zero findings on the golden corpus; no detection constants in engine code; all detections ship as data. CI-enforced (R1 reject condition).",
+            "status": "accepted",
+            "evidence": [
+              "stage-1:MVP-2"
+            ],
+            "alternatives_rejected": [
+              "Built-in starter detections: would violate MVP-2 and make the product unauditable."
+            ],
+            "consequences": [
+              "an empty install is legitimately quiet; the canary rule is the pipeline liveness check."
+            ],
+            "depends_on": []
+          },
+          {
+            "id": "D5-015",
+            "decision": "Cold-start policy per subsystem (statistical warm-up, IOC pack freshness, FIM baseline presence, compile cache): never fabricate a pass; always surface a reason code and COMPLETED_WITH_WARNINGS. Universal invariant: missing state is reported, not absorbed.",
+            "status": "accepted",
+            "evidence": [
+              "stage-1:5.6.3",
+              "stage-3:D3-029"
+            ],
+            "alternatives_rejected": [
+              "Silently disable until warm: hides months of blind spots (the classic cold-start failure mode)."
+            ],
+            "consequences": [
+              "ops must watch warning codes; Stage-6 risk scoring consumes them."
+            ],
+            "depends_on": [
+              "D5-003"
+            ]
+          },
+          {
+            "id": "D5-016",
+            "decision": "Unmapped Sigma fields follow Stage-2 section 3 fallback: condition dropped AND flagged UNMAPPED_FIELD (OK_PARTIAL); dropping an OR-arm that changes semantics additionally records SEMANTICS_REDUCED. Never a silent keep-or-drop.",
+            "status": "accepted",
+            "evidence": [
+              "stage-2:3"
+            ],
+            "alternatives_rejected": [
+              "Reject the whole rule on any unmapped field: too brittle for a 4000-rule corpus."
+            ],
+            "consequences": [
+              "compile.unsupported[] becomes queryable; Q5-004 tracks the reject-instead option per-pack."
+            ],
+            "depends_on": [
+              "D2-014"
+            ]
+          },
+          {
+            "id": "D5-017",
+            "decision": "Native evaluator is both the streaming path and the SQL conformance oracle; every finding carries detection_path and, when fallback fired, the reason code. Forced-fallback drill is part of acceptance (12.2).",
+            "status": "accepted",
+            "evidence": [
+              "stage-1:5.5"
+            ],
+            "alternatives_rejected": [
+              "Trust the SQL path alone: divergences would ship silently."
+            ],
+            "consequences": [
+              "dual maintenance cost",
+              "bounded by the shared plan format."
+            ],
+            "depends_on": [
+              "D5-002"
+            ]
+          },
+          {
+            "id": "D5-018",
+            "decision": "Rule/pack/baseline content is untrusted input: safe YAML loader, size and expansion caps, no templates/placeholders/expand, no rule-triggered I/O, parameterized SQL only, expression depth/width caps at lint.",
+            "status": "accepted",
+            "evidence": [
+              "stage-4:T-12",
+              "sigma-spec:expand"
+            ],
+            "alternatives_rejected": [
+              "Full spec fidelity including expand/placeholders: opens a template-injection class with no corpus benefit (42 deprecated hits)."
+            ],
+            "consequences": [
+              "rules can never become code; expand-using rules are rejected with UNSUPPORTED_PLACEHOLDER."
+            ],
+            "depends_on": [
+              "D5-003"
+            ]
+          },
+          {
+            "id": "D5-019",
+            "decision": "in_list_ref lists are resolved at load from the signed pack, content-addressed by digest, size-capped (PROPOSED 10 MiB), and never re-read at match time.",
+            "status": "accepted",
+            "evidence": [
+              "stage-3:12.4"
+            ],
+            "alternatives_rejected": [
+              "Runtime file reads from rules: I/O from untrusted paths, TOCTOU, and cold-start ambiguity."
+            ],
+            "consequences": [
+              "list edits require a pack re-sign; replay is deterministic."
+            ],
+            "depends_on": [
+              "D5-018"
+            ]
+          },
+          {
+            "id": "D5-020",
+            "decision": "Finding contract extension: findings carry rule_id, kind, severity (3-level), detection_path, reason_codes[], related_finding_ids (capped), shadow flag, and DRL author attribution. Severity floors are applied at emission, and correlations only see findings that passed the floor (MEMBER_RULE_SUPPRESSED otherwise).",
+            "status": "accepted",
+            "evidence": [
+              "stage-1:6.4",
+              "stage-2:shadow_mode",
+              "drl:LICENSE"
+            ],
+            "alternatives_rejected": [
+              "Correlate pre-floor: hidden alerts would silently drive HIGH findings."
+            ],
+            "consequences": [
+              "floor tuning changes correlation behaviour - documented",
+              "not silent."
+            ],
+            "depends_on": [
+              "D5-011"
+            ]
+          }
+        ],
+        "parser": "safe_load"
+      },
+      "decisions_count": 20,
+      "open_questions_heading_line": 1611,
+      "open_questions_format": "yaml",
+      "open_questions": {
+        "yaml_key": "open_questions",
+        "items": [
+          {
+            "id": "Q5-001",
+            "question": "Should SUPPORT_LATER encodings (utf16/wide/base64 as runtime modifiers for non-declared fields) be promoted to SUPPORTED via a per-rule byte-bearing declaration, or stay rejected for Sentinel's Windows-first corpus?",
+            "needs": "Corpus re-scan after the first 90 days of live imports; PoC T2 numbers."
+          },
+          {
+            "id": "Q5-002",
+            "question": "Condition-as-list (each item generates a query, logically OR) is accepted per the spec's wording but has 0 corpus usage - keep SUPPORTED, or demote to NOT_SUPPORTED until a real rule needs it?",
+            "needs": "Live-import telemetry."
+          },
+          {
+            "id": "Q5-003",
+            "question": "Are tumbling windows an acceptable approximation of the correlation spec's interval semantics at MVP, or must sliding windows land before any correlation pack ships?",
+            "needs": "T4 baseline/cold-start benchmarks; customer-shaped traffic replay."
+          },
+          {
+            "id": "Q5-004",
+            "question": "Should UNMAPPED_FIELD stay OK_PARTIAL (drop-and-flag) or become REJECTED per-pack for compliance packs (where a dropped OR-arm is a coverage claim)?",
+            "needs": "Compliance-pack requirements from Stage-6 scope definition."
+          },
+          {
+            "id": "Q5-005",
+            "question": "Bloom sizing and staleness window (7d PROPOSED) - does the false-positive budget and pack-refresh cadence hold under real feed sizes (up to the 5M-entry cap)?",
+            "needs": "T3 throughput runs with synthetic 1M/5M-entry packs."
+          },
+          {
+            "id": "Q5-006",
+            "question": "Canary PIPELINE_SILENT as warning vs failure: for compliance deployments, should a dead canary fail the job instead of merely warning?",
+            "needs": "Stage-6 compliance-profile input."
+          },
+          {
+            "id": "Q5-007",
+            "question": "pySigma 2.0 (LGPL-2.1-only) as a CI-only conformance oracle - is the LGPL notice-availability obligation acceptable for the distribution model, or must the oracle be reimplemented natively?",
+            "needs": "Distribution-model decision (binary vs source) from Stage-6 packaging."
+          },
+          {
+            "id": "Q5-008",
+            "question": "Cost budgets (2/10 ms/event, 200k window tuples) are PROPOSED - which numbers survive T3?",
+            "needs": "PoC T3/T4 results."
+          },
+          {
+            "id": "Q5-009",
+            "question": "Rule `scope` (deployment gating) is SUPPORTED_LATER (stored, not evaluated). What scope vocabulary and matching semantics does Stage-6 require before scope-gated rules can be enabled per-environment without hand-editing packs?",
+            "needs": "Stage-6 deployment/environment model; register under OQ-6-* once defined."
+          }
+        ],
+        "parser": "safe_load"
+      },
+      "open_questions_count": 9,
+      "not_verified_heading_line": 1667,
+      "not_verified_format": "yaml",
+      "not_verified": {
+        "yaml_key": "not_verified",
+        "items": [
+          {
+            "claim": "pySigma v2.0.0 release date (2026-10-04), requires_python >=3.11,<4.0, LGPL-2.1-only, and the RE2-default release-note wording.",
+            "checked": "2026-10-10 via GitHub API / PyPI JSON (client-challenge on raw pypi.org pages); local pin at 50708bae (v2.0.0 tag, pyproject.toml license field VERIFIED locally). The release-notes wording itself was not re-read this session beyond the Stage-1 pin."
+          },
+          {
+            "claim": "google-re2 1.1.20251105 win32/win_amd64 wheel matrix and BSD-3-Clause classifier.",
+            "checked": "2026-10-10 PyPI JSON; wheel installability on the target Windows build not tested."
+          },
+          {
+            "claim": "pyahocorasick 2.3.1 wheel matrix (win_amd64 cp310-cp314 only; no win32/win_arm64).",
+            "checked": "2026-10-10 PyPI JSON; ARM64 Windows fallback path not exercised."
+          },
+          {
+            "claim": "SigmaHQ/sigma release r2026-07-01 is the latest release and its package archives carry published SHA-256 digests.",
+            "checked": "2026-10-10 GitHub API; digests not recomputed locally this session."
+          },
+          {
+            "claim": "CIS Benchmark licensing summary (PDFs free for non-commercial use; commercial tailoring requires SecureSuite membership).",
+            "checked": "2026-08 CIS terms page (via earlier session); exact current terms not re-fetched 2026-10-10."
+          },
+          {
+            "claim": "MITRE ATT&CK v19.2 (2026-04-28) is the current ATT&CK version.",
+            "checked": "prior session; not re-checked 2026-10-10. The licence text WAS re-read 2026-10-10."
+          },
+          {
+            "claim": "Corpus modifier counts (contains 3606, endswith 3687, ... zero correlation rules) and status counts (test 3328/experimental 336/stable 104 in the five active dirs).",
+            "checked": "2026-10-10 scan of the pinned partial clone (blob:none). Counts are per-file occurrences of the key text across the whole tree unless noted; they will drift as the corpus moves - the scan parameters are recorded so the number is reproducible, not frozen."
+          },
+          {
+            "claim": "PostgreSQL 18 date_bin/percentile_cont/startswith^@/ARE-lookahead facts.",
+            "checked": "2026-10-10 local docs read (18; date_bin §9.9.3 + starts_with/^@ §9.4 confirmed on postgresql.org/docs/18); not re-validated against a live server."
+          },
+          {
+            "claim": "Stage-2 canonical payload field names used in examples (process.parent.exe etc.).",
+            "checked": "Verified fields are cited inline where used (registry.*, fim.*, config_check.*, powershell.script_block_text, network.bytes_sent, authentication.*, dns.query_name, process.exe/command_line/hashes.sha256). S-01 previously used the Stage-1-shaped name process.parent_image; corrected to the canonical process.parent.exe (D8-14) and a CI gate (§10.6 canonical-path cross-validation) now blocks any rule whose predicate field does not resolve in canonical_event_v1.schema.json."
+          },
+          {
+            "claim": "The 25 §11 examples validate against rule_schema.json.",
+            "checked": "VERIFIED 2026-10-10 (this session): all 25 blocks parse and validate under a strict draft-2020-12 validator (jsonschema 4.26, additionalProperties enforced); the DECISIONS/OPEN QUESTIONS/NOT VERIFIED YAML blocks also parse (20/8/12 items). The validator script is retained at _stage5_work/validate_examples.py and is the seed of the CI gate in 12.3."
+          },
+          {
+            "claim": "Bloom FPP target (~1%) and k=6 sizing.",
+            "checked": "PROPOSED arithmetic only; not benchmarked (Q5-005)."
+          },
+          {
+            "claim": "sigma-specification tag v2.1.0 vs HEAD ba9251aa834b: spec docs identical.",
+            "checked": "Earlier session diff (tag is not an ancestor of HEAD; only ISSUE_TEMPLATE and convention docs differ). Not re-diffed 2026-10-10."
+          }
+        ],
+        "parser": "safe_load"
+      },
+      "not_verified_count": 12
+    },
+    "stage-6": {
+      "file": "stage-6-platform-storage-jobs-api-testing-release.md",
+      "lines": 480,
+      "decisions_heading_line": 385,
+      "decisions": {
+        "yaml_key": null,
+        "items": [
+          {
+            "id": "D6-001"
+          },
+          {
+            "id": "D6-002"
+          },
+          {
+            "id": "D6-003"
+          },
+          {
+            "id": "D6-004"
+          },
+          {
+            "id": "D6-005"
+          },
+          {
+            "id": "D6-006"
+          },
+          {
+            "id": "D6-007"
+          },
+          {
+            "id": "D6-008"
+          },
+          {
+            "id": "D6-009"
+          },
+          {
+            "id": "D6-010"
+          },
+          {
+            "id": "D6-011"
+          },
+          {
+            "id": "D6-012"
+          },
+          {
+            "id": "D6-013"
+          },
+          {
+            "id": "D6-014"
+          },
+          {
+            "id": "D6-015"
+          },
+          {
+            "id": "D6-016"
+          }
+        ],
+        "parser": "markdown_table"
+      },
+      "decisions_count": 16,
+      "decisions_format": "markdown_table",
+      "open_questions_heading_line": 406,
+      "open_questions": {
+        "yaml_key": null,
+        "items": [
+          {
+            "id": "OQ-6-01"
+          },
+          {
+            "id": "OQ-6-02"
+          },
+          {
+            "id": "OQ-6-03"
+          },
+          {
+            "id": "OQ-6-04"
+          },
+          {
+            "id": "OQ-6-05"
+          },
+          {
+            "id": "OQ-6-06"
+          },
+          {
+            "id": "OQ-6-07"
+          },
+          {
+            "id": "OQ-6-08"
+          },
+          {
+            "id": "OQ-6-09"
+          }
+        ],
+        "parser": "markdown_table"
+      },
+      "open_questions_count": 9,
+      "open_questions_format": "markdown_table",
+      "not_verified_heading_line": 420,
+      "not_verified": null,
+      "not_verified_count": 8,
+      "not_verified_format": "prose"
+    }
+  },
+  "total_decisions": 114,
+  "total_open_questions": 74,
+  "total_not_verified": 88,
+  "id_collisions": {},
+  "status_conflicts": {},
+  "decision_yaml_files_on_disk": [],
+  "parse_notes": [
+    "stage-2/decisions: safe_load failed (mapping values are not allowed here\n  in \"<unicode string>\", line 115, column 88), used tolerant parser (24 items)",
+    "stage-2/open_questions: safe_load failed (while scanning for the next token\nfound character '`' that cannot start any toke), used tolerant parser (16 items)",
+    "stage-4/decisions: safe_load failed (mapping values are not allowed here\n  in \"<unicode string>\", line 29, column 138), used tolerant parser (5 items)"
+  ]
+}
