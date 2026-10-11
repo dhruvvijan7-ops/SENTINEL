@@ -1,0 +1,415 @@
+{
+  "$comment": "Frozen configuration key inventory. GENERATED from sentinel_core.config.CONFIG_KEYS - do not edit by hand; tests/contract/test_config_freeze.py::test_manifest_is_current regenerates and compares. origin: 'spec §4' = a row of the Configuration Reference table in research/SENTINEL_IMPLEMENTATION_SPEC.md; 'M0-A2' = an extension declared in research/DEVIATION_REGISTER.md.",
+  "keys": [
+    {
+      "field": "server_host",
+      "section": "server",
+      "key": "host",
+      "toml": "server.host",
+      "kind": "str",
+      "default": "127.0.0.1",
+      "origin": "spec §4",
+      "note": "never bind 0.0.0.0 by default"
+    },
+    {
+      "field": "server_port",
+      "section": "server",
+      "key": "port",
+      "toml": "server.port",
+      "kind": "int",
+      "default": 8000,
+      "origin": "spec §4",
+      "note": "config.example.toml keeps 8080 for M1 dev"
+    },
+    {
+      "field": "server_workers",
+      "section": "server",
+      "key": "workers",
+      "toml": "server.workers",
+      "kind": "int",
+      "default": 1,
+      "origin": "spec §4",
+      "note": "uvicorn workers; jobs run in the worker process"
+    },
+    {
+      "field": "database_url",
+      "section": "database",
+      "key": "url",
+      "toml": "database.url",
+      "kind": "str",
+      "default": "",
+      "origin": "spec §4",
+      "note": "psycopg DSN for the app role; required in production"
+    },
+    {
+      "field": "database_pool_min",
+      "section": "database",
+      "key": "pool_min",
+      "toml": "database.pool_min",
+      "kind": "int",
+      "default": 5,
+      "origin": "spec §4",
+      "note": ""
+    },
+    {
+      "field": "database_pool_max",
+      "section": "database",
+      "key": "pool_max",
+      "toml": "database.pool_max",
+      "kind": "int",
+      "default": 20,
+      "origin": "spec §4",
+      "note": "hard cap; gate 503s when saturated"
+    },
+    {
+      "field": "database_migrator_url",
+      "section": "database",
+      "key": "migrator_url",
+      "toml": "database.migrator_url",
+      "kind": "str",
+      "default": "",
+      "origin": "M0-A2",
+      "note": "migration role DSN (schema owner)"
+    },
+    {
+      "field": "database_worker_url",
+      "section": "database",
+      "key": "worker_url",
+      "toml": "database.worker_url",
+      "kind": "str",
+      "default": "",
+      "origin": "M0-A2",
+      "note": "BYPASSRLS worker role DSN"
+    },
+    {
+      "field": "storage_backend",
+      "section": "storage",
+      "key": "backend",
+      "toml": "storage.backend",
+      "kind": "enum",
+      "default": "fs",
+      "origin": "spec §4",
+      "note": "fs | s3 (s3 = OQ-6-03, not MVP)"
+    },
+    {
+      "field": "storage_root",
+      "section": "storage",
+      "key": "root",
+      "toml": "storage.root",
+      "kind": "str",
+      "default": "C:\\ProgramData\\Sentinel\\data",
+      "origin": "spec §4",
+      "note": "content-addressed root (§1.2); ACL: service account only"
+    },
+    {
+      "field": "storage_archive_uri",
+      "section": "storage",
+      "key": "archive_uri",
+      "toml": "storage.archive_uri",
+      "kind": "opt_str",
+      "default": null,
+      "origin": "spec §4",
+      "note": "when set, purge archives before delete (§1.6)"
+    },
+    {
+      "field": "jobs_worker_id",
+      "section": "jobs",
+      "key": "worker_id",
+      "toml": "jobs.worker_id",
+      "kind": "str",
+      "default": "",
+      "origin": "spec §4",
+      "note": "appears in jobs.locked_by; default derives from hostname+pid"
+    },
+    {
+      "field": "jobs_claim_concurrency",
+      "section": "jobs",
+      "key": "claim_concurrency",
+      "toml": "jobs.claim_concurrency",
+      "kind": "int",
+      "default": 8,
+      "origin": "spec §4",
+      "note": "PROPOSED"
+    },
+    {
+      "field": "jobs_heartbeat_seconds",
+      "section": "jobs",
+      "key": "heartbeat_seconds",
+      "toml": "jobs.heartbeat_seconds",
+      "kind": "int",
+      "default": 15,
+      "origin": "spec §4",
+      "note": "PROPOSED"
+    },
+    {
+      "field": "jobs_lease_seconds",
+      "section": "jobs",
+      "key": "lease_seconds",
+      "toml": "jobs.lease_seconds",
+      "kind": "int",
+      "default": 60,
+      "origin": "spec §4",
+      "note": "PROPOSED; reaper threshold"
+    },
+    {
+      "field": "jobs_backoff_base_seconds",
+      "section": "jobs",
+      "key": "backoff_base_seconds",
+      "toml": "jobs.backoff_base_seconds",
+      "kind": "int",
+      "default": 5,
+      "origin": "spec §4",
+      "note": "PROPOSED, full jitter"
+    },
+    {
+      "field": "jobs_backoff_cap_minutes",
+      "section": "jobs",
+      "key": "cap_minutes",
+      "toml": "jobs.cap_minutes",
+      "kind": "int",
+      "default": 15,
+      "origin": "spec §4",
+      "note": "PROPOSED, full jitter"
+    },
+    {
+      "field": "jobs_max_attempts",
+      "section": "jobs",
+      "key": "max_attempts",
+      "toml": "jobs.max_attempts",
+      "kind": "int",
+      "default": 5,
+      "origin": "spec §4",
+      "note": "dead-letter after"
+    },
+    {
+      "field": "worker_poll_interval_ms",
+      "section": "worker",
+      "key": "poll_interval_ms",
+      "toml": "worker.poll_interval_ms",
+      "kind": "int",
+      "default": 200,
+      "origin": "M0-A2",
+      "note": "worker process idle poll, not queue policy"
+    },
+    {
+      "field": "ingest_max_request_bytes",
+      "section": "ingest",
+      "key": "max_request_bytes",
+      "toml": "ingest.max_request_bytes",
+      "kind": "int",
+      "default": 67108864,
+      "origin": "spec §4",
+      "note": "GATE_REQUEST_TOO_LARGE; 64 MiB"
+    },
+    {
+      "field": "ingest_max_file_bytes",
+      "section": "ingest",
+      "key": "max_file_bytes",
+      "toml": "ingest.max_file_bytes",
+      "kind": "int",
+      "default": 67108864,
+      "origin": "spec §4",
+      "note": "GATE_FILE_TOO_LARGE; 64 MiB"
+    },
+    {
+      "field": "ingest_max_field_bytes",
+      "section": "ingest",
+      "key": "max_field_bytes",
+      "toml": "ingest.max_field_bytes",
+      "kind": "int",
+      "default": 8192,
+      "origin": "spec §4",
+      "note": "GATE_FIELD_TOO_LARGE; 8 KiB"
+    },
+    {
+      "field": "ingest_gate_timeout_seconds",
+      "section": "ingest",
+      "key": "gate_timeout_seconds",
+      "toml": "ingest.gate_timeout_seconds",
+      "kind": "int",
+      "default": 30,
+      "origin": "spec §4",
+      "note": "GATE_TIMEOUT; Stage-3 request wall-clock"
+    },
+    {
+      "field": "ingest_max_concurrent_uploads_per_principal",
+      "section": "ingest",
+      "key": "max_concurrent_uploads_per_principal",
+      "toml": "ingest.max_concurrent_uploads_per_principal",
+      "kind": "int",
+      "default": 4,
+      "origin": "M0-A2",
+      "note": ""
+    },
+    {
+      "field": "ingest_upload_hourly_quota_per_principal",
+      "section": "ingest",
+      "key": "upload_hourly_quota_per_principal",
+      "toml": "ingest.upload_hourly_quota_per_principal",
+      "kind": "int",
+      "default": 500,
+      "origin": "M0-A2",
+      "note": ""
+    },
+    {
+      "field": "ingest_storage_quota_bytes",
+      "section": "ingest",
+      "key": "storage_quota_bytes",
+      "toml": "ingest.storage_quota_bytes",
+      "kind": "int",
+      "default": 53687091200,
+      "origin": "M0-A2",
+      "note": "50 GiB per workspace"
+    },
+    {
+      "field": "detection_statement_timeout_ms",
+      "section": "detection",
+      "key": "statement_timeout_ms",
+      "toml": "detection.statement_timeout_ms",
+      "kind": "int",
+      "default": 60000,
+      "origin": "spec §4",
+      "note": "per-rule SQL budget (Stage 5)"
+    },
+    {
+      "field": "detection_native_enabled",
+      "section": "detection",
+      "key": "native_enabled",
+      "toml": "detection.native_enabled",
+      "kind": "bool",
+      "default": true,
+      "origin": "spec §4",
+      "note": "fallback evaluator"
+    },
+    {
+      "field": "detection_cold_start_policy",
+      "section": "detection",
+      "key": "cold_start_policy",
+      "toml": "detection.cold_start_policy",
+      "kind": "str",
+      "default": "stage5-§4.8",
+      "origin": "spec §4",
+      "note": "pointer to Stage 5 defaults"
+    },
+    {
+      "field": "retention_raw_days",
+      "section": "retention",
+      "key": "raw_days",
+      "toml": "retention.raw_days",
+      "kind": "int",
+      "default": 90,
+      "origin": "spec §4",
+      "note": "seeds retention_policies"
+    },
+    {
+      "field": "retention_event_days",
+      "section": "retention",
+      "key": "event_days",
+      "toml": "retention.event_days",
+      "kind": "int",
+      "default": 365,
+      "origin": "spec §4",
+      "note": "seeds retention_policies"
+    },
+    {
+      "field": "retention_finding_days",
+      "section": "retention",
+      "key": "finding_days",
+      "toml": "retention.finding_days",
+      "kind": "int",
+      "default": 730,
+      "origin": "spec §4",
+      "note": "seeds retention_policies"
+    },
+    {
+      "field": "retention_legal_hold_enabled",
+      "section": "retention",
+      "key": "legal_hold_enabled",
+      "toml": "retention.legal_hold_enabled",
+      "kind": "bool",
+      "default": true,
+      "origin": "spec §4",
+      "note": "operator flag honoured by purge"
+    },
+    {
+      "field": "observability_log_level",
+      "section": "observability",
+      "key": "log_level",
+      "toml": "observability.log_level",
+      "kind": "enum",
+      "default": "info",
+      "origin": "spec §4",
+      "note": ""
+    },
+    {
+      "field": "observability_log_format",
+      "section": "observability",
+      "key": "log_format",
+      "toml": "observability.log_format",
+      "kind": "enum",
+      "default": "json",
+      "origin": "spec §4",
+      "note": "structlog JSON"
+    },
+    {
+      "field": "observability_metrics_enabled",
+      "section": "observability",
+      "key": "metrics_enabled",
+      "toml": "observability.metrics_enabled",
+      "kind": "bool",
+      "default": true,
+      "origin": "spec §4",
+      "note": "/metrics on loopback"
+    },
+    {
+      "field": "observability_otel_endpoint",
+      "section": "observability",
+      "key": "otel_endpoint",
+      "toml": "observability.otel_endpoint",
+      "kind": "opt_str",
+      "default": null,
+      "origin": "spec §4",
+      "note": "traces off unless set"
+    },
+    {
+      "field": "security_api_key_header",
+      "section": "security",
+      "key": "api_key_header",
+      "toml": "security.api_key_header",
+      "kind": "str",
+      "default": "X-API-Key",
+      "origin": "spec §4",
+      "note": ""
+    },
+    {
+      "field": "security_argon2_params",
+      "section": "security",
+      "key": "argon2_params",
+      "toml": "security.argon2_params",
+      "kind": "table",
+      "default": "OWASP-2024 baseline",
+      "origin": "spec §4",
+      "note": ""
+    },
+    {
+      "field": "security_windows_dpapi",
+      "section": "security",
+      "key": "windows.dpapi",
+      "toml": "security.windows.dpapi",
+      "kind": "bool",
+      "default": true,
+      "origin": "spec §4",
+      "note": "encrypt secrets at rest via DPAPI when not supplied via env"
+    },
+    {
+      "field": "auth_dev_keys",
+      "section": "auth",
+      "key": "dev_keys",
+      "toml": "auth.dev_keys",
+      "kind": "dev_keys",
+      "default": [],
+      "origin": "M0-A2",
+      "note": "dev-only API keys; Stage-6 auth service replaces this stub"
+    }
+  ]
+}

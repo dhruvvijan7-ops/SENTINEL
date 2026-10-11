@@ -8,7 +8,7 @@ import time
 import uuid
 from typing import Any, Callable
 
-from sentinel_core.config import Settings, load_settings
+from sentinel_core.config import Settings, log_effective_config, load_settings
 from sentinel_core.db import tx
 from sentinel_core.logging import configure_logging, get_logger
 from sentinel_ingest.worker_handlers import handle_detect_run, handle_ingest_file
@@ -31,19 +31,19 @@ HANDLERS: dict[str, Handler] = {
 
 
 def _dsn(settings: Settings) -> str:
-    return settings.worker_url or settings.database_url
+    return settings.database_worker_url or settings.database_url
 
 
 def make_worker_id(settings: Settings) -> str:
-    if settings.worker_id:
-        return settings.worker_id
+    if settings.jobs_worker_id:
+        return settings.jobs_worker_id
     return f"{socket.gethostname()}-{os.getpid()}-{uuid.uuid4().hex[:8]}"
 
 
 def process_batch(settings: Settings, worker_id: str) -> int:
     with tx(_dsn(settings)) as conn:
         jobs = repos_jobs.claim(
-            conn, worker_id=worker_id, limit=settings.worker_claim_batch
+            conn, worker_id=worker_id, limit=settings.jobs_claim_concurrency
         )
         conn.commit()
     if not jobs:
@@ -101,7 +101,10 @@ def main() -> None:
     parser.add_argument("--once", action="store_true", help="process one batch and exit")
     args = parser.parse_args()
     settings = load_settings()
-    configure_logging(settings.log_format)
+    configure_logging(
+        settings.observability_log_format, settings.observability_log_level
+    )
+    log_effective_config(settings)
     if args.once:
         worker_id = make_worker_id(settings)
         n = process_batch(settings, worker_id)

@@ -327,7 +327,8 @@ def run_migrations(dsn: str) -> subprocess.CompletedProcess:
     """Run `alembic upgrade head` in a subprocess so its stdout/stderr are
     capturable exactly like psql's."""
     env = dict(os.environ)
-    env["SENTINEL_MIGRATOR_URL"] = dsn
+    env["SENTINEL_DATABASE__MIGRATOR_URL"] = dsn  # spec §4 spelling
+    env["SENTINEL_MIGRATOR_URL"] = dsn  # pre-M0 alias, still read by env.py
     env.setdefault("PYTHONIOENCODING", "utf-8")
     return subprocess.run(
         [sys.executable, str(MIGRATIONS_DIR / "apply.py"), dsn],

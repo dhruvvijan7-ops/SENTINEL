@@ -21,10 +21,10 @@ def test_10k_noop_jobs_exactly_once(migrated):
     # Large claim batch: the M1 no-pool design opens a connection per tx();
     # a small batch would churn thousands of connections and exhaust
     # Windows ephemeral ports (observed as TIME_WAIT floods).
-    settings = replace(migrated, worker_claim_batch=250)
+    settings = replace(migrated, jobs_claim_concurrency=250)
     job_ids: list[str] = []
 
-    with tx(settings.worker_url) as conn:
+    with tx(settings.database_worker_url) as conn:
         for i in range(total):
             jid = repos_jobs.enqueue(
                 conn,
@@ -46,7 +46,7 @@ def test_10k_noop_jobs_exactly_once(migrated):
             while not stop.is_set():
                 n = process_batch(settings, wid)
                 if n == 0:
-                    with tx(settings.worker_url) as conn:
+                    with tx(settings.database_worker_url) as conn:
                         queued = conn.execute(
                             "SELECT count(*) FROM jobs WHERE status = 'queued'"
                         ).fetchone()
@@ -65,7 +65,7 @@ def test_10k_noop_jobs_exactly_once(migrated):
 
     assert not errors, f"worker errors: {errors[:3]}"
 
-    with tx(migrated.worker_url) as conn:
+    with tx(migrated.database_worker_url) as conn:
         row = conn.execute(
             """
             SELECT count(*) AS jobs,

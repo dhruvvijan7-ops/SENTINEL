@@ -5,9 +5,18 @@ import sys
 
 import structlog
 
+_LEVELS = {
+    "debug": logging.DEBUG,
+    "info": logging.INFO,
+    "warning": logging.WARNING,
+    "warn": logging.WARNING,
+    "error": logging.ERROR,
+    "critical": logging.CRITICAL,
+}
 
-def configure_logging(log_format: str = "json") -> None:
-    level = logging.INFO
+
+def configure_logging(log_format: str = "json", log_level: str = "info") -> None:
+    level = _LEVELS.get(log_level.lower(), logging.INFO)
     processors: list = [
         structlog.contextvars.merge_contextvars,
         structlog.processors.add_log_level,

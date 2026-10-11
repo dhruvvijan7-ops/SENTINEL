@@ -20,7 +20,7 @@ def settings():
 
     base = load_settings()
     tmp = tempfile.mkdtemp(prefix="sentinel-m1-")
-    return replace(base, storage_local_dir=str(Path(tmp) / "objects"), log_format="console")
+    return replace(base, storage_root=str(Path(tmp) / "objects"), observability_log_format="console")
 
 
 @pytest.fixture(scope="session")
@@ -28,8 +28,8 @@ def migrated(settings):
     from migrations.apply import apply as apply_migrations
     from sentinel_core.db import tx
 
-    apply_migrations(settings.migrator_url)
-    with tx(settings.worker_url) as conn:
+    apply_migrations(settings.database_migrator_url)
+    with tx(settings.database_worker_url) as conn:
         conn.execute(
             "INSERT INTO tenants (id, name) VALUES ('tenant-b', 'Tenant B') "
             "ON CONFLICT DO NOTHING"
@@ -44,7 +44,7 @@ def migrated(settings):
 
 @pytest.fixture
 def app_settings(migrated, tmp_path):
-    return replace(migrated, storage_local_dir=str(tmp_path / "objects"))
+    return replace(migrated, storage_root=str(tmp_path / "objects"))
 
 
 @pytest.fixture

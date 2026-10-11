@@ -24,7 +24,7 @@ router = APIRouter()
 
 def _principal(request: Request) -> Principal:
     settings = _settings(request)
-    return authenticate(settings, request.headers.get(settings.api_key_header))
+    return authenticate(settings, request.headers.get(settings.security_api_key_header))
 
 
 def _run_body(row: dict) -> dict:

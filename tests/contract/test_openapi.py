@@ -84,7 +84,7 @@ def _app_route_keys():
     from sentinel_core.config import Settings
     from sentinel_api.app import create_app
 
-    app = create_app(Settings(database_url="", migrator_url=""))
+    app = create_app(Settings(database_url=""))
     keys = set()
 
     def walk(routes):

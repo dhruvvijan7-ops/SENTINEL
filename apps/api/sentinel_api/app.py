@@ -28,8 +28,8 @@ def _bootstrap_principals(settings: Settings) -> None:
     # Bootstrap via the worker role (BYPASSRLS): the principals RLS policy
     # has an implicit WITH CHECK on the session tenant, which is unset at
     # startup; the platform processor is the only role allowed to seed.
-    with tx(settings.worker_url or settings.database_url) as conn:
-        for dk in settings.dev_keys:
+    with tx(settings.database_worker_url or settings.database_url) as conn:
+        for dk in settings.auth_dev_keys:
             conn.execute(
                 """
                 INSERT INTO principals (id, tenant_id, workspace_id, kind, display_name, key_hash, scopes)
@@ -49,7 +49,9 @@ def _bootstrap_principals(settings: Settings) -> None:
 
 
 def create_app(settings: Settings) -> FastAPI:
-    configure_logging(settings.log_format)
+    configure_logging(
+        settings.observability_log_format, settings.observability_log_level
+    )
 
     from contextlib import asynccontextmanager
 
@@ -70,15 +72,15 @@ def create_app(settings: Settings) -> FastAPI:
     )
     app.state.settings = settings
     app.state.limiter = PrincipalLimiter(
-        settings.max_concurrent_uploads_per_principal,
-        settings.upload_hourly_quota_per_principal,
+        settings.ingest_max_concurrent_uploads_per_principal,
+        settings.ingest_upload_hourly_quota_per_principal,
     )
 
     @app.middleware("http")
     async def body_limit_and_metrics(request: Request, call_next):
         # Sentinel-owned request cap (Stage-3 §1): Content-Length pre-check +
         # streamed byte count.  No third-party WAF (spec constraint).
-        max_bytes = settings.max_request_bytes
+        max_bytes = settings.ingest_max_request_bytes
         declared = request.headers.get("content-length")
         if declared is not None:
             try:

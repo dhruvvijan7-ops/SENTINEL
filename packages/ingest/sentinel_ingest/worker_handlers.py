@@ -74,7 +74,7 @@ def _event_row(
 def _dsn(settings: Settings) -> str:
     # Workers run under the BYPASSRLS sentinel_worker role (platform
     # processor); handlers still set RLS vars explicitly for job scoping.
-    return settings.worker_url or settings.database_url
+    return settings.database_worker_url or settings.database_url
 
 
 def handle_ingest_file(settings: Settings, job: repos_jobs.JobRow) -> dict[str, Any]:

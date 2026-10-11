@@ -27,7 +27,7 @@ def _settings(request: Request) -> Settings:
 
 def require_principal(request: Request) -> Principal:
     settings = _settings(request)
-    header = request.headers.get(settings.api_key_header)
+    header = request.headers.get(settings.security_api_key_header)
     return authenticate(settings, header)
 
 
@@ -52,7 +52,7 @@ async def create_upload(request: Request, workspaceId: str) -> JSONResponse:
 
     limiter: PrincipalLimiter = request.app.state.limiter
     limiter.acquire(principal.principal_id)
-    deadline = time.monotonic() + settings.request_timeout_s
+    deadline = time.monotonic() + settings.ingest_gate_timeout_seconds
     try:
         form = await request.form()
         file_parts = [
@@ -76,7 +76,7 @@ async def create_upload(request: Request, workspaceId: str) -> JSONResponse:
             if hasattr(value, "read"):
                 continue
             raw = str(value)
-            if len(raw.encode()) > settings.max_field_bytes:
+            if len(raw.encode()) > settings.ingest_max_field_bytes:
                 from sentinel_core.errors import GateFieldTooLarge
 
                 raise GateFieldTooLarge(
@@ -91,9 +91,9 @@ async def create_upload(request: Request, workspaceId: str) -> JSONResponse:
                 raise GateTimeout("gate wall-clock timeout")
 
         _check_deadline()
-        store = LocalObjectStore(settings.storage_local_dir)
+        store = LocalObjectStore(settings.storage_root)
         sha256_hex, size, uri, sha1_hex, md5_hex = store.write_stream(
-            upload.file, max_bytes=settings.max_file_bytes
+            upload.file, max_bytes=settings.ingest_max_file_bytes
         )
         _check_deadline()
 
@@ -105,7 +105,7 @@ async def create_upload(request: Request, workspaceId: str) -> JSONResponse:
         with tx(settings.database_url) as conn:
             set_rls(conn, principal.tenant_id, principal.workspace_id)
             check_storage_quota(
-                repos_uploads.workspace_stored_bytes(conn), settings.storage_quota_bytes
+                repos_uploads.workspace_stored_bytes(conn), settings.ingest_storage_quota_bytes
             )
             if idem_key:
                 existing = get_key(conn, principal.principal_id, idem_key)
@@ -124,7 +124,7 @@ async def create_upload(request: Request, workspaceId: str) -> JSONResponse:
             from datetime import datetime, timedelta, timezone
 
             retention_until = datetime.now(timezone.utc) + timedelta(
-                days=settings.retention_days_raw_object
+                days=settings.retention_raw_days
             )
             repos_uploads.insert_raw_object(
                 conn,
@@ -212,7 +212,7 @@ async def create_upload(request: Request, workspaceId: str) -> JSONResponse:
         headers = {}
         if exc.code == "GATE_RATE_LIMITED":
             headers = {
-                "RateLimit-Limit": str(settings.upload_hourly_quota_per_principal),
+                "RateLimit-Limit": str(settings.ingest_upload_hourly_quota_per_principal),
                 "RateLimit-Remaining": "0",
                 "RateLimit-Reset": "3600",
             }

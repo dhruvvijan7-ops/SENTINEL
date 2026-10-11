@@ -1,48 +1,97 @@
 # Sentinel configuration — Milestone 1 (dev defaults).
-# Environment variables override file values: SENTINEL_<SECTION>_<KEY>
-# (e.g. SENTINEL_DATABASE_URL, SENTINEL_API_BIND_PORT).
+#
+# Layout follows spec §4 ("Configuration Reference") exactly: one TOML section
+# per spec section, one key per spec table row. Keys marked M0-A2 in
+# configs/config_keys.json are the additions the 3-role docker topology needs
+# (see research/DEVIATION_REGISTER.md).
+#
+# Precedence (D6-010): SENTINEL_* environment > this file > built-in default.
+# Environment names map section.key -> SENTINEL_SECTION__KEY (double underscore
+# = nesting), e.g. SENTINEL_SERVER__PORT=9000 or
+# SENTINEL_SECURITY__WINDOWS__DPAPI=false.
+#
+# Secrets (the three DSN passwords) are supplied via environment in production,
+# never written to a file. Startup fails closed if one is missing.
+
+[server]
+host = "127.0.0.1"
+port = 8080          # spec §4 default is 8000; 8080 kept for M1 dev parity
+workers = 1          # uvicorn workers; jobs run in the worker process, not here
 
 [database]
 # App role (no BYPASSRLS; RLS enforced per transaction).
 url = "postgresql+psycopg://sentinel_app:sentinel_app@127.0.0.1:54321/sentinel"
-# Migration role (schema owner).
+pool_min = 5
+pool_max = 20
+# M0-A2 — migration role (schema owner).
 migrator_url = "postgresql+psycopg://sentinel_migrator:sentinel_migrator@127.0.0.1:54321/sentinel"
-# Worker role (BYPASSRLS platform processor — claims jobs across tenants).
+# M0-A2 — worker role (BYPASSRLS platform processor, claims jobs across tenants).
 worker_url = "postgresql+psycopg://sentinel_worker:sentinel_worker@127.0.0.1:54321/sentinel"
 
-[api]
-bind_host = "127.0.0.1"
-bind_port = 8080
+[storage]
+backend = "fs"                              # fs | s3 (s3 = OQ-6-03, not MVP)
+# Content-addressed hot store for accepted artifacts (§1.2); ACL: service
+# account only. Override for production: C:\ProgramData\Sentinel\data
+root = ".sentinel-data/objects"
+archive_uri = ""                            # null unless §1.6 archiving is on
+
+[jobs]
+# Unique per worker process; default derives from hostname+pid at runtime.
+worker_id = ""
+claim_concurrency = 8                       # PROPOSED
+heartbeat_seconds = 15                      # PROPOSED
+lease_seconds = 60                          # PROPOSED; reaper threshold
+backoff_base_seconds = 5                    # PROPOSED, full jitter
+cap_minutes = 15                            # PROPOSED, full jitter
+max_attempts = 5                            # dead-letter after
 
 [worker]
-# Unique per worker process; default derives from host+pid at runtime.
-id = ""
+# M0-A2 — worker process tuning, not queue policy.
 poll_interval_ms = 200
-claim_batch = 4
 
-[storage]
-# Content-addressed hot store for accepted artifacts (local volume for M1).
-local_dir = ".sentinel-data/objects"
-retention_days_raw_object = 90
-
-[limits]
-# Stage-3 hostile-file gate bounds (Sentinel-owned ASGI middleware).
-max_request_bytes = 67108864          # 64 MiB
-max_file_bytes = 67108864             # 64 MiB
-max_field_bytes = 8192                # 8 KiB
-request_timeout_s = 30
+[ingest]
+# Stage-3 hostile-file gate bounds (Sentinel-owned ASGI middleware), D8-05-fix.
+max_request_bytes = 67108864                # 64 MiB
+max_file_bytes = 67108864                   # 64 MiB
+max_field_bytes = 8192                      # 8 KiB
+gate_timeout_seconds = 30                   # GATE_TIMEOUT
+# M0-A2 — §3.2 admission controls.
 max_concurrent_uploads_per_principal = 4
 upload_hourly_quota_per_principal = 500
-storage_quota_bytes = 53687091200     # 50 GiB per workspace
+storage_quota_bytes = 53687091200           # 50 GiB per workspace
+
+[detection]
+statement_timeout_ms = 60000                # per-rule SQL budget (Stage 5)
+native_enabled = true                       # fallback evaluator
+cold_start_policy = "stage5-§4.8"           # pointer to Stage 5 defaults
+
+[retention]
+raw_days = 90
+event_days = 365
+finding_days = 730
+legal_hold_enabled = true                   # operator flag honoured by purge
+
+[observability]
+log_level = "info"                          # debug | info | warning | error
+log_format = "json"                         # json | console
+metrics_enabled = true                      # /metrics on loopback
+otel_endpoint = ""                          # null unless §5.3 tracing is on
 
 [security]
 api_key_header = "X-API-Key"
 
-[log]
-# json | console
-format = "json"
+[security.argon2_params]
+# OWASP-2024 baseline.
+time_cost = 3
+memory_cost = 65536
+parallelism = 4
+hash_len = 32
+salt_len = 16
 
-# Dev-only API keys (Stage-6 auth service replaces this stub).
+[security.windows]
+dpapi = true                                # encrypt secrets at rest via DPAPI
+
+# M0-A2 — dev-only API keys (Stage-6 auth service replaces this stub).
 # Each key binds a principal to exactly one tenant+workspace.
 [[auth.dev_keys]]
 key = "dev-key-default-0000000000000001"

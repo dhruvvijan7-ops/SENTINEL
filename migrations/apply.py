@@ -18,7 +18,6 @@ def apply(url: str) -> None:
 
 
 if __name__ == "__main__":
-    import os
     import sys
 
     from sentinel_core.config import load_settings
@@ -26,7 +25,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         url = sys.argv[1]
     else:
-        url = os.environ.get("SENTINEL_MIGRATOR_URL") or load_settings().migrator_url
+        url = load_settings().database_migrator_url
     apply(url)
     print("migrations applied")
 

@@ -22,7 +22,7 @@ def authenticate(settings: Settings, presented: str | None) -> Principal:
     if not presented:
         raise GateUnauthenticated("missing API key")
     matched = None
-    for dk in settings.dev_keys:
+    for dk in settings.auth_dev_keys:
         if hmac.compare_digest(dk.key.encode(), presented.encode()):
             matched = dk
     if matched is None:

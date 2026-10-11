@@ -27,7 +27,7 @@ def ready(request: Request):
     db_ok = ping(settings.database_url)
     store_ok = True
     try:
-        root = Path(settings.storage_local_dir)
+        root = Path(settings.storage_root)
         root.mkdir(parents=True, exist_ok=True)
         probe = root / ".ready-probe"
         probe.write_bytes(b"ok")

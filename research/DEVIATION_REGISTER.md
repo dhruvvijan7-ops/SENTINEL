@@ -82,18 +82,24 @@ amended with an `M0-A*` marker so a reader of the spec alone is never misled.
   `tests/integration/test_rls.py` (dynamic: direct `SELECT` against a partition
   returns 0 rows unscoped / only own rows scoped).
 
-### M0-A2 — configuration keys required by the 3-role docker topology
+### M0-A2 — configuration keys required by the 3-role docker topology and the running processes
 
-* **Amended.** Spec §4 (the configuration reference) gains five keys that the
-  delivered implementation needs and the spec table omitted:
+* **Amended.** Spec §4 (the configuration reference) gains **seven** keys that
+  the delivered implementation needs and the spec table omitted:
 
   | Key | Type | Default | Why |
   |---|---|---|---|
   | `database.migrator_url` | str | — | the migration role's DSN; a separate login because migrations need DDL rights the app role must not have |
   | `database.worker_url` | str | — | the BYPASSRLS worker role's DSN |
+  | `worker.poll_interval_ms` | int | 200 | the worker process's idle poll interval; §4's `jobs.*` keys are queue *policy*, not process tuning |
   | `ingest.max_concurrent_uploads_per_principal` | int | 4 | upload concurrency cap (§3.2 rate-limit family) |
   | `ingest.upload_hourly_quota_per_principal` | int | 500 | upload quota |
   | `ingest.storage_quota_bytes` | int | 50 GiB | storage quota |
+  | `auth.dev_keys` | array of tables | — | the Stage-6 auth service does not exist yet; M1 binds each dev API key to one principal/tenant/workspace |
+
+  *(The register's first draft listed five; `worker.poll_interval_ms` and
+  `auth.dev_keys` were discovered when `Settings` was rewritten field-by-field
+  against the §4 table. Seven is the count that matches the delivered tree.)*
 
 * **Why.** `docker-compose.yml` runs three roles (owner / app / worker) and the
   code needs a distinct DSN for the migrator and the worker; §4 only specified
@@ -104,9 +110,10 @@ amended with an `M0-A*` marker so a reader of the spec alone is never misled.
   artifact. Recorded here so the omission is visible and the keys are frozen
   rather than discovered.
 * **Gate.** `tests/contract/test_config_freeze.py` — every extension key must
-  be listed in `configs/config_keys.json` with `origin: M0-A2`, otherwise the
-  freeze test fails. A key cannot be added to `Settings` without either a spec
-  table row or an `M0-A2` manifest entry.
+  be listed in `configs/config_keys.json` with `origin: "M0-A2"` **and** named
+  in this register (`test_a2_keys_are_declared_in_the_deviation_register`),
+  otherwise the freeze test fails. A key cannot be added to `Settings` without
+  either a spec table row or an `M0-A2` manifest entry.
 
 ### M0-A3 — contract files live at the repository root, not `schemas/`
 

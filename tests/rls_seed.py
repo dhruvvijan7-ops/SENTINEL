@@ -12,7 +12,7 @@ Two connection identities are used, mirroring the shipped topology
     insert itself is subject to the policy's implicit ``WITH CHECK``.  That is
     deliberate: it is how the partition-RLS work (M0-A1) proves an ordinary
     write still lands after children were policed.
-  * ``settings.worker_url``    — ``sentinel_worker``, ``BYPASSRLS``.  Tenant-B
+  * ``settings.database_worker_url``    — ``sentinel_worker``, ``BYPASSRLS``.  Tenant-B
     rows are planted through this role because the worker is the only identity
     that legitimately writes cross-tenant (it is the platform processor).  It
     also keeps the probe honest: tenant B's rows exist in the database even
@@ -508,7 +508,7 @@ def purge_seeded_rows(settings) -> int:
     from sentinel_core.db import tx
 
     removed = 0
-    with tx(settings.worker_url) as conn:
+    with tx(settings.database_worker_url) as conn:
         for table, predicate in _PURGE_ORDER:
             if "%s" in predicate:
                 params = (SHA_A, SHA_B) if table == "raw_objects" else (UID, UID_B)
@@ -533,7 +533,7 @@ def seed_tenant_rows(settings, tenant: tuple[str, str], *, worker: bool) -> int:
     from sentinel_core.db import tx
     from sentinel_core.rls import set_rls
 
-    url = settings.worker_url if worker else settings.database_url
+    url = settings.database_worker_url if worker else settings.database_url
     written = 0
     with tx(url) as conn:
         if not worker:
