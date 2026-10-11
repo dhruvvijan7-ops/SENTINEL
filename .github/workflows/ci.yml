@@ -1,13 +1,17 @@
 name: ci
 
-# M0 regression gates. Each job maps to a spec section-9 exit criterion:
+# M0 regression gates. The spec's "9a. M0 exit criteria → machine gate"
+# table is authoritative for which committed artefact enforces which §9 M0
+# exit criterion; tests/contract/test_m0_exit_gates.py keeps this file in
+# step with it. Summary:
 #
-#   contract    -> exits (2) OpenAPI, (3) example corpora, (5) DEPENDENCY
-#                  licences, (6) schema RLS lint, (7) frozen config keys,
-#                  (8) static tests, (9) 100% coverage of rules + workflows,
-#                  (11) tripwire, (12) test inventory. No database.
-#   schema      -> exit (1) psql lint + migration chain vs schema.sql.
-#   integration -> exit (4) dynamic RLS probe, plus the M1 e2e upload flow.
+#   contract    -> ② openapi.yaml ($ref / operationId), ③ example corpora,
+#                  ④ static RLS lint, ⑤ DEPENDENCY licences, plus the
+#                  frozen-config, canonical-event and tripwire gates.
+#                  No database.
+#   schema      -> ① psql lint, alembic upgrade head, catalog diff vs
+#                  schema.sql.
+#   integration -> ④ dynamic RLS probe, plus the M1 e2e upload flow.
 #
 # Contract runs on Windows because Sentinel is Windows-first: the frozen
 # artefacts (schema.sql, config.example.toml, the spec tables) must parse
