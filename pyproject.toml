@@ -26,7 +26,10 @@ where = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+pythonpath = ["."]
 filterwarnings = ["error::DeprecationWarning"]
 markers = [
     "slow: long-running tests (10k job soak, docker stop/start)",
+    "integration: requires a reachable PostgreSQL 18 (see .github/workflows/ci.yml)",
+    "windows_only: requires Windows-only tooling (wevtutil, DPAPI)",
 ]

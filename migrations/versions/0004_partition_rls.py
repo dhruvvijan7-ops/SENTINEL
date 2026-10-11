@@ -61,7 +61,7 @@ def upgrade() -> None:
                     SELECT 1 FROM pg_policies
                     WHERE schemaname = 'public'
                       AND tablename  = '{child}'
-                      AND policname  = '{child}_ws'
+                      AND policyname  = '{child}_ws'
                 ) THEN
                     CREATE POLICY {child}_ws ON {child}
                         USING {_TENANT_WORKSPACE_USING};

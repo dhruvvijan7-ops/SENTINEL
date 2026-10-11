@@ -39,7 +39,7 @@ def upgrade() -> None:
                 SELECT 1 FROM pg_policies
                 WHERE schemaname = 'public'
                   AND tablename  = 'raw_objects'
-                  AND policname  = 'raw_objects_cas'
+                  AND policyname  = 'raw_objects_cas'
             ) THEN
                 CREATE POLICY raw_objects_cas ON raw_objects
                     USING (true) WITH CHECK (true);
@@ -55,3 +55,4 @@ def downgrade() -> None:
     # contract, so dropping it here would re-open the M1-D3 deny-all defect on
     # every database that ever ran this migration.  Migrations are forward-only
     # in MVP (spec §7.2), so a no-op downgrade is the safe default.
+    pass
