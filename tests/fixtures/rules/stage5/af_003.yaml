@@ -1,0 +1,20 @@
+schema: sentinel-rule/v1
+id: AF-003
+kind: artifact
+source: native
+title: Archive entry expansion ratio above the configured threshold
+severity: MEDIUM
+when:
+  any:
+  - fact: archive.entry.ratio
+    gte: 100
+  - fact: ooxml.part.ratio
+    gte: 100
+emit:
+  artifact_type: file
+  finding: high_expansion_ratio
+  confidence: derived
+  evidence_facts:
+  - archive.entry.ratio
+  - ooxml.part.ratio
+enabled: true

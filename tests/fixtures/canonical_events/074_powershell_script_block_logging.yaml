@@ -1,0 +1,69 @@
+schema_version: canonical-event/v1
+event:
+  category: powershell
+  type: script_block_logging
+  action: log
+  outcome: success
+  severity: informational
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-08T16:26:20.010508Z'
+  original: '2026-10-08T16:26:20.0105082Z'
+  original_timezone: Z
+  timezone_source: source_explicit
+  precision: microsecond
+  state: ok
+host:
+  hostname: Dhruvs_Victus
+  os:
+    family: windows
+    build: '26200'
+user:
+  sid: S-1-5-21-392970859-1592143220-1055403080-1001
+source:
+  file_id: loc-psop-4104
+  format: evtx
+  parser: evtx-canonical
+  parser_version: 1.0.0
+  channel: Microsoft-Windows-PowerShell/Operational
+  provider: Microsoft-Windows-PowerShell
+  event_id: 4104
+  record:
+    type: event_record
+    record_id: 72802
+raw: "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-PowerShell'/><EventID>4104</EventID><TimeCreated\
+  \ SystemTime='2026-10-08T16:26:20.0105082Z'/><EventRecordID>72802</EventRecordID><Channel>Microsoft-Windows-PowerShell/Operational</Channel><Computer>Dhruvs_Victus</Computer><Security\
+  \ UserID='S-1-5-21-392970859-1592143220-1055403080-1001'/></System><EventData><Data Name='MessageNumber'>1</Data><Data\
+  \ Name='MessageTotal'>1</Data><Data Name='ScriptBlockText'>#!/usr/bin/env pwsh\r\n\r\nSet-StrictMode\
+  \ -Version 'Latest'\r\n\r\n$NODE_EXE=\"$PSScriptRoot/node.exe\"\r\nif (-not (Test-Path $NODE_EXE)) {\r\
+  \n  $NODE_EXE=\"$PSScriptRoot/node\"\r\n}\r\nif (-not (Test-Path $NODE_EXE)) {\r\n  $NODE_EXE=\"node\"\
+  \r\n}\r\n\r\n$NPM_PREFIX_JS=\"$PSScriptRoot/node_modules/npm/bin/npm-prefix.js\"\r\n$NPM_CLI_JS=\"$PSScriptRoot/node_modules/npm/bin/npm-cli.js\"\
+  \r\n$NPM_PREFIX=(&amp; $NODE_EXE $NPM_PREFIX_JS)\r\n\r\nif ($LASTEXITCODE -ne 0) {\r\n  Write-Host \"\
+  Could not determine Node.js install directory\"\r\n  exit 1\r\n}\r\n\r\n$NPM_PREFIX_NPM_CLI_JS=\"$NPM_PREFIX/node_modules/npm/bin/npm-cli.js\"\
+  \r\nif (Test-Path $NPM_PREFIX_NPM_CLI_JS) {\r\n  $NPM_CLI_JS=$NPM_PREFIX_NPM_CLI_JS\r\n}\r\n\r\nif ($MyInvocation.ExpectingInput)\
+  \ { # takes pipeline input\r\n  $input | &amp; $NODE_EXE $NPM_CLI_JS $args\r\n} elseif (-not $MyInvocation.Line)\
+  \ { # used \"-File\" argument\r\n  &amp; $NODE_EXE $NPM_CLI_JS $args\r\n} else { # used \"-Command\"\
+  \ argument\r\n  if (($MyInvocation | Get-Member -Name 'Statement') -and $MyInvocation.Statement) {\r\
+  \n    $NPM_ORIGINAL_COMMAND = $MyInvocation.Statement\r\n  } else {\r\n    $NPM_ORIGINAL_COMMAND = (\r\
+  \n      [Management.Automation.InvocationInfo].GetProperty('ScriptPosition', [Reflection.BindingFlags]\
+  \ 'Instance, NonPublic')\r\n    ).GetValue($MyInvocation).Text\r\n  }\r\n\r\n  $NODE_EXE = $NODE_EXE.Replace(\"\
+  ``\", \"````\")\r\n  $NPM_CLI_JS = $NPM_CLI_JS.Replace(\"``\", \"````\")\r\n\r\n  $NPM_COMMAND_ARRAY\
+  \ = [Management.Automation.Language.Parser]::ParseInput($NPM_ORIGINAL_COMMAND, [ref] $null, [ref] $null).\r\
+  \n    EndBlock.Statements.PipelineElements.CommandElements.Extent.Text\r\n  $NPM_ARGS = ($NPM_COMMAND_ARRAY\
+  \ | Select-Object -Skip 1) -join ' '\r\n\r\n  Invoke-Expression \"&amp; `\"$NODE_EXE`\" `\"$NPM_CLI_JS`\"\
+  \ $NPM_ARGS\"\r\n}\r\n\r\nexit $LASTEXITCODE\r\n</Data><Data Name='ScriptBlockId'>d8bf42e3-4f0c-46c9-8794-41d6bf5ba3e0</Data><Data\
+  \ Name='Path'>C:\\Program Files\\nodejs\\npm.ps1</Data></EventData></Event>"
+powershell:
+  message_number: 1
+  message_total: 1
+  script_block_text:
+    $state: inferred
+    $note: ScriptBlockText truncated to first 200 chars for example brevity; full value in raw
+    $raw: "#!/usr/bin/env pwsh\r\n\r\nSet-StrictMode -Version 'Latest'\r\n\r\n$NODE_EXE=\"$PSScriptRoot/node.exe\"\
+      \nif (-not (Test-Path $NODE_EXE)) {\n  $NODE_EXE=\"$PSScriptRoot/node\"\n}\n... [truncated in example;\
+      \ full in raw]\n"
+  script_block_id: 0a1b2c3d-4e5f-6789-abcd-ef0123456789
+  script_path: C:\Program Files\nodejs\npm.ps1

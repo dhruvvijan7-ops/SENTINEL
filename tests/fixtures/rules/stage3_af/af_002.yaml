@@ -1,0 +1,17 @@
+schema: sentinel-rule/v1
+id: AF-002
+kind: artifact
+source: native
+title: PDF declares an OpenAction
+severity: LOW
+enabled: true
+when:
+  all:
+  - fact: pdf.action.open_action
+    exists: true
+emit:
+  artifact_type: file
+  finding: pdf_open_action_declared
+  confidence: observed
+  evidence_facts:
+  - pdf.action.open_action

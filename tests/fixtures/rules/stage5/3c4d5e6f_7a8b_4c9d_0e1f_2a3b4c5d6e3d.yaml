@@ -1,0 +1,28 @@
+schema: sentinel-rule/v1
+id: 3c4d5e6f-7a8b-4c9d-0e1f-2a3b4c5d6e3d
+kind: sca
+source: native
+author: Sentinel content team
+title: Unsupported Security Provider Registered
+description: Fires only on config_check.status = fail for the selected checks; wording is Sentinel's own.
+severity: MEDIUM
+sca:
+  select:
+    checks:
+    - sc.win.local_policy.*
+  fail_status_only: true
+  assert:
+    field: config_check.observed
+    op: neq
+    value: '2'
+  benchmark:
+    framework: cis
+    control_id: 18.9.1
+    note: Control ID cited factually; check wording is Sentinel's own (no CIS benchmark text shipped).
+  evidence:
+  - config_check.observed
+  - config_check.expected
+  - config_check.source
+enabled: true
+compile:
+  cost_class: prefilter

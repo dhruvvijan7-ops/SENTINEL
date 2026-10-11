@@ -1,0 +1,38 @@
+schema_version: canonical-event/v1
+event:
+  category: service
+  type: service_inventory
+  action: inventory
+  outcome: success
+  severity: informational
+  derived_by: sentinel
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: null
+  timezone_source: none
+  precision: unknown
+  state: unknown
+host: {}
+user: {}
+source:
+  file_id: sc-query-001
+  format: text
+  parser: sc-query-parser
+  parser_version: 1.0.0
+raw: "SERVICE_NAME: EvilSvc\n        TYPE               : 10  WIN32_OWN_PROCESS  \n        STATE     \
+  \         : 4  RUNNING  \n                                (STOPPABLE, NOT_PAUSABLE, ACCEPTS_SHUTDOWN)\n\
+  \        WIN32_EXIT_CODE    : 0  (0x0)\n        SERVICE_EXIT_CODE  : 0  (0x0)\n        CHECKPOINT  \
+  \       : 0x0\n        WAIT_HINT          : 0x0\n"
+service:
+  name: EvilSvc
+  service_type: 10  WIN32_OWN_PROCESS
+  state: 4  RUNNING
+  exit_code: 0  (0x0)
+  checkpoint:
+    $state: inferred
+    $raw: '0x0'
+  wait_hint:
+    $state: inferred
+    $raw: '0x0'

@@ -1,0 +1,37 @@
+schema: sentinel-rule/v1
+id: 9b8c7d6e-5f4a-4b3c-8d2e-1f0a9b8c7d62
+kind: sigma
+source: sigma
+source_spec: sigma-spec/2.1.0
+license: DRL-1.1
+author: Example Sigma Author
+title: Network Connection To Literal IP Address
+name: win_network_literal_ip_high_port
+description: Process opens a connection to a dotted-quad address on a non-standard port.
+status: test
+severity: MEDIUM
+level_original: medium
+logsource:
+  product: windows
+  category: network_connection
+tags:
+- attack.t1071
+detection:
+  selection:
+    network.dst_ip|re: ^\d{1,3}(\.\d{1,3}){3}$
+    network.dst_port|gte: 1024
+  filter_corp:
+    network.dst_ip|cidr:
+    - 10.0.0.0/8
+    - 192.168.0.0/16
+    - 172.16.0.0/12
+  condition: selection and not filter_corp
+enabled: true
+compile:
+  detection_path: native
+  cost_class: standard
+  prefilter:
+  - column: event.category
+    op: eq
+    values:
+    - network

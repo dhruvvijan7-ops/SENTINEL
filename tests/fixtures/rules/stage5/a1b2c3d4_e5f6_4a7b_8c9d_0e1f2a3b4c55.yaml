@@ -1,0 +1,29 @@
+schema: sentinel-rule/v1
+id: a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c55
+kind: correlation
+source: sigma
+source_spec: sigma-spec/2.1.0
+license: DRL-1.1
+author: Sentinel content team
+title: Repeated Failed Interactive Logons (Brute Force Candidate)
+name: corr_bruteforce_failed_logons
+description: More than 5 failed logon events for the same account on the same host within 10m. Referenced
+  rules are ordinary kind:sigma rules resolved by name through the load-time name index; a missing/disabled
+  member produces MEMBER_RULE_INACTIVE (never a silent no-op).
+severity: HIGH
+level_original: high
+correlation:
+  type: event_count
+  rules:
+  - win_auth_failure_4625
+  - win_auth_failure_4768
+  group-by:
+  - authentication.account_name
+  - host.agent_id
+  timespan: 10m
+  condition:
+    gt: 5
+  generate: true
+enabled: true
+compile:
+  cost_class: window

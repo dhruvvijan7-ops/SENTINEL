@@ -1,0 +1,27 @@
+schema: sentinel-rule/v1
+id: 0f9e8d7c-6b5a-4c3d-2e1f-0a9b8c7d6e54
+kind: sigma
+source: sigma
+source_spec: sigma-spec/2.1.0
+license: DRL-1.1
+author: Example Sigma Author
+title: Mimikatz-Like Strings Anywhere In The Event
+name: win_keyword_mimikatz_strings
+description: Whole-event keyword search; condition is a list of items (OR across items per spec).
+status: experimental
+severity: MEDIUM
+level_original: medium
+logsource:
+  product: windows
+tags:
+- attack.t1003
+detection:
+  keywords:
+  - sekurlsa::logonpasswords
+  - privilege::debug
+  - lsadump::sam
+  condition: keywords
+enabled: true
+compile:
+  detection_path: native
+  cost_class: heavy

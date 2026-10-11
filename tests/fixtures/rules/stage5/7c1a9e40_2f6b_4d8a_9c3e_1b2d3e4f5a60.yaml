@@ -1,0 +1,50 @@
+schema: sentinel-rule/v1
+id: 7c1a9e40-2f6b-4d8a-9c3e-1b2d3e4f5a60
+kind: sigma
+source: sigma
+source_id: 5f0d8b2a-9c4e-4a1f-8e7d-6b5a4c3d2e10
+source_ref: sigma-rules@8a4813404e:rules/windows/process_creation/example_s01.yml
+source_spec: sigma-spec/2.1.0
+license: DRL-1.1
+author: Example Sigma Author
+title: Encoded PowerShell Launched From cmd.exe
+name: win_process_encoded_ps_from_cmd
+description: cmd.exe spawning PowerShell with an encoded command and execution-policy bypass.
+status: test
+severity: HIGH
+level_original: high
+logsource:
+  product: windows
+  category: process_creation
+tags:
+- attack.t1059.001
+- attack.t1027
+falsepositives:
+- Software deployment tooling that encodes installer commands
+fields:
+- process.exe
+- process.command_line
+- process.parent.exe
+- user.name
+detection:
+  selection:
+    process.exe|endswith:
+    - \cmd.exe
+    - \powershell.exe
+    - \pwsh.exe
+    process.command_line|contains|all:
+    - -enc
+    - bypass
+  filter_legit:
+    process.parent.exe|endswith: \services.exe
+  condition: selection and not filter_legit
+enabled: true
+compile:
+  detection_path: sql
+  cost_class: standard
+  prefilter:
+  - column: source.channel
+    op: eq
+    values:
+    - security
+    - sysmon

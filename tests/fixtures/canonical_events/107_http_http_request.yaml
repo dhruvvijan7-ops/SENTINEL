@@ -1,0 +1,56 @@
+schema_version: canonical-event/v1
+event:
+  category: http
+  type: http_request
+  action: request
+  outcome: success
+  severity: informational
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-09T14:21:00.654321Z'
+  original: 2026-10-09T14:21:00.654321+0000
+  original_timezone: +00:00
+  timezone_source: source_explicit
+  precision: microsecond
+  state: ok
+host: {}
+user: {}
+source:
+  file_id: eve-http-001
+  format: json
+  parser: suricata-eve
+  parser_version: 1.0.0
+raw:
+  timestamp: 2026-10-09T14:21:00.654321+0000
+  flow_id: 123456789
+  event_type: http
+  src_ip: 10.10.5.23
+  src_port: 51550
+  dest_ip: 93.184.216.34
+  dest_port: 80
+  proto: TCP
+  http:
+    hostname: example.com
+    url: /payload.bin
+    http_user_agent: curl/8.5.0
+    http_method: GET
+    protocol: HTTP/1.1
+    status: 200
+    length: 4096
+http:
+  host: example.com
+  url: /payload.bin
+  user_agent: curl/8.5.0
+  method: GET
+  status_code: 200
+  request_body_length: 4096
+network:
+  protocol: TCP
+  src_ip: 10.10.5.23
+  src_port: 51550
+  dst_ip: 93.184.216.34
+  dst_port: 80
+  uid: '123456789'

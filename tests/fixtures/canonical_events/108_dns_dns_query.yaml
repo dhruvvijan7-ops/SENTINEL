@@ -1,0 +1,65 @@
+schema_version: canonical-event/v1
+event:
+  category: dns
+  type: dns_query
+  action: response
+  outcome: success
+  severity: informational
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-09T14:22:00.111222Z'
+  original: 2026-10-09T14:22:00.111222+0000
+  original_timezone: +00:00
+  timezone_source: source_explicit
+  precision: microsecond
+  state: ok
+host: {}
+user: {}
+source:
+  file_id: eve-dns-001
+  format: json
+  parser: suricata-eve
+  parser_version: 1.0.0
+raw:
+  timestamp: 2026-10-09T14:22:00.111222+0000
+  flow_id: 223344556
+  event_type: dns
+  src_ip: 10.10.5.23
+  src_port: 51541
+  dest_ip: 10.10.0.1
+  dest_port: 53
+  proto: UDP
+  dns:
+    type: answer
+    id: 4321
+    rrname: example.com
+    rrtype: A
+    rcode: NOERROR
+    ttl: 300
+    answers:
+    - rrname: example.com
+      rrtype: A
+      ttl: 300
+      rdata: 93.184.216.34
+dns:
+  query_name: example.com
+  query_type: A
+  response_code: NOERROR
+  answers:
+  - 93.184.216.34
+  server: 10.10.0.1
+network:
+  protocol: UDP
+  src_ip: 10.10.5.23
+  src_port: 51541
+  dst_ip: 10.10.0.1
+  dst_port: 53
+  uid: '223344556'
+unmapped:
+- name: id
+  value: 4321
+- name: ttl
+  value: 300

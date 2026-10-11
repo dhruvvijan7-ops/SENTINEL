@@ -1,0 +1,34 @@
+schema: sentinel-rule/v1
+id: 5e6f7a8b-9c0d-4e1f-2a3b-4c5d6e7f8a5f
+kind: statistical
+source: native
+author: Sentinel content team
+title: Network Byte Rate Above Peer Baseline
+description: median + k*MAD over 5m buckets spanning 7d; k and thresholds are content. Warm-up (suppress)
+  accounts BASELINE_WARMUP — never silent silence (4.8).
+severity: MEDIUM
+statistical:
+  kind: rate
+  group_by:
+  - host.agent_id
+  measure:
+    op: sum
+    field: network.bytes_sent
+  window:
+    bucket: 5m
+    span: 7d
+  baseline:
+    min_observations: 84
+    warmup_action: suppress
+    estimator: median_mad
+    k: 6
+  threshold:
+    op: gt
+    value: 50000000
+    for_buckets: 3
+  scope_filter:
+    event.category:
+    - network
+enabled: true
+compile:
+  cost_class: window

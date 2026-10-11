@@ -1,0 +1,25 @@
+schema: sentinel-rule/v1
+id: d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f88
+kind: correlation
+source: sigma
+source_spec: sigma-spec/2.1.0
+license: DRL-1.1
+author: Sentinel content team
+title: Sustained Outbound Byte Volume From One Host
+name: corr_egress_byte_sum
+description: Summed network.bytes_sent above 50 MB per host within 1h across network events.
+severity: MEDIUM
+level_original: medium
+correlation:
+  type: value_sum
+  rules:
+  - win_network_literal_ip_high_port
+  group-by:
+  - host.agent_id
+  timespan: 1h
+  condition:
+    field: network.bytes_sent
+    gt: 50000000
+enabled: true
+compile:
+  cost_class: window

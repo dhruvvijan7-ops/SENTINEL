@@ -1,0 +1,62 @@
+schema_version: canonical-event/v1
+event:
+  category: tls
+  type: tls_handshake
+  action: handshake
+  outcome: success
+  severity: informational
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-09T14:23:00.999888Z'
+  original: 2026-10-09T14:23:00.999888+0000
+  original_timezone: +00:00
+  timezone_source: source_explicit
+  precision: microsecond
+  state: ok
+host: {}
+user: {}
+source:
+  file_id: eve-tls-001
+  format: json
+  parser: suricata-eve
+  parser_version: 1.0.0
+raw:
+  timestamp: 2026-10-09T14:23:00.999888+0000
+  flow_id: 334455667
+  event_type: tls
+  src_ip: 10.10.5.23
+  src_port: 51543
+  dest_ip: 93.184.216.34
+  dest_port: 443
+  proto: TCP
+  tls:
+    subject: CN=example.com
+    issuer: CN=Example CA
+    serial: 0a1b2c3d4e5f
+    fingerprint: ab:cd:ef:...
+    sni: example.com
+    version: TLS 1.2
+    ja3: e7d705a3286e19ea42f587b344ee6865
+    ja3s: aaf33f89f218dd09568c70de42a0186d
+tls:
+  sni: example.com
+  version: TLS 1.2
+  subject: CN=example.com
+  issuer: CN=Example CA
+  ja3: e7d705a3286e19ea42f587b344ee6865
+  ja3s: aaf33f89f218dd09568c70de42a0186d
+network:
+  protocol: TCP
+  src_ip: 10.10.5.23
+  src_port: 51543
+  dst_ip: 93.184.216.34
+  dst_port: 443
+  uid: '334455667'
+unmapped:
+- name: serial
+  value: 0a1b2c3d4e5f
+- name: fingerprint
+  value: ab:cd:ef:...

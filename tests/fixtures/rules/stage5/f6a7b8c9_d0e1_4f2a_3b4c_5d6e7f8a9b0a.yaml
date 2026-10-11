@@ -1,0 +1,35 @@
+schema: sentinel-rule/v1
+id: f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0a
+kind: ioc
+source: native
+author: Sentinel content team
+title: DNS Or Connection Destination Matches Signed Intelligence Pack
+description: Domain suffix-exact match plus IP/CIDR membership from the same signed pack.
+severity: HIGH
+ioc:
+  packs:
+  - pack: acme-intel
+    version: 2026.10.0
+    digest_sha256: 6b8e1f0c2d3a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4
+  match:
+    fields:
+    - dns.query_name
+    - network.dst_ip
+    kinds:
+    - domain
+    - ipv4
+    - cidr
+    normalize:
+    - lowercase
+    - strip_trailing_dot
+    - ip_canonical
+  confirm_exact: true
+  on_stale: last_known_good
+  emit_fields:
+  - dns.query_name
+  - network.dst_ip
+  - network.dst_port
+enabled: true
+compile:
+  detection_path: sql
+  cost_class: prefilter

@@ -1,0 +1,77 @@
+schema_version: canonical-event/v1
+event:
+  category: powershell
+  type: module_logging
+  action: log
+  outcome: success
+  severity: informational
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-09-30T13:31:32.589707Z'
+  original: '2026-09-30T13:31:32.5897071Z'
+  original_timezone: Z
+  timezone_source: source_explicit
+  precision: microsecond
+  state: ok
+host:
+  hostname: Dhruvs_Victus
+  os:
+    family: windows
+    build: '26200'
+user:
+  sid: S-1-5-21-392970859-1592143220-1055403080-1001
+source:
+  file_id: loc-psop-4103
+  format: evtx
+  parser: evtx-canonical
+  parser_version: 1.0.0
+  channel: Microsoft-Windows-PowerShell/Operational
+  provider: Microsoft-Windows-PowerShell
+  event_id: 4103
+  record:
+    type: event_record
+    record_id: 67645
+raw: "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-PowerShell'/><EventID>4103</EventID><TimeCreated\
+  \ SystemTime='2026-09-30T13:31:32.5897071Z'/><EventRecordID>67645</EventRecordID><Channel>Microsoft-Windows-PowerShell/Operational</Channel><Computer>Dhruvs_Victus</Computer><Security\
+  \ UserID='S-1-5-21-392970859-1592143220-1055403080-1001'/></System><EventData><Data Name='ContextInfo'>\
+  \        Severity = Informational\r\n        Host Name = ConsoleHost\r\n        Host Version = 5.1.26100.9444\r\
+  \n        Host ID = cd1c8ee3-71a5-42ab-98f7-1f56710b1f0f\r\n        Host Application = powershell.exe\
+  \ -NoProfile -ExecutionPolicy Bypass -Command $ErrorActionPreference='SilentlyContinue'\n$code=@'\n\
+  using System; using System.Runtime.InteropServices;\npublic static class NativeMethods {\n  [DllImport(user32.dll,SetLastError=true,CharSet=CharSet.Auto)]\n\
+  \  public static extern IntPtr SendMessageTimeout(IntPtr hWnd,uint Msg,UIntPtr wParam,IntPtr lParam,uint\
+  \ fuFlags,uint uTimeout,out UIntPtr lpdwResult);\n}\n'@\nAdd-Type -TypeDefinition $code -ErrorAction\
+  \ SilentlyContinue | Out-Null\n$out=[UIntPtr]::Zero\n[void][NativeMethods]::SendMessageTimeout([IntPtr]0xffff,0x1A,[UIntPtr]::Zero,[IntPtr]::Zero,0x2,5000,[ref]$out)\n\
+  Start-Sleep -Milliseconds 200\nGet-Process ShellExperienceHost -ErrorAction SilentlyContinue | Stop-Process\
+  \ -Force\nStart-Sleep -Milliseconds 300\nGet-Process explorer -ErrorAction SilentlyContinue | Stop-Process\
+  \ -Force\r\n        Engine Version = 5.1.26100.9444\r\n        Runspace ID = e2b94bfd-ed3e-4f8a-be33-d253e7f1ee0f\r\
+  \n        Pipeline ID = 1\r\n        Command Name = Add-Type\r\n        Command Type = Cmdlet\r\n  \
+  \      Script Name = \r\n        Command Path = \r\n        Sequence Number = 23\r\n        User = DHRUVS_VICTUS\\\
+  dhruv\r\n        Connected User = \r\n        Shell ID = Microsoft.PowerShell\r\n</Data><Data Name='UserData'></Data><Data\
+  \ Name='Payload'>CommandInvocation(Add-Type): \"Add-Type\"\r\nParameterBinding(Add-Type): name=\"TypeDefinition\"\
+  ; value=\"using System; using System.Runtime.InteropServices;\npublic static class NativeMethods {\n\
+  \  [DllImport(user32.dll,SetLastError=true,CharSet=CharSet.Auto)]\n  public static extern IntPtr SendMessageTimeout(IntPtr\
+  \ hWnd,uint Msg,UIntPtr wParam,IntPtr lParam,uint fuFlags,uint uTimeout,out UIntPtr lpdwResult);\n}\"\
+  \r\nParameterBinding(Add-Type): name=\"ErrorAction\"; value=\"SilentlyContinue\"\r\nCommandInvocation(Out-Null):\
+  \ \"Out-Null\"\r\nNonTerminatingError(Add-Type): \"c:\\Users\\dhruv\\AppData\\Local\\Temp\\dig12vz1.0.cs(3)\
+  \ : The name 'user32' does not exist in the current context\n\nc:\\Users\\dhruv\\AppData\\Local\\Temp\\\
+  dig12vz1.0.cs(2) : public static class NativeMethods {\n\nc:\\Users\\dhruv\\AppData\\Local\\Temp\\dig12vz1.0.cs(3)\
+  \ : &gt;&gt;&gt;   [DllImport(user32.dll,SetLastError=true,CharSet=CharSet.Auto)]\n\nc:\\Users\\dhruv\\\
+  AppData\\Local\\Temp\\dig12vz1.0.cs(4) :   public static extern IntPtr SendMessageTimeout(IntPtr hWnd,uint\
+  \ Msg,UIntPtr wParam,IntPtr lParam,uint fuFlags,uint uTimeout,out UIntPtr lpdwResult);\n\"\r\nTerminatingError(Add-Type):\
+  \ \"Cannot add type. Compilation errors occurred.\"\r\n</Data></EventData></Event>"
+powershell:
+  context_info:
+    $state: inferred
+    $note: ContextInfo truncated to first 200 chars for example brevity; full value in raw
+    $raw: "        Severity = Informational\r\n        Host Name = ConsoleHost\r\n        Host Version\
+      \ = 5.1.26100.9444\r\n        Host ID = cd1c8ee3-71a5-42ab-98f7-1f56710b1f0f\r\n        Host Application\
+      \ = powershell.exe -NoProfile -ExecutionPolicy Bypass -Command $ErrorActionPreference='SilentlyContinue'\n\
+      ... [truncated in example; full in raw]\n        Command Name = Add-Type\r\n        Command Type\
+      \ = Cmdlet"
+  payload:
+    $state: inferred
+    $note: Payload CommandInvocation/ParameterBinding text; truncated for example brevity
+    $raw: 'CommandInvocation(Add-Type): "/bin/Add-Type"'

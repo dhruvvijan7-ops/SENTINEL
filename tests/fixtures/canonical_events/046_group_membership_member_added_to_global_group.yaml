@@ -1,0 +1,57 @@
+schema_version: canonical-event/v1
+event:
+  category: group_membership
+  type: member_added_to_global_group
+  action: add
+  outcome: success
+  severity: informational
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-09T13:15:00.000000Z'
+  original: '2026-10-09T13:15:00.0000000Z'
+  original_timezone: Z
+  timezone_source: source_explicit
+  precision: microsecond
+  state: ok
+host:
+  hostname: WS-DEMO01
+  os:
+    family: windows
+    build: '26100'
+user:
+  sid: S-1-5-21-1000-2000-3000-1001
+  name: jdoe
+  domain: CORP
+  logon_id: '0x123456'
+source:
+  file_id: evt-sec-4728
+  format: evtx
+  parser: evtx-canonical
+  parser_version: 1.0.0
+  channel: Security
+  provider: Microsoft-Windows-Security-Auditing
+  event_id: 4728
+  record:
+    type: event_record
+    record_id: 2016
+raw: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing'/><EventID>4728</EventID><TimeCreated
+  SystemTime='2026-10-09T13:15:00.0000000Z'/><EventRecordID>2016</EventRecordID><Channel>Security</Channel><Computer>WS-DEMO01</Computer><Security
+  UserID='S-1-5-18'/></System><EventData><Data Name='MemberName'>CORP\backdoor</Data><Data Name='MemberSid'>S-1-5-21-1000-2000-3000-1050</Data><Data
+  Name='TargetUserName'>Domain Admins</Data><Data Name='TargetDomainName'>CORP</Data><Data Name='TargetSid'>S-1-5-21-1000-2000-3000-512</Data><Data
+  Name='SubjectUserSid'>S-1-5-21-1000-2000-3000-1001</Data><Data Name='SubjectUserName'>jdoe</Data><Data
+  Name='SubjectDomainName'>CORP</Data><Data Name='SubjectLogonId'>0x123456</Data><Data Name='PrivilegeList'>-</Data></EventData></Event>
+group_membership:
+  action: added
+  group_sid: S-1-5-21-1000-2000-3000-512
+  group_name: Domain Admins
+  domain: CORP
+  member_sid: S-1-5-21-1000-2000-3000-1050
+  member_name: CORP\backdoor
+  subject_sid: S-1-5-21-1000-2000-3000-1001
+  subject_name: jdoe
+unmapped:
+- name: PrivilegeList
+  value: '-'

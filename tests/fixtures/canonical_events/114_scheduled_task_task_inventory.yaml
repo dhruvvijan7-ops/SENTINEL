@@ -1,0 +1,58 @@
+schema_version: canonical-event/v1
+event:
+  category: scheduled_task
+  type: task_inventory
+  action: inventory
+  outcome: success
+  severity: informational
+  derived_by: sentinel
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: null
+  timezone_source: none
+  precision: unknown
+  state: unknown
+host: {}
+user:
+  name:
+    $state: inferred
+    $note: Run As User
+    $raw: CORP\jdoe
+  domain: CORP
+source:
+  file_id: schtasks-001
+  format: text
+  parser: schtasks-parser
+  parser_version: 1.0.0
+raw: "TaskName: \\Updater\nNext Run Time: 10/9/2026 6:00:00 PM\nStatus: Ready\nLogon Mode: Interactive/Background\n\
+  Last Run Time: 10/9/2026 2:00:00 PM\nLast Result: 0\nAuthor: CORP\\jdoe\nTask To Run: C:\\Temp\\evil.exe\
+  \ \nStart In: C:\\Temp\nRun As User: CORP\\jdoe\n"
+scheduled_task:
+  name:
+    $state: inferred
+    $raw: \Updater
+  command:
+    $state: inferred
+    $note: Task To Run column
+    $raw: C:\Temp\evil.exe
+  arguments:
+    $state: 'null'
+    $note: no args in sample
+  working_directory:
+    $state: inferred
+    $raw: C:\Temp
+  user_id:
+    $state: inferred
+    $raw: CORP\jdoe
+  author:
+    $state: inferred
+    $raw: CORP\jdoe
+  result_code:
+    $state: inferred
+    $raw: '0'
+  trigger:
+    $state: inferred
+    $note: Next Run Time implies schedule
+    $raw: 10/9/2026 6:00:00 PM

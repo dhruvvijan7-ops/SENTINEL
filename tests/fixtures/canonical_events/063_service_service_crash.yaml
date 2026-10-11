@@ -1,0 +1,49 @@
+schema_version: canonical-event/v1
+event:
+  category: service
+  type: service_crash
+  action: terminate
+  outcome: success
+  severity: informational
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-09-30T13:25:40.993119Z'
+  original: '2026-09-30T13:25:40.9931197Z'
+  original_timezone: Z
+  timezone_source: source_explicit
+  precision: microsecond
+  state: ok
+host:
+  hostname: Dhruvs_Victus
+  os:
+    family: windows
+    build: '26200'
+user: {}
+source:
+  file_id: loc-sys-7034
+  format: evtx
+  parser: evtx-canonical
+  parser_version: 1.0.0
+  channel: System
+  provider: Service Control Manager
+  event_id: 7034
+  record:
+    type: event_record
+    record_id: 71278
+raw: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Service
+  Control Manager'/><EventID Qualifiers='49152'>7034</EventID><TimeCreated SystemTime='2026-09-30T13:25:40.9931197Z'/><EventRecordID>71278</EventRecordID><Channel>System</Channel><Computer>Dhruvs_Victus</Computer><Security/></System><EventData><Data
+  Name='param1'>Claude</Data><Data Name='param2'>1</Data><Binary>43006F0077006F0072006B0056004D0053006500720076006900630065000000</Binary></EventData></Event>
+service:
+  name: Claude
+unmapped:
+- name: param2
+  value:
+    $state: 'null'
+    $note: occurrence count per B-SYS-ARCHIVE
+- name: Binary
+  value:
+    $state: 'null'
+    $note: UTF-16LE hex blob; no canonical home

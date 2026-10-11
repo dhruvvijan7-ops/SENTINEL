@@ -1,0 +1,65 @@
+schema_version: canonical-event/v1
+event:
+  category: wmi
+  type: wmi_consumer_filter_bind
+  action: bind
+  outcome: success
+  severity: informational
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-09T12:19:00.000Z'
+  original: '2026-10-09 12:19:00.000'
+  original_timezone: Z
+  timezone_source: source_documented_utc
+  precision: millisecond
+  state: inferred
+host:
+  hostname: WS-DEMO01
+  os:
+    family: windows
+    build: '26100'
+user:
+  name: jdoe
+  domain: CORP
+source:
+  file_id: evt-sysmon-21
+  format: evtx
+  parser: evtx-canonical
+  parser_version: 1.0.0
+  channel: Microsoft-Windows-Sysmon/Operational
+  provider: Microsoft-Windows-Sysmon
+  event_id: 21
+  record:
+    type: event_record
+    record_id: 1044
+raw: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon'/><EventID>21</EventID><TimeCreated
+  SystemTime='2026-10-09T12:19:00.000Z'/><EventRecordID>1044</EventRecordID><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>WS-DEMO01</Computer><Security/></System><EventData><Data
+  Name='EventType'>WmiConsumerToFilter</Data><Data Name='UtcTime'>2026-10-09 12:19:00.000</Data><Data
+  Name='Operation'>Created</Data><Data Name='User'>CORP\jdoe</Data><Data Name='EventNamespace'>root\subscription</Data><Data
+  Name='Name'>EvilConsumer</Data><Data Name='Consumer'>CommandLineEventConsumer.Name="EvilConsumer"</Data><Data
+  Name='Filter'>__EventFilter.Name="EvilFilter"</Data><Data Name='Type'>-</Data><Data Name='Destination'>-</Data><Data
+  Name='Query'>-</Data><Data Name='RuleName'>-</Data></EventData></Event>
+wmi:
+  operation: Created
+  namespace: root\subscription
+  client_user: CORP\jdoe
+unmapped:
+- name: EventType
+  value: WmiConsumerToFilter
+- name: Name
+  value: EvilConsumer
+- name: Consumer
+  value: CommandLineEventConsumer.Name="EvilConsumer"
+- name: Filter
+  value: __EventFilter.Name="EvilFilter"
+- name: Type
+  value: '-'
+- name: Destination
+  value: '-'
+- name: Query
+  value: '-'
+- name: RuleName
+  value: '-'

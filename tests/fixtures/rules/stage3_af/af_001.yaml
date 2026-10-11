@@ -1,0 +1,23 @@
+schema: sentinel-rule/v1
+id: AF-001
+kind: artifact
+source: native
+title: Office document declares an external relationship target
+severity: LOW
+enabled: true
+when:
+  all:
+  - fact: ooxml.relationship.external_target
+    exists: true
+  - fact: identification.selected
+    in:
+    - ooxml
+emit:
+  artifact_type: file
+  finding: external_relationship_declared
+  confidence: observed
+  evidence_facts:
+  - ooxml.relationship.external_target
+  - ooxml.relationship.type
+severity_hint: informational
+attribution: Rule authored for Sentinel (DRL-compatible content, Stage-1 D-004).

@@ -1,0 +1,59 @@
+schema_version: canonical-event/v1
+event:
+  category: network
+  type: network_connection
+  action: connect
+  outcome: success
+  severity: informational
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-09T14:24:00.333444Z'
+  original: 2026-10-09T14:24:00.333444+0000
+  original_timezone: +00:00
+  timezone_source: source_explicit
+  precision: microsecond
+  state: ok
+host: {}
+user: {}
+source:
+  file_id: eve-flow-001
+  format: json
+  parser: suricata-eve
+  parser_version: 1.0.0
+raw:
+  timestamp: 2026-10-09T14:24:00.333444+0000
+  flow_id: 445566778
+  event_type: flow
+  src_ip: 10.10.5.23
+  src_port: 51560
+  dest_ip: 93.184.216.34
+  dest_port: 443
+  proto: TCP
+  flow:
+    pkts_toserver: 42
+    pkts_toclient: 187
+    bytes_toserver: 3409
+    bytes_toclient: 253566
+    start: 2026-10-09T14:20:00.000000+0000
+    end: 2026-10-09T14:20:12.400000+0000
+network:
+  protocol: TCP
+  src_ip: 10.10.5.23
+  src_port: 51560
+  dst_ip: 93.184.216.34
+  dst_port: 443
+  bytes_sent: 3409
+  bytes_received: 253566
+  uid: '445566778'
+unmapped:
+- name: pkts_toserver
+  value: 42
+- name: pkts_toclient
+  value: 187
+- name: start
+  value: 2026-10-09T14:20:00.000000+0000
+- name: end
+  value: 2026-10-09T14:20:12.400000+0000

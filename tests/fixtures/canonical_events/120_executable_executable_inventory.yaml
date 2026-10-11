@@ -1,0 +1,48 @@
+schema_version: canonical-event/v1
+event:
+  category: executable
+  type: executable_inventory
+  action: inventory
+  outcome: success
+  severity: informational
+  derived_by: sentinel
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-09T14:00:00Z'
+  original: '2026-10-09T14:00:00Z'
+  original_timezone: Z
+  timezone_source: source_explicit
+  precision: second
+  state: inferred
+host: {}
+user: {}
+source:
+  file_id: sigcheck-001
+  format: csv
+  parser: sigcheck-parser
+  parser_version: 1.0.0
+raw: "\"Path\",\"Time\",\"Company\",\"Product\",\"Description\",\"Version\",\"MD5\",\"SHA1\",\"SHA-256\"\
+  ,\"PESHA1\",\"PESHA256\",\"PEMD5\",\"ImpHash\",\"Verified Signer\",\"Signer Certificate\",\"Status\"\
+  ,\"Signing Date\",\"Counter Signers\",\"Counter Signer Certificate\",\"Counter Signer Status\",\"Description\
+  \ URL\"\r\n\"C:\\Temp\\evil.exe\",\"2026-10-09 14:00:00\",\"(n/a)\",\"(n/a)\",\"(n/a)\",\"1.0.0.0\"\
+  ,\"aa11\",\"bb22\",\"cc33\",\"dd44\",\"ee55\",\"ff66\",\"11223344\",\"(n/a)\",\"(n/a)\",\"Unsigned\"\
+  ,\"\",\"\",\"\",\"\",\"\"\r\n"
+executable:
+  path: C:\Temp\evil.exe
+  format: pe
+  file_version: 1.0.0.0
+  product:
+    $state: 'null'
+    $raw: (n/a)
+  hashes:
+    md5: aa11
+    sha1: bb22
+    sha256: cc33
+  signature:
+    signed: false
+    status: Unsigned
+    signer:
+      $state: 'null'
+      $raw: (n/a)

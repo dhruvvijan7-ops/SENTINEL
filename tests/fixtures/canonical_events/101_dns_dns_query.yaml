@@ -1,0 +1,89 @@
+schema_version: canonical-event/v1
+event:
+  category: dns
+  type: dns_query
+  action: query
+  outcome: success
+  severity: informational
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-09T13:00:00.123456Z'
+  original: '1791550800.123456'
+  original_timezone: Z
+  timezone_source: source_documented_utc
+  precision: microsecond
+  state: inferred
+host: {}
+user: {}
+source:
+  file_id: zeek-dns-001
+  format: json
+  parser: zeek-json
+  parser_version: 1.0.0
+raw:
+  ts: '1791550800.123456'
+  uid: CyQpTj1V7Kj8Qe4L9h
+  id.orig_h: 10.10.5.23
+  id.orig_p: 51541
+  id.resp_h: 10.10.0.1
+  id.resp_p: 53
+  id.proto: udp
+  proto: udp
+  service: dns
+  trans_id: 4321
+  query: example.com
+  qclass: 1
+  qclass_name: C_INTERNET
+  qtype: 1
+  qtype_name: A
+  rcode: 0
+  rcode_name: NOERROR
+  AA: false
+  TC: false
+  RD: true
+  RA: true
+  Z: 0
+  answers:
+  - 93.184.216.34
+  TTLs:
+  - 300.0
+  rejected: false
+dns:
+  query_name: example.com
+  query_type: A
+  response_code: NOERROR
+  answers:
+  - 93.184.216.34
+  server: 10.10.0.1
+network:
+  protocol: udp
+  src_ip: 10.10.5.23
+  src_port: 51541
+  dst_ip: 10.10.0.1
+  dst_port: 53
+  uid: CyQpTj1V7Kj8Qe4L9h
+unmapped:
+- name: trans_id
+  value: 4321
+- name: qclass_name
+  value: C_INTERNET
+- name: qtype
+  value: 1
+- name: AA
+  value: false
+- name: TC
+  value: false
+- name: RD
+  value: true
+- name: RA
+  value: true
+- name: Z
+  value: 0
+- name: TTLs
+  value:
+  - 300.0
+- name: rejected
+  value: false

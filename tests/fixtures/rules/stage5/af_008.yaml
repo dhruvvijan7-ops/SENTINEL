@@ -1,0 +1,22 @@
+schema: sentinel-rule/v1
+id: AF-008
+kind: artifact
+source: native
+title: LNK shortcut targets a UNC path
+description: UNC LNK targets are the classic phishing-payload delivery shape; facts come from the in-house
+  LNK parser (Stage-3 5.6).
+severity: LOW
+when:
+  all:
+  - fact: lnk.target.is_unc
+    eq: true
+emit:
+  artifact_type: file
+  finding: lnk_unc_target
+  confidence: observed
+  evidence_facts:
+  - lnk.target.is_unc
+  - lnk.target.path
+  - lnk.target_hashes.sha256
+severity_hint: low
+enabled: true

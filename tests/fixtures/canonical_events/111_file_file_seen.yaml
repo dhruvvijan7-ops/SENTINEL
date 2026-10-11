@@ -1,0 +1,62 @@
+schema_version: canonical-event/v1
+event:
+  category: file
+  type: file_seen
+  action: seen
+  outcome: success
+  severity: informational
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-09T14:25:00.777888Z'
+  original: 2026-10-09T14:25:00.777888+0000
+  original_timezone: +00:00
+  timezone_source: source_explicit
+  precision: microsecond
+  state: ok
+host: {}
+user: {}
+source:
+  file_id: eve-fileinfo-001
+  format: json
+  parser: suricata-eve
+  parser_version: 1.0.0
+raw:
+  timestamp: 2026-10-09T14:25:00.777888+0000
+  flow_id: 556677889
+  event_type: fileinfo
+  src_ip: 10.10.5.23
+  src_port: 51542
+  dest_ip: 93.184.216.34
+  dest_port: 80
+  proto: TCP
+  fileinfo:
+    filename: payload.bin
+    sid: null
+    magic: PE32 executable (GUI) Intel 80386, for MS Windows
+    gaps: false
+    state: CLOSED
+    md5: 5d41402abc4b2a76b9719d911017c592
+    sha256: 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824
+    size: 4096
+file:
+  name: payload.bin
+  type: PE32 executable (GUI) Intel 80386, for MS Windows
+  size: 4096
+  hashes:
+    md5: 5d41402abc4b2a76b9719d911017c592
+    sha256: 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824
+network:
+  protocol: TCP
+  src_ip: 10.10.5.23
+  src_port: 51542
+  dst_ip: 93.184.216.34
+  dst_port: 80
+  uid: '556677889'
+unmapped:
+- name: state
+  value: CLOSED
+- name: gaps
+  value: false

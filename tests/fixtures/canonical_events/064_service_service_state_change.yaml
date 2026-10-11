@@ -1,0 +1,47 @@
+schema_version: canonical-event/v1
+event:
+  category: service
+  type: service_state_change
+  action: state_change
+  outcome: success
+  severity: informational
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-09T03:14:29.684742Z'
+  original: '2026-10-09T03:14:29.6847423Z'
+  original_timezone: Z
+  timezone_source: source_explicit
+  precision: microsecond
+  state: ok
+host:
+  hostname: Dhruvs_Victus
+  os:
+    family: windows
+    build: '26200'
+user: {}
+source:
+  file_id: loc-sys-7036
+  format: evtx
+  parser: evtx-canonical
+  parser_version: 1.0.0
+  channel: System
+  provider: VfpExt
+  event_id: 7036
+  record:
+    type: event_record
+    record_id: 72886
+raw: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='VfpExt'/><EventID
+  Qualifiers='16384'>7036</EventID><TimeCreated SystemTime='2026-10-09T03:14:29.6847423Z'/><EventRecordID>72886</EventRecordID><Channel>System</Channel><Computer>Dhruvs_Victus</Computer><Security/></System><EventData><Data></Data><Data>Filter
+  restart complete</Data><Binary>0000000002002C00000000007C1B0040000000000000000000000000000000000000000000000000</Binary></EventData></Event>
+service:
+  name:
+    $state: inferred
+    $note: unnamed <Data>[0] positional bind
+    $raw: ''
+  state: Filter restart complete
+unmapped:
+- name: Binary
+  value: 0000000002002C00000000007C1B0040000000000000000000000000000000000000000000000000

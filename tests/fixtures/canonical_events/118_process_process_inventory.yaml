@@ -1,0 +1,38 @@
+schema_version: canonical-event/v1
+event:
+  category: process
+  type: process_inventory
+  action: inventory
+  outcome: success
+  severity: informational
+  derived_by: sentinel
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-09T13:00:00.123456Z'
+  original: '1791550800.123456'
+  original_timezone: Z
+  timezone_source: source_documented_utc
+  precision: microsecond
+  state: inferred
+host: {}
+user: {}
+source:
+  file_id: export-csv-001
+  format: csv
+  parser: export-csv-parser
+  parser_version: 1.0.0
+raw: "\"Id\",\"ProcessName\",\"Path\",\"StartTime\"\r\n\"1234\",\"cmd\",\"C:\\Windows\\System32\\cmd.exe\"\
+  ,\"2026-10-09T12:00:00\"\r\n\"4521\",\"powershell\",\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\\
+  powershell.exe\",\"2026-10-09T12:05:00\"\r\n"
+process:
+  pid:
+    $state: inferred
+    $note: CSV Id column from Get-Process
+    $raw: '4521'
+  exe: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+  name: powershell
+  start_time:
+    $state: inferred
+    $raw: '2026-10-09T12:05:00'

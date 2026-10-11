@@ -1,0 +1,66 @@
+schema_version: canonical-event/v1
+event:
+  category: third_party_alert
+  type: suricata_alert
+  action: alert
+  outcome: success
+  severity: critical
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-09T14:20:00.123456Z'
+  original: 2026-10-09T14:20:00.123456+0000
+  original_timezone: +00:00
+  timezone_source: source_explicit
+  precision: microsecond
+  state: ok
+host: {}
+user: {}
+source:
+  file_id: eve-alert-001
+  format: json
+  parser: suricata-eve
+  parser_version: 1.0.0
+raw:
+  timestamp: 2026-10-09T14:20:00.123456+0000
+  flow_id: 987654321
+  pcap_cnt: 42
+  event_type: alert
+  src_ip: 10.10.5.99
+  src_port: 44444
+  dest_ip: 10.10.5.23
+  dest_port: 445
+  proto: TCP
+  alert:
+    action: allowed
+    gid: 1
+    signature_id: 2024218
+    rev: 4
+    signature: ET EXPLOIT SMBv1 Trans2 Request - EternalBlue
+    category: Attempted Administrator Privilege Gain
+    severity: 1
+third_party_alert:
+  vendor: Suricata
+  product: Suricata
+  rule_name: ET EXPLOIT SMBv1 Trans2 Request - EternalBlue
+  rule_id: '2024218'
+  category: Attempted Administrator Privilege Gain
+  severity_raw: '1'
+network:
+  protocol: TCP
+  src_ip: 10.10.5.99
+  src_port: 44444
+  dst_ip: 10.10.5.23
+  dst_port: 445
+  uid: '987654321'
+unmapped:
+- name: action
+  value: allowed
+- name: gid
+  value: 1
+- name: rev
+  value: 4
+- name: pcap_cnt
+  value: 42

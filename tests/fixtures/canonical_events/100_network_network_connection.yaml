@@ -1,0 +1,79 @@
+schema_version: canonical-event/v1
+event:
+  category: network
+  type: network_connection
+  action: connect
+  outcome: success
+  severity: informational
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-09T13:00:00.123456Z'
+  original: '1791550800.123456'
+  original_timezone: Z
+  timezone_source: source_documented_utc
+  precision: microsecond
+  state: inferred
+host: {}
+user: {}
+source:
+  file_id: zeek-conn-001
+  format: json
+  parser: zeek-json
+  parser_version: 1.0.0
+raw:
+  ts: '1791550800.123456'
+  uid: CnKxvG3DkQ8Qe4L9h
+  id.orig_h: 10.10.5.23
+  id.orig_p: 51540
+  id.resp_h: 93.184.216.34
+  id.resp_p: 443
+  id.proto: tcp
+  proto: tcp
+  service: ssl
+  duration: 12.4
+  orig_bytes: 8421
+  resp_bytes: 245310
+  conn_state: S1
+  missed_bytes: 0
+  history: ShADadFf
+  orig_pkts: 42
+  orig_ip_bytes: 3409
+  resp_pkts: 187
+  resp_ip_bytes: 253566
+  local_orig: false
+  local_resp: false
+  tunnel_parents: []
+network:
+  protocol: tcp
+  direction:
+    $state: inferred
+    $note: Zeek orig→resp; direction from conn role
+  src_ip: 10.10.5.23
+  src_port: 51540
+  dst_ip: 93.184.216.34
+  dst_port: 443
+  state: S1
+  duration: 12.4
+  bytes_sent: 8421
+  bytes_received: 245310
+  uid: CnKxvG3DkQ8Qe4L9h
+unmapped:
+- name: service
+  value: ssl
+- name: history
+  value: ShADadFf
+- name: orig_pkts
+  value: 42
+- name: orig_ip_bytes
+  value: 3409
+- name: resp_pkts
+  value: 187
+- name: resp_ip_bytes
+  value: 253566
+- name: local_orig
+  value: false
+- name: local_resp
+  value: false

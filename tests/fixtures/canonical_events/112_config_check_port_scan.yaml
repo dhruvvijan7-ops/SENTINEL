@@ -1,0 +1,75 @@
+schema_version: canonical-event/v1
+event:
+  category: config_check
+  type: port_scan
+  action: scan
+  outcome: success
+  severity: informational
+  derived_by: sentinel
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: null
+  original: Sat Oct  9 14:21:40 2026
+  timezone_source: none
+  precision: second
+  state: unknown
+host:
+  hostname: fileserver01.corp.local
+  ips:
+  - 10.10.0.5
+  os:
+    family:
+      $state: inferred
+      $note: nmap osmatch
+      $raw: Windows Server 2022
+user: {}
+source:
+  file_id: nmap-001
+  format: nmap_xml
+  parser: nmap-xml
+  parser_version: 1.0.0
+raw: <nmaprun scanner='nmap' args='nmap -sV -oX scan.xml 10.10.0.5' start='1791550900' startstr='Sat Oct  9
+  14:21:40 2026' version='7.95' xmloutputversion='1.05'><host starttime='1791550901' endtime='1791550960'><status
+  state='up' reason='echo-reply' reason_ttl='63'/><address addr='10.10.0.5' addrtype='ipv4'/><hostname
+  name='fileserver01.corp.local' type='PTR'/><ports><port protocol='tcp' portid='445'><state state='open'
+  reason='syn-ack' reason_ttl='63'/><service name='microsoft-ds' product='Windows Server 2022' method='probed'
+  conf='10'><cpe>cpe:/o:microsoft:windows_server_2022</cpe></service></port></ports><times srtt='250'
+  rttvar='100' to='100000'/><runstats><finished time='1791550960' timestr='Sat Oct  9 14:22:40 2026' elapsed='60.00'
+  summary='Nmap done at Sat Oct  9 14:22:40 2026; 1 IP address (1 host up) scanned in 60.00 seconds' exit='success'/><hosts
+  up='1' down='0' total='1'/></runstats></nmaprun>
+config_check:
+  check: port_scan
+  status: pass
+  observed:
+    $state: inferred
+    $note: scanned host inventory summary
+    $raw: 10.10.0.5 tcp/445 open microsoft-ds
+network:
+  protocol: tcp
+  dst_port: 445
+  state: open
+  dst_ip:
+    $state: inferred
+    $note: address@addr is scan target, not scanner — mapped to dst_ip INFERRED
+    $raw: 10.10.0.5
+unmapped:
+- name: nmap.args
+  value: nmap -sV -oX scan.xml 10.10.0.5
+- name: nmap.version
+  value: '7.95'
+- name: nmap.start_epoch
+  value: '1791550900'
+- name: host.state_reason
+  value: echo-reply
+- name: nmap.hostname
+  value: fileserver01.corp.local
+- name: nmap.service.name
+  value: microsoft-ds
+- name: nmap.service.product
+  value: Windows Server 2022
+- name: nmap.cpe
+  value: cpe:/o:microsoft:windows_server_2022
+- name: nmap.runstats.finished_epoch
+  value: '1791550960'

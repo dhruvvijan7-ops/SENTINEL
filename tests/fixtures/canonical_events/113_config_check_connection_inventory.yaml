@@ -1,0 +1,45 @@
+schema_version: canonical-event/v1
+event:
+  category: config_check
+  type: connection_inventory
+  action: inventory
+  outcome: success
+  severity: informational
+  derived_by: sentinel
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: null
+  timezone_source: none
+  precision: unknown
+  state: unknown
+host: {}
+user: {}
+source:
+  file_id: netstat-001
+  format: text
+  parser: netstat-parser
+  parser_version: 1.0.0
+raw: "Active Connections\n\n  Proto  Local Address        Foreign Address      State           PID\n \
+  \ TCP    0.0.0.0:135            0.0.0.0:0              LISTENING       1234\n  TCP    10.10.5.23:51540\
+  \      93.184.216.34:443      ESTABLISHED     4521\n"
+config_check:
+  check: netstat_connections
+  status: pass
+  observed:
+    $state: inferred
+    $note: one row promoted as example; full table in raw
+    $raw: TCP 10.10.5.23:51540 -> 93.184.216.34:443 ESTABLISHED PID 4521
+network:
+  protocol: TCP
+  state: ESTABLISHED
+  src_ip: 10.10.5.23
+  src_port: 51540
+  dst_ip: 93.184.216.34
+  dst_port: 443
+  process:
+    pid:
+      $state: inferred
+      $note: netstat PID is snapshot; join to process record INFERRED; PID reuse trap
+      $raw: '4521'

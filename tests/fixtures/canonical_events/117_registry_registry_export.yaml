@@ -1,0 +1,40 @@
+schema_version: canonical-event/v1
+event:
+  category: registry
+  type: registry_export
+  action: export
+  outcome: success
+  severity: informational
+  derived_by: sentinel
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: null
+  timezone_source: none
+  precision: unknown
+  state: unknown
+host: {}
+user: {}
+source:
+  file_id: reg-export-001
+  format: text
+  parser: reg-export-parser
+  parser_version: 1.0.0
+raw: 'Windows Registry Editor Version 5.00
+
+
+  [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run]
+
+  "Updater"="C:\\Temp\\evil.exe"
+
+  '
+registry:
+  path: HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\Updater
+  hive: HKLM
+  key: SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+  value_name: Updater
+  data: C:\Temp\evil.exe
+  operation:
+    $state: inferred
+    $note: export is not a runtime registry operation; snapshot semantics

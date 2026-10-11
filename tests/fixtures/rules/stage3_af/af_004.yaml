@@ -1,0 +1,18 @@
+schema: sentinel-rule/v1
+id: AF-004
+kind: artifact
+source: native
+title: PE imports a process-execution API
+severity: LOW
+enabled: true
+when:
+  any:
+  - fact: pe.import.name
+    in_list_ref: lists/exec_apis.yaml
+emit:
+  artifact_type: file
+  finding: imports_process_execution_api
+  confidence: observed
+  evidence_facts:
+  - pe.import.name
+  - pe.import.dll

@@ -1,0 +1,29 @@
+schema: sentinel-rule/v1
+id: AF-006
+kind: artifact
+source: native
+title: Unsigned PE with process-execution import and Internet-zone origin
+description: 'Composite of three Stage-3 facts. All three must hold; each fact alone is weak, the conjunction
+  is the finding. confidence: derived because authenticity is inferred from presence flags, not from chain
+  verification (offline, unverified_offline).'
+severity: MEDIUM
+when:
+  all:
+  - fact: pe.authenticode.present
+    eq: false
+  - fact: pe.import.name
+    in_list_ref: lists/exec_apis.yaml
+  - fact: motw.zone_id
+    in:
+    - 3
+    - 4
+emit:
+  artifact_type: file
+  finding: unsigned_pe_exec_api_from_internet
+  confidence: derived
+  evidence_facts:
+  - pe.authenticode.present
+  - pe.import.name
+  - motw.zone_id
+severity_hint: medium
+enabled: true

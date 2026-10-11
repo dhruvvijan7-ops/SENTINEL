@@ -1,0 +1,49 @@
+schema_version: canonical-event/v1
+event:
+  category: service
+  type: service_config_inventory
+  action: inventory
+  outcome: success
+  severity: informational
+  derived_by: sentinel
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: null
+  timezone_source: none
+  precision: unknown
+  state: unknown
+host: {}
+user: {}
+source:
+  file_id: sc-qc-001
+  format: text
+  parser: sc-qc-parser
+  parser_version: 1.0.0
+raw: "[SC] QueryServiceConfig SUCCESS\nSERVICE_NAME: EvilSvc\n        TYPE               : 10  WIN32_OWN_PROCESS\n\
+  \        START_TYPE         : 3   DEMAND_START\n        ERROR_CONTROL     : 1   NORMAL\n        BINARY_PATH_NAME\
+  \  : \"C:\\Temp\\evil.exe\" -k netsvcs\n        LOAD_ORDER_GROUP  : NetWork\n        TAG           \
+  \     : 0\n        DISPLAY_NAME       : Evil Service\n        DEPENDENCIES      : \n        SERVICE_START_NAME\
+  \ : LocalSystem\n"
+service:
+  name: EvilSvc
+  image_path:
+    $state: inferred
+    $note: BINARY_PATH_NAME field list UNVERIFIED (B-PRIOR); map observed value INFERRED
+    $raw: '"C:\Temp\evil.exe" -k netsvcs'
+  start_type:
+    $state: inferred
+    $raw: 3   DEMAND_START
+  error_control:
+    $state: inferred
+    $raw: 1   NORMAL
+  display_name:
+    $state: inferred
+    $raw: Evil Service
+  load_order_group:
+    $state: inferred
+    $raw: NetWork
+  account_name:
+    $state: inferred
+    $raw: LocalSystem

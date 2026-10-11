@@ -1,0 +1,60 @@
+schema_version: canonical-event/v1
+event:
+  category: artifact
+  type: autostart_inventory
+  action: inventory
+  outcome: success
+  severity: informational
+  derived_by: sentinel
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-09-01T10:00:00Z'
+  original: '2026-09-01T10:00:00Z'
+  original_timezone: Z
+  timezone_source: source_explicit
+  precision: second
+  state: inferred
+host: {}
+user: {}
+source:
+  file_id: autoruns-001
+  format: csv
+  parser: autorunsc-parser
+  parser_version: 1.0.0
+raw: "\"Entry Location\",\"Entry\",\"Enabled\",\"Hidden\",\"Path\",\"Launch String\",\"Publisher\",\"\
+  Image Path\",\"Version\",\"Last Modified\",\"MD5\",\"SHA-1\",\"SHA-256\",\"Verification Status\"\r\n\
+  \"Logon\",\"OneDrive\",\"Enabled\",\"false\",\"C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe\"\
+  ,\"C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe /background\",\"Microsoft Corporation\",\"C:\\\
+  Program Files\\Microsoft OneDrive\\OneDrive.exe\",\"25.0.1.1\",\"2026-09-01T10:00:00\",\"aa11...\",\"\
+  bb22...\",\"cc33...\",\"Verified\"\r\n"
+artifact:
+  type: process
+  identity: OneDrive
+  path: C:\Program Files\Microsoft OneDrive\OneDrive.exe
+  attributes: Enabled; Publisher=Microsoft Corporation; Verification=Verified
+process:
+  exe: C:\Program Files\Microsoft OneDrive\OneDrive.exe
+  name: OneDrive.exe
+  original_file_name: OneDrive.exe
+  hashes:
+    md5:
+      $state: inferred
+      $note: abbreviated for example
+      $raw: aa11...
+    sha1:
+      $state: inferred
+      $raw: bb22...
+    sha256:
+      $state: inferred
+      $raw: cc33...
+unmapped:
+- name: autoruns.location
+  value: Logon
+- name: publisher
+  value: Microsoft Corporation
+- name: enabled
+  value: Enabled
+- name: hidden
+  value: 'false'

@@ -1,0 +1,32 @@
+schema: sentinel-rule/v1
+id: 1e2f3a4b-5c6d-4e7f-8a9b-0c1d2e3f4a53
+kind: sigma
+source: sigma
+source_spec: sigma-spec/2.1.0
+license: DRL-1.1
+author: Example Sigma Author
+title: PowerShell Downloads And Invokes A Remote Bytecode Loader
+name: win_ps_downloadstring_assembly
+description: Script block combines DownloadString with Assembly Load — classic cradle pattern.
+status: test
+severity: HIGH
+level_original: high
+logsource:
+  product: windows
+  service: powershell
+tags:
+- attack.t1059.001
+- attack.t1105
+detection:
+  selection:
+    powershell.script_block_text|contains|all:
+    - DownloadString
+    - Assembly
+    powershell.script_block_text|contains:
+    - Load(
+    - GetType
+  condition: selection
+enabled: true
+compile:
+  detection_path: sql
+  cost_class: heavy

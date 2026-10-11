@@ -1,0 +1,23 @@
+schema: sentinel-rule/v1
+id: b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d66
+kind: correlation
+source: sigma
+source_spec: sigma-spec/2.1.0
+license: DRL-1.1
+author: Sentinel content team
+title: Remote Service Creation Followed By Interactive Logon
+name: corr_service_then_logon
+description: Stage-ordered correlation - service install, then logon, on the same host within 30m.
+severity: HIGH
+level_original: high
+correlation:
+  type: temporal_ordered
+  rules:
+  - win_service_install
+  - win_auth_success_4624
+  group-by:
+  - host.agent_id
+  timespan: 30m
+enabled: true
+compile:
+  cost_class: window

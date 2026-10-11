@@ -1,0 +1,41 @@
+schema_version: canonical-event/v1
+event:
+  category: artifact_finding
+  type: virustotal_detection
+  action: scan
+  outcome: success
+  severity: low
+  derived_by: sentinel
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: null
+  timezone_source: none
+  precision: unknown
+  state: unknown
+host: {}
+user: {}
+source:
+  file_id: sigcheck-vt-001
+  format: csv
+  parser: sigcheck-vt-parser
+  parser_version: 1.0.0
+raw: "\"Path\",\"MD5\",\"SHA-1\",\"SHA-256\",\"VT Detection\",\"VT URL\",\"Verified Signer\",\"Status\"\
+  \r\n\"C:\\Temp\\evil.exe\",\"aa11\",\"bb22\",\"cc33\",\"12/72\",\"https://www.virustotal.com/gui/file/cc33\"\
+  ,\"(n/a)\",\"Unsigned\"\r\n"
+artifact_finding:
+  artifact_type: file
+  artifact_identity: C:\Temp\evil.exe
+  finding:
+    $state: inferred
+    $note: VT Detection column ratio
+    $raw: 12/72
+  evidence:
+    $state: inferred
+    $raw: https://www.virustotal.com/gui/file/cc33
+  scanner: VirusTotal
+  confidence:
+    $state: inferred
+    $note: 12/72 engines
+    $raw: low

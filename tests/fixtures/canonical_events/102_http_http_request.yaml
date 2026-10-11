@@ -1,0 +1,77 @@
+schema_version: canonical-event/v1
+event:
+  category: http
+  type: http_request
+  action: request
+  outcome: success
+  severity: informational
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-09T13:00:00.123456Z'
+  original: '1791550800.123456'
+  original_timezone: Z
+  timezone_source: source_documented_utc
+  precision: microsecond
+  state: inferred
+host: {}
+user: {}
+source:
+  file_id: zeek-http-001
+  format: json
+  parser: zeek-json
+  parser_version: 1.0.0
+raw:
+  ts: '1791550800.123456'
+  uid: CHjKmL3NpQ8Qe4L9h
+  id.orig_h: 10.10.5.23
+  id.orig_p: 51542
+  id.resp_h: 93.184.216.34
+  id.resp_p: 80
+  id.proto: tcp
+  service: http
+  trans_depth: 1
+  method: GET
+  host: example.com
+  uri: /payload.bin
+  version: '1.1'
+  user_agent: curl/8.5.0
+  origin: '-'
+  referrer: '-'
+  request_body_len: 0
+  response_body_len: 4096
+  status_code: 200
+  status_msg: OK
+  info_code: 0
+  info_msg: '-'
+  tags: []
+http:
+  method: GET
+  host: example.com
+  uri: /payload.bin
+  user_agent: curl/8.5.0
+  status_code: 200
+  request_body_length: 0
+  response_body_length: 4096
+network:
+  protocol: tcp
+  src_ip: 10.10.5.23
+  src_port: 51542
+  dst_ip: 93.184.216.34
+  dst_port: 80
+  uid: CHjKmL3NpQ8Qe4L9h
+unmapped:
+- name: version
+  value: '1.1'
+- name: origin
+  value: '-'
+- name: referrer
+  value: '-'
+- name: status_msg
+  value: OK
+- name: info_code
+  value: 0
+- name: tags
+  value: []

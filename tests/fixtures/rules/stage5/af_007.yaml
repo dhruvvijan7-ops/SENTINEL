@@ -1,0 +1,23 @@
+schema: sentinel-rule/v1
+id: AF-007
+kind: artifact
+source: native
+title: PDF declares an OpenAction and embeds JavaScript
+description: AF-002 alone is weak (many benign PDFs declare OpenAction); JavaScript raises the bar.
+severity: MEDIUM
+when:
+  all:
+  - fact: pdf.action.open_action
+    exists: true
+  - fact: pdf.javascript.count
+    gte: 1
+emit:
+  artifact_type: file
+  finding: pdf_open_action_with_javascript
+  confidence: derived
+  evidence_facts:
+  - pdf.action.open_action
+  - pdf.javascript.count
+  - pdf.javascript.source
+severity_hint: medium
+enabled: true

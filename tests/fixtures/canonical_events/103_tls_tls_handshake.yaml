@@ -1,0 +1,68 @@
+schema_version: canonical-event/v1
+event:
+  category: tls
+  type: tls_handshake
+  action: handshake
+  outcome: success
+  severity: informational
+  derived_by: source
+tenant_id: tenant-demo
+workspace_id: ws-demo
+run_id: run-2026-10-09-001
+time:
+  utc: '2026-10-09T13:00:00.123456Z'
+  original: '1791550800.123456'
+  original_timezone: Z
+  timezone_source: source_documented_utc
+  precision: microsecond
+  state: inferred
+host: {}
+user: {}
+source:
+  file_id: zeek-ssl-001
+  format: json
+  parser: zeek-json
+  parser_version: 1.0.0
+raw:
+  ts: '1791550800.123456'
+  uid: CSsTtUvWxY8Qe4L9h
+  id.orig_h: 10.10.5.23
+  id.orig_p: 51543
+  id.resp_h: 93.184.216.34
+  id.resp_p: 443
+  id.proto: tcp
+  service: ssl
+  version: TLSv12
+  cipher: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+  server_name: example.com
+  resumed: false
+  established: true
+  curve: x25519
+  dp: ec
+  next_protocol: http/1.1
+  last_alert: '-'
+  ssl_history: Cc
+tls:
+  sni: example.com
+  server_name: example.com
+  version: TLSv12
+  cipher: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+  resumed: false
+network:
+  protocol: tcp
+  src_ip: 10.10.5.23
+  src_port: 51543
+  dst_ip: 93.184.216.34
+  dst_port: 443
+  uid: CSsTtUvWxY8Qe4L9h
+unmapped:
+- name: curve
+  value: x25519
+- name: dp
+  value: ec
+- name: next_protocol
+  value: http/1.1
+- name: last_alert
+  value: '-'
+- name: ssl_history
+  value: Cc

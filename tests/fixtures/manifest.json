@@ -1,0 +1,1104 @@
+{
+  "version": 1,
+  "generated_by": "tools/extract_examples.py",
+  "corpora": {
+    "canonical_events": {
+      "corpus": "canonical_events",
+      "count": 121,
+      "source_doc": "research/stage-2-canonical-event-and-mappings.md",
+      "source_sha256": "f80f1b347d78c9dbc0a5e5f9fc937ceccf7378df702eb09d560d79f085ce7b28",
+      "source_section": "## 5. Example canonical events",
+      "source_section_line_start": 2930,
+      "source_section_line_end": 12580,
+      "schema": "canonical_event_v1.schema.json",
+      "files": [
+        {
+          "file": "canonical_events/001_process_process_create.yaml",
+          "source_line_start": 3108,
+          "source_line_end": 3203,
+          "category": "process",
+          "type": "process_create"
+        },
+        {
+          "file": "canonical_events/002_file_file_creation_time_change.yaml",
+          "source_line_start": 3210,
+          "source_line_end": 3281,
+          "category": "file",
+          "type": "file_creation_time_change"
+        },
+        {
+          "file": "canonical_events/003_network_network_connection.yaml",
+          "source_line_start": 3288,
+          "source_line_end": 3384,
+          "category": "network",
+          "type": "network_connection"
+        },
+        {
+          "file": "canonical_events/004_service_sysmon_service_state_change.yaml",
+          "source_line_start": 3391,
+          "source_line_end": 3450,
+          "category": "service",
+          "type": "sysmon_service_state_change"
+        },
+        {
+          "file": "canonical_events/005_process_process_terminate.yaml",
+          "source_line_start": 3457,
+          "source_line_end": 3518,
+          "category": "process",
+          "type": "process_terminate"
+        },
+        {
+          "file": "canonical_events/006_driver_driver_load.yaml",
+          "source_line_start": 3525,
+          "source_line_end": 3597,
+          "category": "driver",
+          "type": "driver_load"
+        },
+        {
+          "file": "canonical_events/007_image_load_image_load.yaml",
+          "source_line_start": 3604,
+          "source_line_end": 3695,
+          "category": "image_load",
+          "type": "image_load"
+        },
+        {
+          "file": "canonical_events/008_thread_access_create_remote_thread.yaml",
+          "source_line_start": 3702,
+          "source_line_end": 3792,
+          "category": "thread_access",
+          "type": "create_remote_thread"
+        },
+        {
+          "file": "canonical_events/009_file_raw_device_read.yaml",
+          "source_line_start": 3799,
+          "source_line_end": 3867,
+          "category": "file",
+          "type": "raw_device_read"
+        },
+        {
+          "file": "canonical_events/010_thread_access_process_access.yaml",
+          "source_line_start": 3874,
+          "source_line_end": 3948,
+          "category": "thread_access",
+          "type": "process_access"
+        },
+        {
+          "file": "canonical_events/011_file_file_create.yaml",
+          "source_line_start": 3955,
+          "source_line_end": 4022,
+          "category": "file",
+          "type": "file_create"
+        },
+        {
+          "file": "canonical_events/012_registry_registry_object_create_delete.yaml",
+          "source_line_start": 4029,
+          "source_line_end": 4097,
+          "category": "registry",
+          "type": "registry_object_create_delete"
+        },
+        {
+          "file": "canonical_events/013_registry_registry_value_set.yaml",
+          "source_line_start": 4104,
+          "source_line_end": 4173,
+          "category": "registry",
+          "type": "registry_value_set"
+        },
+        {
+          "file": "canonical_events/014_registry_registry_rename.yaml",
+          "source_line_start": 4180,
+          "source_line_end": 4252,
+          "category": "registry",
+          "type": "registry_rename"
+        },
+        {
+          "file": "canonical_events/015_file_file_stream_create.yaml",
+          "source_line_start": 4259,
+          "source_line_end": 4333,
+          "category": "file",
+          "type": "file_stream_create"
+        },
+        {
+          "file": "canonical_events/016_config_check_sysmon_config_change.yaml",
+          "source_line_start": 4340,
+          "source_line_end": 4395,
+          "category": "config_check",
+          "type": "sysmon_config_change"
+        },
+        {
+          "file": "canonical_events/017_pipe_pipe_create.yaml",
+          "source_line_start": 4402,
+          "source_line_end": 4467,
+          "category": "pipe",
+          "type": "pipe_create"
+        },
+        {
+          "file": "canonical_events/018_pipe_pipe_connect.yaml",
+          "source_line_start": 4474,
+          "source_line_end": 4539,
+          "category": "pipe",
+          "type": "pipe_connect"
+        },
+        {
+          "file": "canonical_events/019_wmi_wmi_filter_create.yaml",
+          "source_line_start": 4546,
+          "source_line_end": 4630,
+          "category": "wmi",
+          "type": "wmi_filter_create"
+        },
+        {
+          "file": "canonical_events/020_wmi_wmi_consumer_create.yaml",
+          "source_line_start": 4637,
+          "source_line_end": 4724,
+          "category": "wmi",
+          "type": "wmi_consumer_create"
+        },
+        {
+          "file": "canonical_events/021_wmi_wmi_consumer_filter_bind.yaml",
+          "source_line_start": 4731,
+          "source_line_end": 4818,
+          "category": "wmi",
+          "type": "wmi_consumer_filter_bind"
+        },
+        {
+          "file": "canonical_events/022_dns_dns_query.yaml",
+          "source_line_start": 4825,
+          "source_line_end": 4892,
+          "category": "dns",
+          "type": "dns_query"
+        },
+        {
+          "file": "canonical_events/023_file_file_delete.yaml",
+          "source_line_start": 4899,
+          "source_line_end": 4976,
+          "category": "file",
+          "type": "file_delete"
+        },
+        {
+          "file": "canonical_events/024_process_clipboard_change.yaml",
+          "source_line_start": 4983,
+          "source_line_end": 5064,
+          "category": "process",
+          "type": "clipboard_change"
+        },
+        {
+          "file": "canonical_events/025_process_process_tampering.yaml",
+          "source_line_start": 5071,
+          "source_line_end": 5140,
+          "category": "process",
+          "type": "process_tampering"
+        },
+        {
+          "file": "canonical_events/026_file_file_delete.yaml",
+          "source_line_start": 5147,
+          "source_line_end": 5220,
+          "category": "file",
+          "type": "file_delete"
+        },
+        {
+          "file": "canonical_events/027_file_file_block_executable.yaml",
+          "source_line_start": 5227,
+          "source_line_end": 5296,
+          "category": "file",
+          "type": "file_block_executable"
+        },
+        {
+          "file": "canonical_events/028_file_file_block_shredding.yaml",
+          "source_line_start": 5303,
+          "source_line_end": 5376,
+          "category": "file",
+          "type": "file_block_shredding"
+        },
+        {
+          "file": "canonical_events/029_file_file_executable_detected.yaml",
+          "source_line_start": 5383,
+          "source_line_end": 5452,
+          "category": "file",
+          "type": "file_executable_detected"
+        },
+        {
+          "file": "canonical_events/030_third_party_alert_sysmon_error.yaml",
+          "source_line_start": 5459,
+          "source_line_end": 5513,
+          "category": "third_party_alert",
+          "type": "sysmon_error"
+        },
+        {
+          "file": "canonical_events/031_fim_audit_log_cleared.yaml",
+          "source_line_start": 5522,
+          "source_line_end": 5576,
+          "category": "fim",
+          "type": "audit_log_cleared"
+        },
+        {
+          "file": "canonical_events/032_authentication_logon_success.yaml",
+          "source_line_start": 5583,
+          "source_line_end": 5698,
+          "category": "authentication",
+          "type": "logon_success"
+        },
+        {
+          "file": "canonical_events/033_authentication_logon_failure.yaml",
+          "source_line_start": 5705,
+          "source_line_end": 5802,
+          "category": "authentication",
+          "type": "logon_failure"
+        },
+        {
+          "file": "canonical_events/034_authentication_logoff.yaml",
+          "source_line_start": 5809,
+          "source_line_end": 5865,
+          "category": "authentication",
+          "type": "logoff"
+        },
+        {
+          "file": "canonical_events/035_authentication_logoff_initiated.yaml",
+          "source_line_start": 5872,
+          "source_line_end": 5927,
+          "category": "authentication",
+          "type": "logoff_initiated"
+        },
+        {
+          "file": "canonical_events/036_authentication_explicit_credential_logon.yaml",
+          "source_line_start": 5934,
+          "source_line_end": 6014,
+          "category": "authentication",
+          "type": "explicit_credential_logon"
+        },
+        {
+          "file": "canonical_events/037_authentication_special_privileges_assigned.yaml",
+          "source_line_start": 6021,
+          "source_line_end": 6080,
+          "category": "authentication",
+          "type": "special_privileges_assigned"
+        },
+        {
+          "file": "canonical_events/038_process_process_create.yaml",
+          "source_line_start": 6087,
+          "source_line_end": 6173,
+          "category": "process",
+          "type": "process_create"
+        },
+        {
+          "file": "canonical_events/039_process_process_terminate.yaml",
+          "source_line_start": 6180,
+          "source_line_end": 6245,
+          "category": "process",
+          "type": "process_terminate"
+        },
+        {
+          "file": "canonical_events/040_service_service_install.yaml",
+          "source_line_start": 6252,
+          "source_line_end": 6309,
+          "category": "service",
+          "type": "service_install"
+        },
+        {
+          "file": "canonical_events/041_scheduled_task_scheduled_task_create.yaml",
+          "source_line_start": 6316,
+          "source_line_end": 6398,
+          "category": "scheduled_task",
+          "type": "scheduled_task_create"
+        },
+        {
+          "file": "canonical_events/042_account_account_created.yaml",
+          "source_line_start": 6405,
+          "source_line_end": 6526,
+          "category": "account",
+          "type": "account_created"
+        },
+        {
+          "file": "canonical_events/043_account_account_enabled.yaml",
+          "source_line_start": 6533,
+          "source_line_end": 6588,
+          "category": "account",
+          "type": "account_enabled"
+        },
+        {
+          "file": "canonical_events/044_account_password_reset.yaml",
+          "source_line_start": 6595,
+          "source_line_end": 6650,
+          "category": "account",
+          "type": "password_reset"
+        },
+        {
+          "file": "canonical_events/045_account_account_deleted.yaml",
+          "source_line_start": 6657,
+          "source_line_end": 6718,
+          "category": "account",
+          "type": "account_deleted"
+        },
+        {
+          "file": "canonical_events/046_group_membership_member_added_to_global_group.yaml",
+          "source_line_start": 6725,
+          "source_line_end": 6791,
+          "category": "group_membership",
+          "type": "member_added_to_global_group"
+        },
+        {
+          "file": "canonical_events/047_group_membership_member_added_to_local_group.yaml",
+          "source_line_start": 6798,
+          "source_line_end": 6864,
+          "category": "group_membership",
+          "type": "member_added_to_local_group"
+        },
+        {
+          "file": "canonical_events/048_account_account_changed.yaml",
+          "source_line_start": 6871,
+          "source_line_end": 6998,
+          "category": "account",
+          "type": "account_changed"
+        },
+        {
+          "file": "canonical_events/049_account_account_locked_out.yaml",
+          "source_line_start": 7005,
+          "source_line_end": 7060,
+          "category": "account",
+          "type": "account_locked_out"
+        },
+        {
+          "file": "canonical_events/050_group_membership_member_added_to_universal_group.yaml",
+          "source_line_start": 7067,
+          "source_line_end": 7133,
+          "category": "group_membership",
+          "type": "member_added_to_universal_group"
+        },
+        {
+          "file": "canonical_events/051_account_account_unlocked.yaml",
+          "source_line_start": 7140,
+          "source_line_end": 7195,
+          "category": "account",
+          "type": "account_unlocked"
+        },
+        {
+          "file": "canonical_events/052_authentication_kerberos_tgt_requested.yaml",
+          "source_line_start": 7202,
+          "source_line_end": 7293,
+          "category": "authentication",
+          "type": "kerberos_tgt_requested"
+        },
+        {
+          "file": "canonical_events/053_authentication_kerberos_service_ticket_requested.yaml",
+          "source_line_start": 7300,
+          "source_line_end": 7379,
+          "category": "authentication",
+          "type": "kerberos_service_ticket_requested"
+        },
+        {
+          "file": "canonical_events/054_authentication_kerberos_preauth_failed.yaml",
+          "source_line_start": 7386,
+          "source_line_end": 7464,
+          "category": "authentication",
+          "type": "kerberos_preauth_failed"
+        },
+        {
+          "file": "canonical_events/055_authentication_credential_validation.yaml",
+          "source_line_start": 7471,
+          "source_line_end": 7522,
+          "category": "authentication",
+          "type": "credential_validation"
+        },
+        {
+          "file": "canonical_events/056_network_network_share_access.yaml",
+          "source_line_start": 7529,
+          "source_line_end": 7609,
+          "category": "network",
+          "type": "network_share_access"
+        },
+        {
+          "file": "canonical_events/057_network_network_share_access_check.yaml",
+          "source_line_start": 7616,
+          "source_line_end": 7704,
+          "category": "network",
+          "type": "network_share_access_check"
+        },
+        {
+          "file": "canonical_events/058_network_wfp_connection_permitted.yaml",
+          "source_line_start": 7711,
+          "source_line_end": 7798,
+          "category": "network",
+          "type": "wfp_connection_permitted"
+        },
+        {
+          "file": "canonical_events/059_network_wfp_bind_permitted.yaml",
+          "source_line_start": 7805,
+          "source_line_end": 7877,
+          "category": "network",
+          "type": "wfp_bind_permitted"
+        },
+        {
+          "file": "canonical_events/060_config_check_firewall_rule_added.yaml",
+          "source_line_start": 7884,
+          "source_line_end": 7935,
+          "category": "config_check",
+          "type": "firewall_rule_added"
+        },
+        {
+          "file": "canonical_events/061_config_check_firewall_rule_modified.yaml",
+          "source_line_start": 7942,
+          "source_line_end": 7993,
+          "category": "config_check",
+          "type": "firewall_rule_modified"
+        },
+        {
+          "file": "canonical_events/062_config_check_firewall_rule_deleted.yaml",
+          "source_line_start": 8000,
+          "source_line_end": 8051,
+          "category": "config_check",
+          "type": "firewall_rule_deleted"
+        },
+        {
+          "file": "canonical_events/063_service_service_crash.yaml",
+          "source_line_start": 8060,
+          "source_line_end": 8124,
+          "category": "service",
+          "type": "service_crash"
+        },
+        {
+          "file": "canonical_events/064_service_service_state_change.yaml",
+          "source_line_start": 8131,
+          "source_line_end": 8190,
+          "category": "service",
+          "type": "service_state_change"
+        },
+        {
+          "file": "canonical_events/065_service_service_start_type_change.yaml",
+          "source_line_start": 8197,
+          "source_line_end": 8258,
+          "category": "service",
+          "type": "service_start_type_change"
+        },
+        {
+          "file": "canonical_events/066_service_service_config_change.yaml",
+          "source_line_start": 8265,
+          "source_line_end": 8318,
+          "category": "service",
+          "type": "service_config_change"
+        },
+        {
+          "file": "canonical_events/067_service_service_install.yaml",
+          "source_line_start": 8325,
+          "source_line_end": 8379,
+          "category": "service",
+          "type": "service_install"
+        },
+        {
+          "file": "canonical_events/068_config_check_log_clear.yaml",
+          "source_line_start": 8386,
+          "source_line_end": 8456,
+          "category": "config_check",
+          "type": "log_clear"
+        },
+        {
+          "file": "canonical_events/069_powershell_engine_state_change.yaml",
+          "source_line_start": 8463,
+          "source_line_end": 8524,
+          "category": "powershell",
+          "type": "engine_state_change"
+        },
+        {
+          "file": "canonical_events/070_powershell_engine_state_change.yaml",
+          "source_line_start": 8531,
+          "source_line_end": 8592,
+          "category": "powershell",
+          "type": "engine_state_change"
+        },
+        {
+          "file": "canonical_events/071_powershell_provider_state_change.yaml",
+          "source_line_start": 8599,
+          "source_line_end": 8658,
+          "category": "powershell",
+          "type": "provider_state_change"
+        },
+        {
+          "file": "canonical_events/072_powershell_pipeline_execution.yaml",
+          "source_line_start": 8665,
+          "source_line_end": 8717,
+          "category": "powershell",
+          "type": "pipeline_execution"
+        },
+        {
+          "file": "canonical_events/073_powershell_module_logging.yaml",
+          "source_line_start": 8724,
+          "source_line_end": 8783,
+          "category": "powershell",
+          "type": "module_logging"
+        },
+        {
+          "file": "canonical_events/074_powershell_script_block_logging.yaml",
+          "source_line_start": 8790,
+          "source_line_end": 8848,
+          "category": "powershell",
+          "type": "script_block_logging"
+        },
+        {
+          "file": "canonical_events/075_powershell_pipeline_execution.yaml",
+          "source_line_start": 8855,
+          "source_line_end": 8906,
+          "category": "powershell",
+          "type": "pipeline_execution"
+        },
+        {
+          "file": "canonical_events/076_powershell_pipeline_execution.yaml",
+          "source_line_start": 8913,
+          "source_line_end": 8964,
+          "category": "powershell",
+          "type": "pipeline_execution"
+        },
+        {
+          "file": "canonical_events/077_wmi_wmi_operation.yaml",
+          "source_line_start": 8971,
+          "source_line_end": 9034,
+          "category": "wmi",
+          "type": "wmi_operation"
+        },
+        {
+          "file": "canonical_events/078_wmi_wmi_client_failure.yaml",
+          "source_line_start": 9041,
+          "source_line_end": 9109,
+          "category": "wmi",
+          "type": "wmi_client_failure"
+        },
+        {
+          "file": "canonical_events/079_wmi_wmi_operation.yaml",
+          "source_line_start": 9116,
+          "source_line_end": 9180,
+          "category": "wmi",
+          "type": "wmi_operation"
+        },
+        {
+          "file": "canonical_events/080_third_party_alert_malware_detected.yaml",
+          "source_line_start": 9187,
+          "source_line_end": 9299,
+          "category": "third_party_alert",
+          "type": "malware_detected"
+        },
+        {
+          "file": "canonical_events/081_file_malware_action.yaml",
+          "source_line_start": 9306,
+          "source_line_end": 9410,
+          "category": "file",
+          "type": "malware_action"
+        },
+        {
+          "file": "canonical_events/082_config_check_realtime_protection_disabled.yaml",
+          "source_line_start": 9417,
+          "source_line_end": 9476,
+          "category": "config_check",
+          "type": "realtime_protection_disabled"
+        },
+        {
+          "file": "canonical_events/083_config_check_settings_change.yaml",
+          "source_line_start": 9483,
+          "source_line_end": 9547,
+          "category": "config_check",
+          "type": "settings_change"
+        },
+        {
+          "file": "canonical_events/084_scheduled_task_task_register.yaml",
+          "source_line_start": 9554,
+          "source_line_end": 9622,
+          "category": "scheduled_task",
+          "type": "task_register"
+        },
+        {
+          "file": "canonical_events/085_scheduled_task_task_update.yaml",
+          "source_line_start": 9629,
+          "source_line_end": 9700,
+          "category": "scheduled_task",
+          "type": "task_update"
+        },
+        {
+          "file": "canonical_events/086_scheduled_task_task_delete.yaml",
+          "source_line_start": 9707,
+          "source_line_end": 9773,
+          "category": "scheduled_task",
+          "type": "task_delete"
+        },
+        {
+          "file": "canonical_events/087_scheduled_task_task_action_start.yaml",
+          "source_line_start": 9780,
+          "source_line_end": 9837,
+          "category": "scheduled_task",
+          "type": "task_action_start"
+        },
+        {
+          "file": "canonical_events/088_scheduled_task_task_action_complete.yaml",
+          "source_line_start": 9844,
+          "source_line_end": 9901,
+          "category": "scheduled_task",
+          "type": "task_action_complete"
+        },
+        {
+          "file": "canonical_events/089_authentication_session_logon.yaml",
+          "source_line_start": 9908,
+          "source_line_end": 9974,
+          "category": "authentication",
+          "type": "session_logon"
+        },
+        {
+          "file": "canonical_events/090_authentication_session_shell_start.yaml",
+          "source_line_start": 9981,
+          "source_line_end": 10047,
+          "category": "authentication",
+          "type": "session_shell_start"
+        },
+        {
+          "file": "canonical_events/091_authentication_session_logoff.yaml",
+          "source_line_start": 10054,
+          "source_line_end": 10113,
+          "category": "authentication",
+          "type": "session_logoff"
+        },
+        {
+          "file": "canonical_events/092_authentication_session_disconnect.yaml",
+          "source_line_start": 10120,
+          "source_line_end": 10186,
+          "category": "authentication",
+          "type": "session_disconnect"
+        },
+        {
+          "file": "canonical_events/093_authentication_session_reconnect.yaml",
+          "source_line_start": 10193,
+          "source_line_end": 10259,
+          "category": "authentication",
+          "type": "session_reconnect"
+        },
+        {
+          "file": "canonical_events/094_authentication_session_disconnected_by_session.yaml",
+          "source_line_start": 10266,
+          "source_line_end": 10324,
+          "category": "authentication",
+          "type": "session_disconnected_by_session"
+        },
+        {
+          "file": "canonical_events/095_authentication_rdp_auth.yaml",
+          "source_line_start": 10331,
+          "source_line_end": 10404,
+          "category": "authentication",
+          "type": "rdp_auth"
+        },
+        {
+          "file": "canonical_events/096_config_check_applocker_audit.yaml",
+          "source_line_start": 10411,
+          "source_line_end": 10472,
+          "category": "config_check",
+          "type": "applocker_audit"
+        },
+        {
+          "file": "canonical_events/097_config_check_applocker_audit.yaml",
+          "source_line_start": 10479,
+          "source_line_end": 10540,
+          "category": "config_check",
+          "type": "applocker_audit"
+        },
+        {
+          "file": "canonical_events/098_config_check_applocker_enforce.yaml",
+          "source_line_start": 10547,
+          "source_line_end": 10608,
+          "category": "config_check",
+          "type": "applocker_enforce"
+        },
+        {
+          "file": "canonical_events/099_config_check_applocker_enforce.yaml",
+          "source_line_start": 10615,
+          "source_line_end": 10676,
+          "category": "config_check",
+          "type": "applocker_enforce"
+        },
+        {
+          "file": "canonical_events/100_network_network_connection.yaml",
+          "source_line_start": 10685,
+          "source_line_end": 10790,
+          "category": "network",
+          "type": "network_connection"
+        },
+        {
+          "file": "canonical_events/101_dns_dns_query.yaml",
+          "source_line_start": 10797,
+          "source_line_end": 10920,
+          "category": "dns",
+          "type": "dns_query"
+        },
+        {
+          "file": "canonical_events/102_http_http_request.yaml",
+          "source_line_start": 10927,
+          "source_line_end": 11026,
+          "category": "http",
+          "type": "http_request"
+        },
+        {
+          "file": "canonical_events/103_tls_tls_handshake.yaml",
+          "source_line_start": 11033,
+          "source_line_end": 11121,
+          "category": "tls",
+          "type": "tls_handshake"
+        },
+        {
+          "file": "canonical_events/104_third_party_alert_zeek_notice.yaml",
+          "source_line_start": 11128,
+          "source_line_end": 11217,
+          "category": "third_party_alert",
+          "type": "zeek_notice"
+        },
+        {
+          "file": "canonical_events/105_file_file_seen.yaml",
+          "source_line_start": 11224,
+          "source_line_end": 11357,
+          "category": "file",
+          "type": "file_seen"
+        },
+        {
+          "file": "canonical_events/106_third_party_alert_suricata_alert.yaml",
+          "source_line_start": 11366,
+          "source_line_end": 11451,
+          "category": "third_party_alert",
+          "type": "suricata_alert"
+        },
+        {
+          "file": "canonical_events/107_http_http_request.yaml",
+          "source_line_start": 11458,
+          "source_line_end": 11524,
+          "category": "http",
+          "type": "http_request"
+        },
+        {
+          "file": "canonical_events/108_dns_dns_query.yaml",
+          "source_line_start": 11531,
+          "source_line_end": 11615,
+          "category": "dns",
+          "type": "dns_query"
+        },
+        {
+          "file": "canonical_events/109_tls_tls_handshake.yaml",
+          "source_line_start": 11622,
+          "source_line_end": 11699,
+          "category": "tls",
+          "type": "tls_handshake"
+        },
+        {
+          "file": "canonical_events/110_network_network_connection.yaml",
+          "source_line_start": 11706,
+          "source_line_end": 11783,
+          "category": "network",
+          "type": "network_connection"
+        },
+        {
+          "file": "canonical_events/111_file_file_seen.yaml",
+          "source_line_start": 11790,
+          "source_line_end": 11868,
+          "category": "file",
+          "type": "file_seen"
+        },
+        {
+          "file": "canonical_events/112_config_check_port_scan.yaml",
+          "source_line_start": 11877,
+          "source_line_end": 11977,
+          "category": "config_check",
+          "type": "port_scan"
+        },
+        {
+          "file": "canonical_events/113_config_check_connection_inventory.yaml",
+          "source_line_start": 11986,
+          "source_line_end": 12040,
+          "category": "config_check",
+          "type": "connection_inventory"
+        },
+        {
+          "file": "canonical_events/114_scheduled_task_task_inventory.yaml",
+          "source_line_start": 12049,
+          "source_line_end": 12122,
+          "category": "scheduled_task",
+          "type": "task_inventory"
+        },
+        {
+          "file": "canonical_events/115_service_service_inventory.yaml",
+          "source_line_start": 12131,
+          "source_line_end": 12175,
+          "category": "service",
+          "type": "service_inventory"
+        },
+        {
+          "file": "canonical_events/116_service_service_config_inventory.yaml",
+          "source_line_start": 12184,
+          "source_line_end": 12242,
+          "category": "service",
+          "type": "service_config_inventory"
+        },
+        {
+          "file": "canonical_events/117_registry_registry_export.yaml",
+          "source_line_start": 12251,
+          "source_line_end": 12292,
+          "category": "registry",
+          "type": "registry_export"
+        },
+        {
+          "file": "canonical_events/118_process_process_inventory.yaml",
+          "source_line_start": 12301,
+          "source_line_end": 12346,
+          "category": "process",
+          "type": "process_inventory"
+        },
+        {
+          "file": "canonical_events/119_artifact_autostart_inventory.yaml",
+          "source_line_start": 12355,
+          "source_line_end": 12431,
+          "category": "artifact",
+          "type": "autostart_inventory"
+        },
+        {
+          "file": "canonical_events/120_executable_executable_inventory.yaml",
+          "source_line_start": 12440,
+          "source_line_end": 12494,
+          "category": "executable",
+          "type": "executable_inventory"
+        },
+        {
+          "file": "canonical_events/121_artifact_finding_virustotal_detection.yaml",
+          "source_line_start": 12501,
+          "source_line_end": 12550,
+          "category": "artifact_finding",
+          "type": "virustotal_detection"
+        }
+      ]
+    },
+    "stage5_rules": {
+      "corpus": "stage5_rules",
+      "count": 25,
+      "source_doc": "research/stage-5-dynamic-rule-engine.md",
+      "source_sha256": "9835a6a8a526ac1cd74b13b1f54c332150641c678c4f34f737d699e5b4ce3be2",
+      "source_section": "## 11. Worked Rule Examples",
+      "source_section_line_start": 664,
+      "source_section_line_end": 1342,
+      "schema": "rule_schema.json",
+      "files": [
+        {
+          "file": "rules/stage5/7c1a9e40_2f6b_4d8a_9c3e_1b2d3e4f5a60.yaml",
+          "source_line_start": 670,
+          "source_line_end": 706,
+          "id": "7c1a9e40-2f6b-4d8a-9c3e-1b2d3e4f5a60",
+          "kind": "sigma"
+        },
+        {
+          "file": "rules/stage5/3d5e7f80_1a2b_4c6d_8e9f_0a1b2c3d4e51.yaml",
+          "source_line_start": 708,
+          "source_line_end": 738,
+          "id": "3d5e7f80-1a2b-4c6d-8e9f-0a1b2c3d4e51",
+          "kind": "sigma"
+        },
+        {
+          "file": "rules/stage5/9b8c7d6e_5f4a_4b3c_8d2e_1f0a9b8c7d62.yaml",
+          "source_line_start": 740,
+          "source_line_end": 772,
+          "id": "9b8c7d6e-5f4a-4b3c-8d2e-1f0a9b8c7d62",
+          "kind": "sigma"
+        },
+        {
+          "file": "rules/stage5/1e2f3a4b_5c6d_4e7f_8a9b_0c1d2e3f4a53.yaml",
+          "source_line_start": 774,
+          "source_line_end": 802,
+          "id": "1e2f3a4b-5c6d-4e7f-8a9b-0c1d2e3f4a53",
+          "kind": "sigma"
+        },
+        {
+          "file": "rules/stage5/0f9e8d7c_6b5a_4c3d_2e1f_0a9b8c7d6e54.yaml",
+          "source_line_start": 804,
+          "source_line_end": 832,
+          "id": "0f9e8d7c-6b5a-4c3d-2e1f-0a9b8c7d6e54",
+          "kind": "sigma"
+        },
+        {
+          "file": "rules/stage5/a1b2c3d4_e5f6_4a7b_8c9d_0e1f2a3b4c55.yaml",
+          "source_line_start": 836,
+          "source_line_end": 863,
+          "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c55",
+          "kind": "correlation"
+        },
+        {
+          "file": "rules/stage5/b2c3d4e5_f6a7_4b8c_9d0e_1f2a3b4c5d66.yaml",
+          "source_line_start": 865,
+          "source_line_end": 888,
+          "id": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d66",
+          "kind": "correlation"
+        },
+        {
+          "file": "rules/stage5/c3d4e5f6_a7b8_4c9d_0e1f_2a3b4c5d6e77.yaml",
+          "source_line_start": 890,
+          "source_line_end": 913,
+          "id": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e77",
+          "kind": "correlation"
+        },
+        {
+          "file": "rules/stage5/d4e5f6a7_b8c9_4d0e_1f2a_3b4c5d6e7f88.yaml",
+          "source_line_start": 915,
+          "source_line_end": 938,
+          "id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f88",
+          "kind": "correlation"
+        },
+        {
+          "file": "rules/stage5/e5f6a7b8_c9d0_4e1f_2a3b_4c5d6e7f8a99.yaml",
+          "source_line_start": 942,
+          "source_line_end": 969,
+          "id": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a99",
+          "kind": "ioc"
+        },
+        {
+          "file": "rules/stage5/f6a7b8c9_d0e1_4f2a_3b4c_5d6e7f8a9b0a.yaml",
+          "source_line_start": 971,
+          "source_line_end": 997,
+          "id": "f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0a",
+          "kind": "ioc"
+        },
+        {
+          "file": "rules/stage5/1a2b3c4d_5e6f_4a7b_8c9d_0e1f2a3b4c1b.yaml",
+          "source_line_start": 1001,
+          "source_line_end": 1022,
+          "id": "1a2b3c4d-5e6f-4a7b-8c9d-0e1f2a3b4c1b",
+          "kind": "fim"
+        },
+        {
+          "file": "rules/stage5/2b3c4d5e_6f7a_4b8c_9d0e_1f2a3b4c5d2c.yaml",
+          "source_line_start": 1024,
+          "source_line_end": 1046,
+          "id": "2b3c4d5e-6f7a-4b8c-9d0e-1f2a3b4c5d2c",
+          "kind": "fim"
+        },
+        {
+          "file": "rules/stage5/3c4d5e6f_7a8b_4c9d_0e1f_2a3b4c5d6e3d.yaml",
+          "source_line_start": 1050,
+          "source_line_end": 1076,
+          "id": "3c4d5e6f-7a8b-4c9d-0e1f-2a3b4c5d6e3d",
+          "kind": "sca"
+        },
+        {
+          "file": "rules/stage5/4d5e6f7a_8b9c_4d0e_1f2a_3b4c5d6e7f4e.yaml",
+          "source_line_start": 1078,
+          "source_line_end": 1102,
+          "id": "4d5e6f7a-8b9c-4d0e-1f2a-3b4c5d6e7f4e",
+          "kind": "sca"
+        },
+        {
+          "file": "rules/stage5/5e6f7a8b_9c0d_4e1f_2a3b_4c5d6e7f8a5f.yaml",
+          "source_line_start": 1106,
+          "source_line_end": 1129,
+          "id": "5e6f7a8b-9c0d-4e1f-2a3b-4c5d6e7f8a5f",
+          "kind": "statistical"
+        },
+        {
+          "file": "rules/stage5/6f7a8b9c_0d1e_4f2a_3b4c_5d6e7f8a9b6a.yaml",
+          "source_line_start": 1131,
+          "source_line_end": 1154,
+          "id": "6f7a8b9c-0d1e-4f2a-3b4c-5d6e7f8a9b6a",
+          "kind": "statistical"
+        },
+        {
+          "file": "rules/stage5/af_001.yaml",
+          "source_line_start": 1160,
+          "source_line_end": 1183,
+          "id": "AF-001",
+          "kind": "artifact"
+        },
+        {
+          "file": "rules/stage5/af_002.yaml",
+          "source_line_start": 1185,
+          "source_line_end": 1203,
+          "id": "AF-002",
+          "kind": "artifact"
+        },
+        {
+          "file": "rules/stage5/af_003.yaml",
+          "source_line_start": 1205,
+          "source_line_end": 1225,
+          "id": "AF-003",
+          "kind": "artifact"
+        },
+        {
+          "file": "rules/stage5/af_004.yaml",
+          "source_line_start": 1227,
+          "source_line_end": 1245,
+          "id": "AF-004",
+          "kind": "artifact"
+        },
+        {
+          "file": "rules/stage5/af_005.yaml",
+          "source_line_start": 1247,
+          "source_line_end": 1265,
+          "id": "AF-005",
+          "kind": "artifact"
+        },
+        {
+          "file": "rules/stage5/af_006.yaml",
+          "source_line_start": 1267,
+          "source_line_end": 1294,
+          "id": "AF-006",
+          "kind": "artifact"
+        },
+        {
+          "file": "rules/stage5/af_007.yaml",
+          "source_line_start": 1296,
+          "source_line_end": 1318,
+          "id": "AF-007",
+          "kind": "artifact"
+        },
+        {
+          "file": "rules/stage5/af_008.yaml",
+          "source_line_start": 1320,
+          "source_line_end": 1340,
+          "id": "AF-008",
+          "kind": "artifact"
+        }
+      ]
+    },
+    "stage3_af_rules": {
+      "corpus": "stage3_af_rules",
+      "count": 5,
+      "source_doc": "research/stage-3-ingestion-and-artifact-triage.md",
+      "source_sha256": "de86290b651895b62a9ed487aaf759e736a2b4b64dc708efc305a6c903403bfb",
+      "source_section": "### 12.4 Fact-to-finding rules",
+      "source_section_line_start": 3099,
+      "source_section_line_end": 3178,
+      "schema": "rule_schema.json",
+      "files": [
+        {
+          "file": "rules/stage3_af/af_001.yaml",
+          "source_line_start": 3103,
+          "source_line_end": 3103,
+          "id": "AF-001",
+          "kind": "artifact",
+          "wrapped_from": "stage-3 §12.4 artifact_finding_rules.yaml"
+        },
+        {
+          "file": "rules/stage3_af/af_002.yaml",
+          "source_line_start": 3103,
+          "source_line_end": 3103,
+          "id": "AF-002",
+          "kind": "artifact",
+          "wrapped_from": "stage-3 §12.4 artifact_finding_rules.yaml"
+        },
+        {
+          "file": "rules/stage3_af/af_003.yaml",
+          "source_line_start": 3103,
+          "source_line_end": 3103,
+          "id": "AF-003",
+          "kind": "artifact",
+          "wrapped_from": "stage-3 §12.4 artifact_finding_rules.yaml"
+        },
+        {
+          "file": "rules/stage3_af/af_004.yaml",
+          "source_line_start": 3103,
+          "source_line_end": 3103,
+          "id": "AF-004",
+          "kind": "artifact",
+          "wrapped_from": "stage-3 §12.4 artifact_finding_rules.yaml"
+        },
+        {
+          "file": "rules/stage3_af/af_005.yaml",
+          "source_line_start": 3103,
+          "source_line_end": 3103,
+          "id": "AF-005",
+          "kind": "artifact",
+          "wrapped_from": "stage-3 §12.4 artifact_finding_rules.yaml"
+        }
+      ]
+    }
+  }
+}

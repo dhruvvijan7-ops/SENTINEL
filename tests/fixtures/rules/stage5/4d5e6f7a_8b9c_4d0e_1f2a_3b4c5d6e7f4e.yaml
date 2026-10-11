@@ -1,0 +1,26 @@
+schema: sentinel-rule/v1
+id: 4d5e6f7a-8b9c-4d0e-1f2a-3b4c5d6e7f4e
+kind: sca
+source: native
+author: Sentinel content team
+title: Autorun Entry Not In The Approved Allowlist
+description: config_check plugins emit pass/fail/unknown events; unknown never counts as pass (D3-029
+  mirror).
+severity: MEDIUM
+sca:
+  select:
+    checks:
+    - sc.win.autorun.*
+    categories:
+    - persistence
+  fail_status_only: true
+  assert:
+    field: config_check.observed
+    op: contains
+    value: \Temp\
+  evidence:
+  - config_check.observed
+  - config_check.source
+enabled: true
+compile:
+  cost_class: prefilter
