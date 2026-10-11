@@ -29,6 +29,10 @@
 -- Retention     : raw_objects rows carry retention_until + legal_hold; the
 --                 purge job archives-then-deletes; uploads metadata outlives
 --                 the bytes by a configurable grace period (default 90 PROPOSED).
+-- Frozen shape  : 21 base tables, 11 partition children, 32 RLS policies.
+--                 These three numbers are frozen at M0 and asserted by
+--                 tests/contract/test_rls_lint.py; changing any of them is a
+--                 spec §10 contract change and needs a spec amendment first.
 -- ============================================================================
 
 BEGIN;
@@ -483,11 +487,24 @@ INSERT INTO retention_policies (tenant_id, workspace_id, scope_kind, retention_d
 --    Policies are created only on tables that exist at this point; the app
 --    role has no BYPASSRLS.  current_setting(..., true) returns NULL for
 --    unset vars, so an unscoped session sees zero rows.
+--
+--    Frozen counts (M0-A1 amendment, see research/DEVIATION_REGISTER.md):
+--      21 base tables + 11 partition children  = 32 relations
+--      32 CREATE POLICY statements             = 20 base-table policies
+--                                                + 11 partition policies
+--                                                + 1 raw_objects_cas exemption
+--    (The M0 plan text said 31; the true count is 32 because there are 11
+--     partition children, not 10. Recorded as an M0-A1 correction in
+--     research/DEVIATION_REGISTER.md.)
+--    Every tenant-column table AND every partition child carries both
+--    ENABLE ROW LEVEL SECURITY and at least one policy — enforced by
+--    tests/contract/test_rls_lint.py (policy-less ENABLEd tables were the
+--    M1-D3 defect this layout closes).
 -- ---------------------------------------------------------------------------
 ALTER TABLE tenants            ENABLE ROW LEVEL SECURITY;
 ALTER TABLE workspaces         ENABLE ROW LEVEL SECURITY;
 ALTER TABLE principals         ENABLE ROW LEVEL SECURITY;
-ALTER TABLE raw_objects        ENABLE ROW LEVEL SECURITY;  -- scoped via uploads join in app; direct scope by refcount owner is INFERRED
+ALTER TABLE raw_objects        ENABLE ROW LEVEL SECURITY;  -- shared CAS, no tenant column; pass-through policy raw_objects_cas below (see M1-D3 / M0 resolution in research/DEVIATION_REGISTER.md)
 ALTER TABLE uploads            ENABLE ROW LEVEL SECURITY;
 ALTER TABLE events             ENABLE ROW LEVEL SECURITY;
 ALTER TABLE rules              ENABLE ROW LEVEL SECURITY;
@@ -505,6 +522,23 @@ ALTER TABLE artifact_facts     ENABLE ROW LEVEL SECURITY;
 ALTER TABLE idempotency_keys   ENABLE ROW LEVEL SECURITY;
 ALTER TABLE audit_log          ENABLE ROW LEVEL SECURITY;
 ALTER TABLE retention_policies ENABLE ROW LEVEL SECURITY;
+
+-- Partition children inherit their parent's RLS *policies* only when the
+-- parent is the target of ALTER ... ENABLE; declarative children do NOT
+-- inherit ENABLE ROW LEVEL SECURITY, so each child is enabled and policed
+-- explicitly (M0-A1; required for the cross-tenant probe to hold on a direct
+-- SELECT against a partition).
+ALTER TABLE events_2026_10      ENABLE ROW LEVEL SECURITY;
+ALTER TABLE events_2026_11      ENABLE ROW LEVEL SECURITY;
+ALTER TABLE events_2026_12      ENABLE ROW LEVEL SECURITY;
+ALTER TABLE findings_2026_10    ENABLE ROW LEVEL SECURITY;
+ALTER TABLE findings_2026_11    ENABLE ROW LEVEL SECURITY;
+ALTER TABLE findings_2026_12    ENABLE ROW LEVEL SECURITY;
+ALTER TABLE audit_log_2026_10   ENABLE ROW LEVEL SECURITY;
+ALTER TABLE audit_log_2026_11   ENABLE ROW LEVEL SECURITY;
+ALTER TABLE audit_log_2026_12   ENABLE ROW LEVEL SECURITY;
+ALTER TABLE rule_baseline_2026  ENABLE ROW LEVEL SECURITY;
+ALTER TABLE rule_baseline_2027  ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY tenants_ws ON tenants
     USING (id = current_setting('sentinel.tenant_id', true));
@@ -525,6 +559,18 @@ CREATE POLICY events_ws ON events
     USING (tenant_id = current_setting('sentinel.tenant_id', true)
            AND workspace_id = current_setting('sentinel.workspace_id', true));
 
+CREATE POLICY events_2026_10_ws ON events_2026_10
+    USING (tenant_id = current_setting('sentinel.tenant_id', true)
+           AND workspace_id = current_setting('sentinel.workspace_id', true));
+
+CREATE POLICY events_2026_11_ws ON events_2026_11
+    USING (tenant_id = current_setting('sentinel.tenant_id', true)
+           AND workspace_id = current_setting('sentinel.workspace_id', true));
+
+CREATE POLICY events_2026_12_ws ON events_2026_12
+    USING (tenant_id = current_setting('sentinel.tenant_id', true)
+           AND workspace_id = current_setting('sentinel.workspace_id', true));
+
 CREATE POLICY rules_ws ON rules
     USING (tenant_id = current_setting('sentinel.tenant_id', true)
            AND workspace_id = current_setting('sentinel.workspace_id', true));
@@ -534,6 +580,14 @@ CREATE POLICY rule_source_ws ON rule_source
            AND workspace_id = current_setting('sentinel.workspace_id', true));
 
 CREATE POLICY rule_baseline_ws ON rule_baseline
+    USING (tenant_id = current_setting('sentinel.tenant_id', true)
+           AND workspace_id = current_setting('sentinel.workspace_id', true));
+
+CREATE POLICY rule_baseline_2026_ws ON rule_baseline_2026
+    USING (tenant_id = current_setting('sentinel.tenant_id', true)
+           AND workspace_id = current_setting('sentinel.workspace_id', true));
+
+CREATE POLICY rule_baseline_2027_ws ON rule_baseline_2027
     USING (tenant_id = current_setting('sentinel.tenant_id', true)
            AND workspace_id = current_setting('sentinel.workspace_id', true));
 
@@ -573,6 +627,18 @@ CREATE POLICY findings_ws ON findings
     USING (tenant_id = current_setting('sentinel.tenant_id', true)
            AND workspace_id = current_setting('sentinel.workspace_id', true));
 
+CREATE POLICY findings_2026_10_ws ON findings_2026_10
+    USING (tenant_id = current_setting('sentinel.tenant_id', true)
+           AND workspace_id = current_setting('sentinel.workspace_id', true));
+
+CREATE POLICY findings_2026_11_ws ON findings_2026_11
+    USING (tenant_id = current_setting('sentinel.tenant_id', true)
+           AND workspace_id = current_setting('sentinel.workspace_id', true));
+
+CREATE POLICY findings_2026_12_ws ON findings_2026_12
+    USING (tenant_id = current_setting('sentinel.tenant_id', true)
+           AND workspace_id = current_setting('sentinel.workspace_id', true));
+
 CREATE POLICY artifact_facts_ws ON artifact_facts
     USING (tenant_id = current_setting('sentinel.tenant_id', true)
            AND workspace_id = current_setting('sentinel.workspace_id', true));
@@ -586,6 +652,18 @@ CREATE POLICY audit_log_ws ON audit_log
     USING (tenant_id = current_setting('sentinel.tenant_id', true)
            AND workspace_id = current_setting('sentinel.workspace_id', true));
 
+CREATE POLICY audit_log_2026_10_ws ON audit_log_2026_10
+    USING (tenant_id = current_setting('sentinel.tenant_id', true)
+           AND workspace_id = current_setting('sentinel.workspace_id', true));
+
+CREATE POLICY audit_log_2026_11_ws ON audit_log_2026_11
+    USING (tenant_id = current_setting('sentinel.tenant_id', true)
+           AND workspace_id = current_setting('sentinel.workspace_id', true));
+
+CREATE POLICY audit_log_2026_12_ws ON audit_log_2026_12
+    USING (tenant_id = current_setting('sentinel.tenant_id', true)
+           AND workspace_id = current_setting('sentinel.workspace_id', true));
+
 CREATE POLICY retention_policies_ws ON retention_policies
     USING (tenant_id = current_setting('sentinel.tenant_id', true)
            AND workspace_id = current_setting('sentinel.workspace_id', true));
@@ -593,5 +671,15 @@ CREATE POLICY retention_policies_ws ON retention_policies
 -- raw_objects has no tenant column (shared CAS across workspaces by design);
 -- access is mediated entirely through uploads (app-level join) — see Stage 6
 -- §1.4 for the rationale and the INFERRED-marked alternative.
+--
+-- RLS is ENABLEd (above) but has no tenant predicate to apply, so without a
+-- policy the table would be *empty* for the non-owner app role: an ENABLEd
+-- table with no policy denies everything.  M0 fixes that by giving it an
+-- explicit pass-through policy.  This is the ONE documented exemption from
+-- the "every policy references sentinel.tenant_id/workspace_id" rule, and it
+-- is pinned by tests/contract/test_rls_lint.py (POLICY_EXEMPTIONS).
+CREATE POLICY raw_objects_cas ON raw_objects
+    USING (true)
+    WITH CHECK (true);
 
 COMMIT;
