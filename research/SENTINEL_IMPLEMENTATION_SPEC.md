@@ -96,10 +96,10 @@ This section is an index, not a replacement. Full verification-log content remai
 
 | Obligation | Source stage | Enforcement point (as stated) | Status |
 |---|---|---|---|
-| DRL-1.1 — match outputs retain author identification | Stage 1 §2.3 / DRL-1.1 | Rule author flows to alerts/findings | **UNFULFILLED in DDL** — `findings` has no `author` column (conflict C-6, INV-6) |
+| DRL-1.1 — match outputs retain author identification | Stage 1 §2.3 / DRL-1.1 | Rule author flows to alerts/findings | **FULFILLED (D8-03-fix)** - `findings.author` `text NOT NULL` (C-6 resolved; schema.sql carries the `-- DRL 1.1` column comment) |
 | Sigma / upstream rule text preserved verbatim | Stage 1 §2.3, Stage 5 D5-001 | `rule_source` table (text + sha256); OpenAPI `getRuleSource` | implemented in DDL + API |
-| MIT / Apache / GPL tool licences | Stage 1 §2.3 tool survey | Dependency manifest (not in this repo) | out of scope for spec |
-| Stage-6 licence register additions | Stage 6 licence table (§8) | Documentation only | carried as authored |
+| MIT / Apache / GPL tool licences | Stage 1 §2.3 tool survey | `research/verification/DEPENDENCY_LICENCES.yaml`, gated by `tests/contract/test_licence_register.py` | out of scope for spec |
+| Stage-6 licence register additions | Stage 6 licence table (§8) | `research/verification/DEPENDENCY_LICENCES.yaml` | machine-verified (M0 exit 5, `tests/contract/test_licence_register.py`) |
 | ioc_pack signature / provenance | Stage 4 D4-003 | `ioc_pack.signature`, `signing_key_id`, status flow | DDL has columns; verify-then-activate flow conflicts with `DEFAULT 'active'` (C-12) |
 
 Full licence text tables: Stage 1 §2.3 (in decision body, referenced via §3) and Stage 6 licence section (in §8).
@@ -19562,7 +19562,7 @@ Nothing below is committed to the repository. `tools/corpus-fetch` downloads pin
 
 #### 6.4 RLS and tenancy tests (reject-condition R2 regression)
 
-Integration suite includes: (a) session without GUCs sees 0 rows on every scoped table; (b) tenant A GUC never reads tenant B rows across all 20 policies; (c) cross-workspace probe inside one tenant; (d) `job_attempts`/`rule_run` EXISTS-policies. Any new table without a policy fails CI (schema-lint script counts `ENABLE ROW LEVEL SECURITY` vs tenant-column tables).
+Integration suite includes: (a) session without GUCs sees 0 rows on every scoped table; (b) tenant A GUC never reads tenant B rows across all 32 policies (21 base tables + 11 partition children); (c) cross-workspace probe inside one tenant; (d) `job_attempts`/`rule_run` EXISTS-policies. Any new table without a policy fails CI (schema-lint script counts `ENABLE ROW LEVEL SECURITY` vs tenant-column tables).
 
 #### 6.5 Queue tests
 
@@ -19620,8 +19620,13 @@ light-hids/
 ├── schemas/                  # canonical_event_v1.schema.json, rule_schema.json, openapi.yaml
 ├── configs/                  # sentinel.toml defaults + examples
 ├── tests/
-│   ├── unit/  contract/  integration/  e2e/  perf/  security/
+│   ├── unit/  contract/  integration/  e2e/  tripwire/
+│   ├── fixtures/             # committed corpora (manifest.json)
+│   └── perf/  security/      # added at M1+
 ├── tools/
+│   ├── extract_examples.py   # spec -> tests/fixtures extractor (--check)
+│   ├── schema_parse.py       # DDL parser behind the contract gates
+│   ├── schema_lint.py        # M0 exit (1): psql lint + catalog diff
 │   ├── corpus-fetch/         # pinned download + sha256 manifest (D6-009)
 │   └── bench/                # §6.6 harness
 ├── packaging/
@@ -19648,6 +19653,20 @@ Scope reminder: the first *product* milestone sequence is the Stage-1 MVP list; 
 | **M4 — Release candidate** | cx_Freeze + WinSW + Inno installer, perf numbers MEASURED, hardening pass | ① §6.6 numbers published as MEASURED with environment pins; ② full §6.1 suite green on windows-latest; ③ security suite green; ④ legal gate review of the DEPENDENCY/AVOID table signed off (Stage-1 §2.3 precedent); ⑤ upgrade drill: previous release → new installer with data intact |
 
 The brief's "first vertical slice" is exactly M2: EVTX/Sysmon + real Sigma pack + evidence + timeline — deliberately before artifact breadth so the evidence-survives-purge invariant is proven early (R1 is the hardest reject condition to retrofit).
+
+#### 9a. M0 exit criteria → machine gate
+
+Each M0 exit criterion in the table above is enforced by a committed gate, and `.github/workflows/ci.yml` runs every one of them on each push and pull request. The Gate column is parsed by `tests/contract/test_m0_exit_gates.py`, so renaming or deleting a gate fails the suite.
+
+| Exit | Gate |
+|---|---|
+| ① `schema.sql` applies clean on PG 18 docker + `psql` lint (no ERROR/WARNING) | `tools/schema_lint.py` (psql lint, `alembic upgrade head`, catalog diff) |
+| ② `openapi.yaml` parses, every internal `$ref` resolves, no duplicate `operationId` | `tests/contract/test_openapi.py` |
+| ③ contract tests validate `rule_schema.json` examples + `canonical_event_v1.schema.json` fixtures | `tests/contract/test_fixture_corpora.py`, `tests/contract/test_canonical_event.py` |
+| ④ RLS schema-lint passes (§6.4a) | `tests/contract/test_rls_lint.py` (static) + `tests/integration/test_rls.py` (dynamic probe) |
+| ⑤ every DEPENDENCY licence row in this document has a Verification-Log entry | `research/verification/DEPENDENCY_LICENCES.yaml` + `tests/contract/test_licence_register.py` |
+
+Jobs: `contract` (windows-latest, no database) runs `tests/contract`, `tests/unit` and `tests/tripwire`; `schema` (ubuntu-latest, PostgreSQL 18 container) runs `tools/schema_lint.py`; `integration` (ubuntu-latest, PostgreSQL 18 container) runs `tests/integration` and `tests/e2e` with `-m "not slow"` — the 10k-job soak and the docker stop/start readiness flip stay local diagnostics, as declared in `tests/integration/conftest.py`.
 
 ---
 
@@ -19752,7 +19771,7 @@ The brief's "first vertical slice" is exactly M2: EVTX/Sysmon + real Sigma pack 
 
 # 9 — HTTP API contract
 
-**Delivered file:** `openapi.yaml` (1239 lines, 42062 bytes). Machine-normative contract; not inlined here (see §1.4 / §15.1).
+**Delivered file:** `openapi.yaml` (1256 lines, 44015 bytes). Machine-normative contract; not inlined here (see §1.4 / §15.1).
 
 OpenAPI 3.1.0 contract for the Sentinel HTTP surface. Implementers serve this file; the index below is convenience only. Known conflicts with stage bodies: upload path naming (C-4), Finding vs sentinel-finding/v1 (C-2), source.format xml omission (C-8), host free-form (C-9), Rule projection gaps (C-10), config_hash encoding (C-7).
 
@@ -19807,7 +19826,7 @@ Full text: `openapi.yaml` in the repository root.
 ---
 # 10 — Storage DDL contract
 
-**Delivered file:** `schema.sql` (585 lines, 29480 bytes). Machine-normative contract; not inlined here (see §1.4 / §15.1).
+**Delivered file:** `schema.sql` (685 lines, 35497 bytes). Machine-normative contract; not inlined here (see §1.4 / §15.1).
 
 PostgreSQL DDL for the Sentinel platform. 21 tables, RLS on all tenant-scoped tables, CHECK constraints for enums. Resolved: findings.author added (C-6), events.classification added (C-13). Remaining conflicts: missing level_original on findings (C-3b), rule_run metrics mismatch (C-5), ioc_pack DEFAULT 'active' (C-11), config_hash bytea (C-7).
 
@@ -19815,7 +19834,7 @@ PostgreSQL DDL for the Sentinel platform. 21 tables, RLS on all tenant-scoped ta
 
 `tenants`, `workspaces`, `principals`, `raw_objects`, `uploads`, `events`, `rules`, `rule_source`, `rule_baseline`, `fim_baseline`, `ioc_pack`, `ioc_entry`, `jobs`, `job_attempts`, `detection_runs`, `rule_run`, `findings`, `artifact_facts`, `idempotency_keys`, `audit_log`, `retention_policies`
 
-Total tables: 21. RLS enabled on 21 tables.
+Total tables: 21. RLS enabled on all 21 base tables and all 11 partition children (32 relations, 32 policies).
 
 Full text: `schema.sql` in the repository root.
 
