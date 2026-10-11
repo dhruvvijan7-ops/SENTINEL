@@ -1,0 +1,102 @@
+name: ci
+
+# M0 regression gates. Each job maps to a spec section-9 exit criterion:
+#
+#   contract    -> exits (2) OpenAPI, (3) example corpora, (5) DEPENDENCY
+#                  licences, (6) schema RLS lint, (7) frozen config keys,
+#                  (8) static tests, (9) 100% coverage of rules + workflows,
+#                  (11) tripwire, (12) test inventory. No database.
+#   schema      -> exit (1) psql lint + migration chain vs schema.sql.
+#   integration -> exit (4) dynamic RLS probe, plus the M1 e2e upload flow.
+#
+# Contract runs on Windows because Sentinel is Windows-first: the frozen
+# artefacts (schema.sql, config.example.toml, the spec tables) must parse
+# identically under cp1252-default tooling. Schema and integration run on
+# Linux against PostgreSQL 18 in the same docker-compose topology the dev
+# environment uses.
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONIOENCODING: utf-8
+  SENTINEL_CONFIG: configs/config.example.toml
+
+jobs:
+  contract:
+    name: contract (windows-latest)
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+      - name: Contract, unit and tripwire gates (no database)
+        run: pytest tests/contract tests/unit tests/tripwire
+
+  schema:
+    name: schema (ubuntu-latest, postgres 18)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      # psql client on PATH authenticates with the compose superuser password;
+      # schema_lint falls back to `docker exec` when no client is installed.
+      PGPASSWORD: sentinel_dev_pw
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+      - name: Start PostgreSQL 18
+        run: docker compose up -d --wait
+      - name: psql lint + migration chain catalog diff
+        run: python tools/schema_lint.py
+
+  integration:
+    name: integration (ubuntu-latest, postgres 18)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+      - name: Start PostgreSQL 18
+        run: docker compose up -d --wait
+      - name: Dynamic RLS probe + M1 e2e flow
+        # `not slow` is the contract declared in tests/integration/conftest.py:
+        # the 10k-job soak and the docker stop/start readiness flip are local
+        # diagnostics, not per-commit gates.
+        run: pytest tests/integration tests/e2e -m "not slow"

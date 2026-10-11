@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import shutil
 import subprocess
 import tempfile
 from dataclasses import replace
@@ -61,7 +62,21 @@ def client(app_settings):
 
 @pytest.fixture(scope="session")
 def m1_fixture_evtx() -> Path:
-    """1 MiB+ System-channel EVTX containing only mapped EIDs."""
+    """M1's 1 MiB+ System-channel EVTX containing only mapped EIDs.
+
+    Prefers the committed copy at ``tests/fixtures/sentinel_m1.evtx`` so the
+    e2e suite runs on any platform (Linux CI has no ``wevtutil``). The Windows
+    path stays as a regeneration fallback: it re-harvests the file when the
+    committed copy is absent or too small, then verifies it parses.
+    """
+    committed = ROOT / "tests" / "fixtures" / "sentinel_m1.evtx"
+    if committed.exists() and committed.stat().st_size >= 1024 * 1024:
+        _assert_evtx_parses(committed)
+        return committed
+
+    if os.name != "nt" or shutil.which("wevtutil") is None:
+        pytest.skip("EVTX fixture unavailable: no committed fixture and no wevtutil")
+
     out = Path(tempfile.gettempdir()) / "opencode" / "sentinel_m1.evtx"
     if out.exists() and out.stat().st_size >= 1024 * 1024:
         return out
@@ -75,6 +90,17 @@ def m1_fixture_evtx() -> Path:
     if proc.returncode != 0 or not out.exists():
         pytest.skip(f"EVTX fixture unavailable: {proc.stderr.strip()}")
     return out
+
+
+def _assert_evtx_parses(path: Path) -> None:
+    """Guard against a corrupt/truncated committed fixture."""
+    from evtx import PyEvtxParser
+
+    try:
+        records = PyEvtxParser(str(path)).records()
+        next(iter(records))
+    except (OSError, StopIteration, ValueError) as exc:  # pragma: no cover
+        pytest.skip(f"EVTX fixture unusable ({path}): {exc}")
 
 
 def drain_jobs(settings, *, max_rounds: int = 300) -> int:
