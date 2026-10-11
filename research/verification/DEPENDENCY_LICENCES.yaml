@@ -1,0 +1,160 @@
+# Licence verification register â€” M0 exit (5)
+#
+# Machine-readable side of "every DEPENDENCY licence row in this document has a
+# Verification-Log entry" (spec section 9, M0 exit criteria). Each entry binds:
+#
+#   * a licence row parsed out of research/SENTINEL_IMPLEMENTATION_SPEC.md,
+#   * a short licence label that must appear in that row's licence cell, and
+#   * one or more V-ids that must exist in a Verification-Log table of the
+#     spec and must actually talk about that component.
+#
+# tests/contract/test_licence_register.py enforces all three directions, so a
+# row can be added to the spec only together with a Verification-Log entry, and
+# a V-id can be cited only if it is really in the log.
+#
+# `table` is one of:
+#   deps  = spec "10.3 Third-party content obligations" (Class column = DEPENDENCY)
+#   frame = spec "3.3 Framework choices (licence VERIFIED 2026-10-10)"
+#   tool  = spec "7.1 Freezer (D6-003)" / "7.2 Windows service and installer"
+
+register_version: 1
+spec: research/SENTINEL_IMPLEMENTATION_SPEC.md
+
+entries:
+  # --- spec 10.3: DEPENDENCY class rows --------------------------------
+  - component: google-re2
+    table: deps
+    licence: [BSD-3-Clause]
+    usage_class: DEPENDENCY
+    verification: [V10]
+
+  - component: pyahocorasick
+    table: deps
+    licence: [BSD-3-Clause]
+    usage_class: DEPENDENCY
+    verification: [V11]
+
+  - component: pySigma
+    table: deps
+    licence: [LGPL-2.1-only]
+    usage_class: DEPENDENCY
+    verification: [V4]
+
+  - component: PostgreSQL 18
+    table: deps
+    licence: [PostgreSQL License]
+    usage_class: DEPENDENCY
+    verification: [V6, V-6-007]
+
+  # --- spec 3.3: runtime framework stack -------------------------------
+  - component: FastAPI
+    table: frame
+    licence: [MIT]
+    usage_class: framework
+    verification: [V-6-014, V-6-015]
+
+  - component: pydantic
+    table: frame
+    licence: [MIT]
+    usage_class: framework
+    verification: [V-6-016]
+
+  - component: uvicorn
+    table: frame
+    licence: [BSD-3-Clause]
+    usage_class: framework
+    verification: [V-6-017]
+
+  - component: psycopg / psycopg-binary
+    table: frame
+    licence: [LGPL-3.0]
+    usage_class: framework
+    verification: [V-6-011, V-6-012, V-6-012a, V-6-012b]
+
+  - component: alembic
+    table: frame
+    licence: [MIT]
+    usage_class: framework
+    verification: [V-6-018]
+
+  - component: structlog
+    table: frame
+    licence: [Apache-2.0, MIT]
+    usage_class: framework
+    verification: [V-6-023]
+
+  - component: prometheus-client
+    table: frame
+    licence: [Apache-2.0]
+    usage_class: framework
+    verification: [V-6-021]
+
+  - component: opentelemetry-sdk
+    table: frame
+    licence: [Apache-2.0]
+    usage_class: framework
+    verification: [V-6-022]
+
+  - component: pytest
+    table: frame
+    licence: [MIT]
+    usage_class: framework
+    verification: [V-6-019]
+
+  - component: hypothesis
+    table: frame
+    licence: [MPL-2.0]
+    usage_class: framework
+    verification: [V-6-020]
+
+  - component: python-json-logger
+    table: frame
+    licence: [BSD-2-Clause]
+    usage_class: framework
+    verification: [V-6-024]
+
+  # --- spec 7.1: freezer table ------------------------------------------
+  - component: cx_Freeze
+    table: tool
+    licence: [PSF]
+    usage_class: ADOPTED
+    verification: [V-6-026]
+
+  - component: PyInstaller
+    table: tool
+    licence: [GPL-2.0-or-later, Bootloader Exception]
+    usage_class: AVOID
+    verification: [V-6-025]
+
+  - component: Nuitka
+    table: tool
+    licence: []
+    usage_class: UNVERIFIED
+    verification: []          # permitted only because it is in `not_verified`
+
+  # --- licence rows stated in spec 7.2 prose (not a table) ---------------
+  - component: WinSW
+    table: prose
+    licence: [MIT]
+    usage_class: adopted
+    verification: [V-6-027]
+
+  - component: Inno Setup
+    table: prose
+    licence: [Inno Setup]
+    usage_class: adopted
+    verification: [V-6-028]
+
+  - component: pywin32
+    table: prose
+    licence: [PSF-2.0]
+    usage_class: adopted
+    verification: [V-6-029]
+
+# Licence rows deliberately *without* a verification entry, because the spec
+# itself lists them in section 12 NOT_VERIFIED. The gate asserts every parsed
+# table row with no V-id is named here, and that every name here still occurs
+# in the spec (so a resolved row cannot silently keep its exemption).
+not_verified:
+  - component: Nuitka
+    reason: "spec section 12 NOT_VERIFIED: 'Nuitka licence (not fetched; not evaluated)'"
