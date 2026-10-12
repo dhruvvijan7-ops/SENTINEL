@@ -1,0 +1,20 @@
+{
+  "schema": "sentinel-rule-pack/v1",
+  "pack_id": "sentinel-m2-planted",
+  "pack_version": "1",
+  "source": {
+    "kind": "sigma",
+    "repo": "SigmaHQ/sigma",
+    "commit": "8a4813404ea3074890e0cda9272d4d1a8b2941d6",
+    "spec": "sigma-spec/2.1.0"
+  },
+  "count": 1,
+  "pack_sha256": "6bd4fa74ce382c49581310d51a228b90c153a2530a4b8c8a7808c58d6a259342",
+  "rules": [
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_whoami_as_param.yml",
+      "sha256": "f1a2ec7ccf346470771611b7e2fd9fc142c4b2082ae3f4e36a4e968ddf5c03ea"
+    }
+  ],
+  "subset_of": "configs/rule_pack.json"
+}

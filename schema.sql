@@ -29,7 +29,7 @@
 -- Retention     : raw_objects rows carry retention_until + legal_hold; the
 --                 purge job archives-then-deletes; uploads metadata outlives
 --                 the bytes by a configurable grace period (default 90 PROPOSED).
--- Frozen shape  : 21 base tables, 11 partition children, 32 RLS policies.
+-- Frozen shape  : 21 base tables, 12 partition children, 33 RLS policies.
 --                 These three numbers are frozen at M0 and asserted by
 --                 tests/contract/test_rls_lint.py; changing any of them is a
 --                 spec §10 contract change and needs a spec amendment first.
@@ -405,6 +405,14 @@ CREATE TABLE findings_2026_11 PARTITION OF findings
     FOR VALUES FROM ('2026-11-01') TO ('2026-12-01');
 CREATE TABLE findings_2026_12 PARTITION OF findings
     FOR VALUES FROM ('2026-12-01') TO ('2027-01-01');
+-- M2-A12: findings.time_utc is the *event* instant (the §6.6 timeline unions
+-- findings with events by their own time), so a capture imported today can
+-- carry an event from any date in the past.  The three maintained monthly
+-- partitions above only cover the MVP window; without this catch-all the
+-- INSERT fails with "no partition of relation findings found for row" and the
+-- whole vertical slice dies on the first historical EVTX.  partition_maintain
+-- may later ATTACH a tighter range by sweeping this child first.
+CREATE TABLE findings_default PARTITION OF findings DEFAULT;
 
 CREATE INDEX findings_tenant_ws_time_idx ON findings (tenant_id, workspace_id, time_utc DESC);
 CREATE INDEX findings_rule_idx           ON findings (tenant_id, workspace_id, rule_id, time_utc DESC);
@@ -534,6 +542,7 @@ ALTER TABLE events_2026_12      ENABLE ROW LEVEL SECURITY;
 ALTER TABLE findings_2026_10    ENABLE ROW LEVEL SECURITY;
 ALTER TABLE findings_2026_11    ENABLE ROW LEVEL SECURITY;
 ALTER TABLE findings_2026_12    ENABLE ROW LEVEL SECURITY;
+ALTER TABLE findings_default    ENABLE ROW LEVEL SECURITY;
 ALTER TABLE audit_log_2026_10   ENABLE ROW LEVEL SECURITY;
 ALTER TABLE audit_log_2026_11   ENABLE ROW LEVEL SECURITY;
 ALTER TABLE audit_log_2026_12   ENABLE ROW LEVEL SECURITY;
@@ -636,6 +645,10 @@ CREATE POLICY findings_2026_11_ws ON findings_2026_11
            AND workspace_id = current_setting('sentinel.workspace_id', true));
 
 CREATE POLICY findings_2026_12_ws ON findings_2026_12
+    USING (tenant_id = current_setting('sentinel.tenant_id', true)
+           AND workspace_id = current_setting('sentinel.workspace_id', true));
+
+CREATE POLICY findings_default_ws ON findings_default
     USING (tenant_id = current_setting('sentinel.tenant_id', true)
            AND workspace_id = current_setting('sentinel.workspace_id', true));
 

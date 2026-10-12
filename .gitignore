@@ -15,7 +15,11 @@ venv/
 var/
 *.log
 
-# Third-party corpora / engines (D6-009: never committed)
+# Third-party corpora / engines (D6-009, revised): datasets, captures and
+# full upstream checkouts never enter the tree - they are fetched out-of-tree
+# into .corpus/ with a pinned sha256.  Curated *rule* files are the exception:
+# tests/conformance/rules/ is committed because DRL-1.1 permits redistribution
+# with attribution (tests/conformance/ATTRIBUTION.md).
 research/work/_stage1_work/drl/
 research/work/_stage1_work/pySigma/
 research/work/_stage1_work/pysigma-sqlite/

@@ -114,7 +114,7 @@ def test_ci_workflow_runs_every_gate_directory():
 def test_ci_workflow_declares_the_jobs_described_in_the_spec():
     workflow = yaml.safe_load(CI.read_text(encoding="utf-8"))
     jobs = set(workflow["jobs"])
-    assert jobs == {"contract", "schema", "integration"}, sorted(jobs)
+    assert jobs == {"contract", "schema", "integration", "scoring"}, sorted(jobs)
     runs = " ".join(
         str(step.get("run", ""))
         for job in workflow["jobs"].values()

@@ -8,10 +8,16 @@ prometheus-client==0.26.0
 opentelemetry-api==1.45.1
 opentelemetry-sdk==1.45.1
 jsonschema==4.26.0
+# M2 exit ⑥ scoring gate: fastjsonschema (MIT) for the 257 673-row UNSW run,
+# jsonschema stays the canonical_event_v1 contract validator (spec §6.3a)
+fastjsonschema==2.22.2
 pyyaml==6.0.3
 python-multipart==0.0.32
 argon2-cffi==25.1.0
 evtx==0.13.1
+# detect engine (spec §4.5: RE2 for every rule regex, Aho–Corasick for large keyword sets)
+google-re2==1.1.20251105
+pyahocorasick==2.3.1
 python-json-logger==4.2.0
 # test-only
 pytest==9.1.1

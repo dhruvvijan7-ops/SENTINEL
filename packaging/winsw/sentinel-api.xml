@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Stage-6 §7.2 service wrapper for the API process (D6-004: WinSW, MIT).
+
+  This is a TEMPLATE, not a runnable config: packaging/install.ps1 renders it
+  into %InstallRoot%\bin\sentinel-api.xml and copies WinSW-x64.exe alongside
+  as sentinel-api.exe, so the wrapper finds its config by base name.
+  Tokens: {{PYTHON}} {{INSTALL_ROOT}} {{CONFIG}} {{LOG_DIR}}
+-->
+<service>
+  <id>sentinel-api</id>
+  <name>Sentinel API</name>
+  <description>Sentinel Light HIDS API (Stage-6 §7.2, D6-004)</description>
+
+  <executable>{{PYTHON}}</executable>
+  <arguments>-m sentinel_api.main</arguments>
+  <workingdirectory>{{INSTALL_ROOT}}</workingdirectory>
+
+  <startmode>Automatic</startmode>
+  <priority>Normal</priority>
+  <stoptimeout>30 sec</stoptimeout>
+
+  <onfailure action="restart" delay="5 sec"/>
+  <onfailure action="restart" delay="15 sec"/>
+  <onfailure action="restart" delay="60 sec"/>
+
+  <env name="SENTINEL_CONFIG" value="{{CONFIG}}"/>
+  <env name="PYTHONIOENCODING" value="utf-8"/>
+
+  <log mode="roll-by-size">
+    <sizeThreshold>10240</sizeThreshold>
+    <keepFiles>8</keepFiles>
+  </log>
+  <logpath>{{LOG_DIR}}</logpath>
+</service>

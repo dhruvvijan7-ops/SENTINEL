@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import time
+
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -10,11 +12,22 @@ from sentinel_core.errors import GateError
 from sentinel_core.logging import configure_logging, get_logger
 from sentinel_ingest.gate import PrincipalLimiter
 
+from .metrics import HTTP_DURATION, HTTP_REQUESTS, route_label
+from .routes_audit import router as audit_router
+from .routes_findings import router as findings_router
 from .routes_health import router as health_router
+from .routes_jobs import router as jobs_router
 from .routes_runs import router as runs_router
 from .routes_uploads import router as uploads_router
 
 log = get_logger("api")
+
+
+def _record_http(request: Request, response, started: float) -> None:
+    route = route_label(request)
+    status = str(response.status_code)
+    HTTP_REQUESTS.labels(route, request.method, status).inc()
+    HTTP_DURATION.labels(route, request.method).observe(time.perf_counter() - started)
 
 
 def _bootstrap_principals(settings: Settings) -> None:
@@ -80,24 +93,26 @@ def create_app(settings: Settings) -> FastAPI:
     async def body_limit_and_metrics(request: Request, call_next):
         # Sentinel-owned request cap (Stage-3 §1): Content-Length pre-check +
         # streamed byte count.  No third-party WAF (spec constraint).
+        started = time.perf_counter()
         max_bytes = settings.ingest_max_request_bytes
         declared = request.headers.get("content-length")
         if declared is not None:
             try:
-                if int(declared) > max_bytes:
-                    return JSONResponse(
-                        status_code=413,
-                        content={
-                            "code": "GATE_REQUEST_TOO_LARGE",
-                            "message": f"request body exceeds {max_bytes} bytes",
-                        },
-                    )
+                too_large = int(declared) > max_bytes
             except ValueError:
-                pass
+                too_large = False
+            if too_large:
+                response = JSONResponse(
+                    status_code=413,
+                    content={
+                        "code": "GATE_REQUEST_TOO_LARGE",
+                        "message": f"request body exceeds {max_bytes} bytes",
+                    },
+                )
+                _record_http(request, response, started)
+                return response
         response = await call_next(request)
-        from .metrics import HTTP_REQUESTS
-
-        HTTP_REQUESTS.labels(request.method, request.url.path, str(response.status_code)).inc()
+        _record_http(request, response, started)
         return response
 
     @app.exception_handler(GateError)
@@ -113,5 +128,8 @@ def create_app(settings: Settings) -> FastAPI:
     app.include_router(health_router)
     app.include_router(uploads_router)
     app.include_router(runs_router)
+    app.include_router(jobs_router)
+    app.include_router(audit_router)
+    app.include_router(findings_router)
 
     return app

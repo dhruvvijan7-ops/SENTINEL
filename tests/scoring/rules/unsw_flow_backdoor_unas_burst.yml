@@ -1,0 +1,26 @@
+title: UNSW-NB15 Flow - Unassigned-Protocol C2 Burst
+id: sentinel-unsw-backdoor-unas-burst
+status: experimental
+description: >
+  Traffic on an unassigned/undefined protocol at >=50000 pkt/s with the
+  source TTL pinned: 'unas' is 34.4% of the Backdoor class in UNSW-NB15 and
+  is rare in Normal traffic (top protocols there are tcp/udp/arp).
+author: Sentinel
+license: Proprietary
+date: 2026/10/12
+logsource:
+  category: network_connection
+  product: unsw-nb15
+detection:
+  sel_proto:
+    proto: unas
+  sel_rate:
+    rate|gte: 50000
+  sel_src_ttl:
+    sttl|gte: 250
+  condition: sel_proto and sel_rate and sel_src_ttl
+falsepositives:
+  - Misclassified local protocols and vendor-proprietary transports.
+level: high
+tags:
+  - attack.backdoor

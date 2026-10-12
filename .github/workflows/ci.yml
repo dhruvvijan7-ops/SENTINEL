@@ -12,6 +12,9 @@ name: ci
 #   schema      -> ① psql lint, alembic upgrade head, catalog diff vs
 #                  schema.sql.
 #   integration -> ④ dynamic RLS probe, plus the M1 e2e upload flow.
+#   scoring     -> M2 exit ⑥: fetch the out-of-tree UNSW-NB15 corpus
+#                  (sha + row pins, citation manifest) and score the frozen
+#                  pack against it. Fails hard when the corpus is missing.
 #
 # Contract runs on Windows because Sentinel is Windows-first: the frozen
 # artefacts (schema.sql, config.example.toml, the spec tables) must parse
@@ -104,3 +107,30 @@ jobs:
         # the 10k-job soak and the docker stop/start readiness flip are local
         # diagnostics, not per-commit gates.
         run: pytest tests/integration tests/e2e -m "not slow"
+
+  scoring:
+    name: scoring (windows-latest, UNSW-NB15)
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+      - name: Cache the out-of-tree corpus (D6-009 datasets are not committed)
+        uses: actions/cache@v4
+        with:
+          path: .corpus
+          key: corpus-${{ hashFiles('tools/evaluate_unsw_nb15.py', 'tools/corpus_fetch.py') }}
+      - name: Pin + fetch UNSW-NB15 (hard failure on missing corpus or sha/size drift)
+        run: python tools/corpus_fetch.py
+      - name: M2 exit ⑥ scored-run gate
+        # tests never skip: a missing corpus is a red job, not a vacuous pass.
+        run: pytest tests/scoring

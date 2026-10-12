@@ -15,10 +15,13 @@ from typing import Any, Iterator
 
 from evtx import PyEvtxParser
 
+from sentinel_core.logging import get_logger
+
 from .envelope import build_envelope
 from .mappings import MappedEvent, RecordContext, default_classification, map_record
 
 _NS_EVENT = "{http://schemas.microsoft.com/win/2004/08/events/event}"
+log = get_logger("ingest.evtx")
 
 
 @dataclass
@@ -27,6 +30,7 @@ class ParseStats:
     events_mapped: int = 0
     unmapped_eid: int = 0
     parse_errors: int = 0
+    tail_error: str | None = None
 
 
 def _strip(tag: str) -> str:
@@ -100,6 +104,28 @@ def parse_record_xml(xml_text: str) -> RecordContext | None:
     )
 
 
+def _iter_records(path: str, stats: ParseStats) -> Iterator[dict[str, Any]]:
+    """Yield records, tolerating a corrupt/uninitialised trailing chunk.
+
+    The `evtx` crate raises ``Failed to parse chunk header`` when it reaches a
+    pre-allocated-but-never-written chunk at the end of a log (observed on the
+    pinned Apache-2.0 evtx-rs sample).  A truncated tail must not fail the
+    ingest job for the records that *did* parse, so the error is surfaced as a
+    ``parse_errors`` count plus ``tail_error`` rather than an exception.
+    """
+    records = iter(PyEvtxParser(path).records())
+    while True:
+        try:
+            record = next(records)
+        except StopIteration:
+            return
+        except Exception as exc:  # noqa: BLE001 - crate raises bare RuntimeError
+            stats.tail_error = f"{type(exc).__name__}: {exc}"
+            log.warning("evtx.tail_unreadable", error=stats.tail_error)
+            return
+        yield record
+
+
 def iter_envelopes(
     path: str,
     *,
@@ -110,8 +136,7 @@ def iter_envelopes(
     file_sha256: str | None,
     stats: ParseStats,
 ) -> Iterator[dict[str, Any]]:
-    parser = PyEvtxParser(path)
-    for record in parser.records():
+    for record in _iter_records(path, stats):
         stats.records_total += 1
         xml_text = record.get("data") or ""
         ctx = parse_record_xml(xml_text)

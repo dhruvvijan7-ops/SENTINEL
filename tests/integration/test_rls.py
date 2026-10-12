@@ -113,11 +113,16 @@ def seeded(migrated):
 
     Purges first: ``ON CONFLICT DO NOTHING`` cannot repair a row an earlier run
     planted wrongly, and a stale wrong row would silently weaken the probe.
+    Purges again on the way out so the *next* pytest session starts clean —
+    without the teardown, every module-level seed row survives into the
+    following run and ``tests/e2e/test_upload_flow.py`` (which runs earlier in
+    the session) inherits it.
     """
     purge_seeded_rows(migrated)
     seed_tenant_rows(migrated, tenant=TENANT_A, worker=False)
     seed_tenant_rows(migrated, tenant=TENANT_B, worker=True)
-    return migrated
+    yield migrated
+    purge_seeded_rows(migrated)
 
 
 @pytest.mark.parametrize(
@@ -288,8 +293,8 @@ def test_e_parent_and_children_agree_on_visibility(seeded, parent):
 
 def test_e_all_contract_partitions_are_covered():
     """The probe must cover every partition child in the storage contract."""
-    assert len(PARTITION_CHILDREN) == 11, (
-        f"expected the 11 M0-A1 partitions, found {len(PARTITION_CHILDREN)}"
+    assert len(PARTITION_CHILDREN) == 12, (
+        f"expected the 12 contract partitions, found {len(PARTITION_CHILDREN)}"
     )
     assert set(PARTITION_PARENTS) <= set(CONTRACT_BASE_TABLES), (
         "every policed parent must also be a seeded contract table: "

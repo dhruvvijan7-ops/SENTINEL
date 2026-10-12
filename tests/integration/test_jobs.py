@@ -39,16 +39,23 @@ def test_10k_noop_jobs_exactly_once(migrated):
 
     stop = threading.Event()
     errors: list[BaseException] = []
+    token_prefix = f"exactly-once-test:{run_token}:%"
 
     def worker_loop(worker_no: int) -> None:
         wid = f"test-worker-{worker_no}"
         try:
             while not stop.is_set():
-                n = process_batch(settings, wid)
+                # Scoped to this run's job_type: a specialised worker must not
+                # claim someone else's job (Stage-6 §6.5), and leftover queued
+                # rows from other suites must not hold the loop open.
+                n = process_batch(settings, wid, job_types=("noop",))
                 if n == 0:
                     with tx(settings.database_worker_url) as conn:
                         queued = conn.execute(
-                            "SELECT count(*) FROM jobs WHERE status = 'queued'"
+                            "SELECT count(*) FROM jobs "
+                            "WHERE status = 'queued' AND job_type = 'noop' "
+                            "  AND idempotency_key LIKE %s",
+                            (token_prefix,),
                         ).fetchone()
                     if int(queued[0]) == 0:
                         return

@@ -76,11 +76,65 @@ def get_run(conn: psycopg.Connection, run_id: uuid.UUID) -> dict[str, Any] | Non
     }
 
 
+def upsert_rule_run(
+    conn: psycopg.Connection,
+    *,
+    run_id: uuid.UUID,
+    rule_id: uuid.UUID,
+    outcome: str,
+    findings: int = 0,
+    processed_events: int = 0,
+    rejected_events: int = 0,
+    detection_path: str | None = None,
+    reason_codes: list[str] | tuple[str, ...] = (),
+    sql_ms: int | None = None,
+    native_ms: int | None = None,
+    max_group_size: int | None = None,
+    max_window_ms: int | None = None,
+) -> None:
+    conn.execute(
+        """
+        INSERT INTO rule_run (
+            run_id, rule_id, outcome, findings, processed_events, rejected_events,
+            detection_path, reason_codes, sql_ms, native_ms,
+            max_group_size, max_window_ms, finished_at
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now())
+        ON CONFLICT (run_id, rule_id) DO UPDATE
+           SET outcome = EXCLUDED.outcome,
+               findings = EXCLUDED.findings,
+               processed_events = EXCLUDED.processed_events,
+               rejected_events = EXCLUDED.rejected_events,
+               detection_path = EXCLUDED.detection_path,
+               reason_codes = EXCLUDED.reason_codes,
+               sql_ms = EXCLUDED.sql_ms,
+               native_ms = EXCLUDED.native_ms,
+               max_group_size = EXCLUDED.max_group_size,
+               max_window_ms = EXCLUDED.max_window_ms,
+               finished_at = now()
+        """,
+        (
+            run_id,
+            rule_id,
+            outcome,
+            findings,
+            processed_events,
+            rejected_events,
+            detection_path,
+            list(reason_codes),
+            sql_ms,
+            native_ms,
+            max_group_size,
+            max_window_ms,
+        ),
+    )
+
+
 def list_rule_runs(conn: psycopg.Connection, run_id: uuid.UUID) -> list[dict[str, Any]]:
     rows = conn.execute(
         """
         SELECT rule_id, outcome, findings, processed_events, rejected_events,
-               detection_path, reason_codes, started_at, finished_at
+               detection_path, reason_codes, started_at, finished_at,
+               sql_ms, native_ms, max_group_size, max_window_ms
         FROM rule_run WHERE run_id = %s
         ORDER BY started_at
         """,
@@ -98,6 +152,10 @@ def list_rule_runs(conn: psycopg.Connection, run_id: uuid.UUID) -> list[dict[str
             "reason_codes": list(r[6] or []),
             "started_at": r[7],
             "finished_at": r[8],
+            "sql_ms": r[9],
+            "native_ms": r[10],
+            "max_group_size": r[11],
+            "max_window_ms": r[12],
         }
         for r in rows
     ]

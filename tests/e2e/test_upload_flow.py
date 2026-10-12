@@ -86,6 +86,16 @@ def test_e2e_upload_ingest_detect(client, app_settings, m1_fixture_evtx):
     assert rr.status_code == 200
     assert rr.json()["items"] == [], "empty pack must produce zero rule_run rows"
 
+    # empty pack ⇒ zero findings, asserted against the findings table itself
+    # (M1 content bullet: "detect run completes with empty findings").
+    import uuid as _uuid
+
+    from sentinel_storage.repos_detect import count_findings_for_run
+
+    with tx(app_settings.database_url) as conn:
+        set_rls(conn, "default", "default")
+        assert count_findings_for_run(conn, _uuid.UUID(run_detail["run_id"])) == 0
+
 
 def test_e2e_cross_tenant_sees_nothing(client, app_settings, m1_fixture_evtx):
     """M1 exit ② half-2: tenant-b sees zero rows for tenant-a's data."""

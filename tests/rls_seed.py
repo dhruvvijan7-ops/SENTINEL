@@ -172,19 +172,24 @@ def _seed_rows() -> list[SeededTable]:
         SeededTable(
             "rules",
             tenant_probe="tenant_id",
+            # ``enabled = false``: these rows exist only so the policy has a
+            # row to show/hide.  They carry an empty document (no ``detection``),
+            # so if they were enabled the auto-chained detect_run in
+            # ``tests/e2e/test_upload_flow.py`` would compile them and fail —
+            # a seed row must never change an unrelated test's outcome.
             seed_a=(
                 "INSERT INTO rules (rule_id, tenant_id, workspace_id, name, "
                 "kind, source, license, author, title, status, severity, "
-                "document) VALUES (%s, %s, %s, 'rls-a', 'sigma', 'native', "
-                "'DRL-1.1', 'sentinel', 'RLS seed A', 'stable', 'LOW', "
-                "'{}') ON CONFLICT DO NOTHING"
+                "enabled, document) VALUES (%s, %s, %s, 'rls-a', 'sigma', "
+                "'native', 'DRL-1.1', 'sentinel', 'RLS seed A', 'stable', "
+                "'LOW', false, '{}') ON CONFLICT DO NOTHING"
             ),
             seed_b=(
                 "INSERT INTO rules (rule_id, tenant_id, workspace_id, name, "
                 "kind, source, license, author, title, status, severity, "
-                "document) VALUES (%s, %s, %s, 'rls-b', 'sigma', 'native', "
-                "'DRL-1.1', 'sentinel', 'RLS seed B', 'stable', 'LOW', "
-                "'{}') ON CONFLICT DO NOTHING"
+                "enabled, document) VALUES (%s, %s, %s, 'rls-b', 'sigma', "
+                "'native', 'DRL-1.1', 'sentinel', 'RLS seed B', 'stable', "
+                "'LOW', false, '{}') ON CONFLICT DO NOTHING"
             ),
         ),
         SeededTable(

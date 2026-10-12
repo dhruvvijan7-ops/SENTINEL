@@ -9,15 +9,22 @@ from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 
 from sentinel_core.db import tx
-from sentinel_core.errors import BadRequestError, GateIdempotencyMismatch, NotFoundError
+from sentinel_core.errors import (
+    BadRequestError,
+    GateError,
+    GateIdempotencyMismatch,
+    NotFoundError,
+)
 from sentinel_core.rls import set_rls
 from sentinel_detect.store import empty_pack_config_bytes
 from sentinel_storage import repos_detect
+from sentinel_storage.repos_audit import insert_audit
 from sentinel_storage.repos_idempotency import get_key, put_key
 from sentinel_storage.repos_jobs import enqueue
 
+from .audit import write_audit
 from .auth import Principal, authenticate
-from .routes_uploads import _check_workspace, _settings
+from .routes_uploads import _check_workspace, _settings, require_workspace
 
 router = APIRouter()
 
@@ -49,61 +56,83 @@ def _run_body(row: dict) -> dict:
 async def create_run(workspaceId: str, request: Request):
     settings = _settings(request)
     principal = _principal(request)
-    _check_workspace(principal, workspaceId)
-    body_bytes = await request.body()
+    require_workspace(request, principal, workspaceId, action="run.create")
     try:
-        scope = json.loads(body_bytes) if body_bytes else {}
-    except json.JSONDecodeError as exc:
-        raise BadRequestError(f"invalid JSON body: {exc}")
-    if not isinstance(scope, dict):
-        raise BadRequestError("RunRequest must be a JSON object")
-    idem_key = request.headers.get("Idempotency-Key")
-    request_hash = hashlib.sha256(body_bytes).digest()
-    config_hash = hashlib.sha256(empty_pack_config_bytes()).digest()
+        body_bytes = await request.body()
+        try:
+            scope = json.loads(body_bytes) if body_bytes else {}
+        except json.JSONDecodeError as exc:
+            raise BadRequestError(f"invalid JSON body: {exc}")
+        if not isinstance(scope, dict):
+            raise BadRequestError("RunRequest must be a JSON object")
+        idem_key = request.headers.get("Idempotency-Key")
+        request_hash = hashlib.sha256(body_bytes).digest()
+        config_hash = hashlib.sha256(empty_pack_config_bytes()).digest()
 
-    with tx(settings.database_url) as conn:
-        set_rls(conn, principal.tenant_id, principal.workspace_id)
-        if idem_key:
-            existing = get_key(conn, principal.principal_id, idem_key)
-            if existing is not None:
-                if existing["request_hash"] == request_hash:
-                    return JSONResponse(
-                        status_code=existing["response_code"],
-                        content=existing["response_body"],
+        with tx(settings.database_url) as conn:
+            set_rls(conn, principal.tenant_id, principal.workspace_id)
+            if idem_key:
+                existing = get_key(conn, principal.principal_id, idem_key)
+                if existing is not None:
+                    if existing["request_hash"] == request_hash:
+                        return JSONResponse(
+                            status_code=existing["response_code"],
+                            content=existing["response_body"],
+                        )
+                    raise GateIdempotencyMismatch(
+                        "Idempotency-Key reused with a different body"
                     )
-                raise GateIdempotencyMismatch(
-                    "Idempotency-Key reused with a different body"
-                )
-        run_id = repos_detect.create_run(
-            conn,
-            tenant_id=principal.tenant_id,
-            workspace_id=principal.workspace_id,
-            requested_by=principal.principal_id,
-            scope=scope,
-            config_hash=config_hash,
-        )
-        enqueue(
-            conn,
-            tenant_id=principal.tenant_id,
-            workspace_id=principal.workspace_id,
-            job_type="detect_run",
-            payload={"detection_run_id": str(run_id)},
-            idempotency_key=f"detect:{run_id}",
-        )
-        row = repos_detect.get_run(conn, run_id)
-        assert row is not None
-        body = _run_body(row)
-        if idem_key:
-            put_key(
+            run_id = repos_detect.create_run(
                 conn,
-                principal_id=principal.principal_id,
-                key=idem_key,
-                request_hash=request_hash,
-                response_code=202,
-                response_body=body,
+                tenant_id=principal.tenant_id,
+                workspace_id=principal.workspace_id,
+                requested_by=principal.principal_id,
+                scope=scope,
+                config_hash=config_hash,
             )
-        conn.commit()
-    return JSONResponse(status_code=202, content=body)
+            enqueue(
+                conn,
+                tenant_id=principal.tenant_id,
+                workspace_id=principal.workspace_id,
+                job_type="detect_run",
+                payload={"detection_run_id": str(run_id)},
+                idempotency_key=f"detect:{run_id}",
+            )
+            insert_audit(
+                conn,
+                tenant_id=principal.tenant_id,
+                workspace_id=principal.workspace_id,
+                principal=principal.principal_id,
+                action="run.create",
+                object_kind="run",
+                object_id=str(run_id),
+                outcome="ok",
+                detail={"scope": scope},
+            )
+            row = repos_detect.get_run(conn, run_id)
+            assert row is not None
+            body = _run_body(row)
+            if idem_key:
+                put_key(
+                    conn,
+                    principal_id=principal.principal_id,
+                    key=idem_key,
+                    request_hash=request_hash,
+                    response_code=202,
+                    response_body=body,
+                )
+            conn.commit()
+        return JSONResponse(status_code=202, content=body)
+    except GateError as exc:
+        write_audit(
+            settings,
+            principal=principal,
+            action="run.create",
+            outcome="denied",
+            object_kind="run",
+            detail={"code": exc.code, "message": exc.message},
+        )
+        raise
 
 
 @router.get("/v1/workspaces/{workspaceId}/runs")

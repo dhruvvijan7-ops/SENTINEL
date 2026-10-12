@@ -1,0 +1,362 @@
+# sigma_field_mapping_pipelines.yaml
+# Sentinel — Sigma-to-canonical field-mapping pipelines (config data, not code)
+# schema: canonical-event/v1
+# corpus_pin: SigmaHQ/sigma @ 8a4813404ea3074890e0cda9272d4d1a8b2941d6
+# cross_ref: stage-2 doc §2 mapping tables (SEC-A, SEC-B)
+# source: SENTINEL_IMPLEMENTATION_SPEC.md §(sigma_field_mapping_pipelines.yaml)
+#         lines 2708-2971, transcribed verbatim; the one addition is
+#         `windows_process_creation`, recorded as M2-A8 in
+#         research/DEVIATION_REGISTER.md.
+version: 1
+
+pipelines:
+
+  # ---------- Sysmon (Microsoft-Windows-Sysmon/Operational) ----------
+  - id: sysmon_process_creation
+    title: Sysmon process creation
+    logsource:
+      product: windows
+      category: process_creation
+      service: sysmon
+    selector:
+      event.category: process
+      event.type: [process_create]
+    field_mapping:
+      UtcTime: time.original          # utc derived; timezone_source=source_documented_utc
+      ProcessGuid: process.guid
+      ProcessId: process.pid
+      Image: process.exe
+      CommandLine: process.command_line
+      CurrentDirectory: process.current_dir
+      User: process.owner_name        # often DOMAIN\user; SID unavailable in Sysmon User
+      LogonGuid: process.logon_guid
+      LogonId: process.logon_id
+      TerminalSessionId: process.terminal_session_id
+      IntegrityLevel: process.integrity_level
+      OriginalFileName: process.original_file_name
+      ParentProcessGuid: process.parent.guid
+      ParentProcessId: process.parent.pid
+      ParentImage: process.parent.exe
+      ParentCommandLine: process.parent.command_line
+      ParentUser: process.parent.owner_sid   # see SEC-A trap: Sysmon ParentUser may carry SID
+      # FileVersion / Description / Product / Company -> unmapped[]
+      # RuleName -> unmapped[] (noise)
+    value_transform:
+      - source_shape: "Hashes (KEY=value,KEY=value)"
+        target: [process.hashes.md5, process.hashes.sha1, process.hashes.sha256, process.hashes.imphash, process.hashes.other]
+        rule_action: split_kv_and_compare_scalar   # rules using 'Hashes contains SHA256=' → process.hashes.sha256 startswith
+      - source_shape: "User (DOMAIN\\user or user@domain)"
+        target: [process.owner_name]
+        rule_action: compare_as_is                  # no SID expansion in pipeline; rules needing SID use enrichment
+
+  # M2-A8 (amendment): SigmaHQ writes `logsource: {category: process_creation,
+  # product: windows}` with no `service:` for the majority of process rules, so
+  # neither `sysmon_process_creation` (requires service=sysmon) nor
+  # `security_process` (requires service=security) is eligible for them.  This
+  # two-key pipeline covers that shape; eligibility is pipeline.logsource ⊆
+  # rule.logsource and the most-specific (most keys) eligible pipeline wins, so
+  # rules that do name `service: sysmon` still select the Sysmon pipeline.
+  - id: windows_process_creation
+    title: Windows process creation (source-agnostic)
+    logsource:
+      product: windows
+      category: process_creation
+    selector:
+      event.category: process
+      event.type: [process_create]
+    field_mapping:
+      UtcTime: time.original
+      ProcessGuid: process.guid
+      ProcessId: process.pid
+      Image: process.exe
+      CommandLine: process.command_line
+      CurrentDirectory: process.current_dir
+      User: process.owner_name
+      LogonGuid: process.logon_guid
+      LogonId: process.logon_id
+      TerminalSessionId: process.terminal_session_id
+      IntegrityLevel: process.integrity_level
+      OriginalFileName: process.original_file_name
+      ParentProcessGuid: process.parent.guid
+      ParentProcessId: process.parent.pid
+      ParentImage: process.parent.exe
+      ParentCommandLine: process.parent.command_line
+      ParentUser: process.parent.owner_sid
+    value_transform:
+      - source_shape: "Hashes (KEY=value,KEY=value)"
+        target: [process.hashes.md5, process.hashes.sha1, process.hashes.sha256, process.hashes.imphash, process.hashes.other]
+        rule_action: split_kv_and_compare_scalar
+      - source_shape: "User (DOMAIN\\user or user@domain)"
+        target: [process.owner_name]
+        rule_action: compare_as_is
+
+  - id: sysmon_registry
+    title: Sysmon registry events
+    logsource:
+      product: windows
+      category: registry_event
+      service: sysmon
+    selector:
+      event.category: registry
+      event.type: [registry_object_create_delete, registry_value_set, registry_rename]
+    field_mapping:
+      UtcTime: time.original
+      ProcessGuid: process.guid
+      ProcessId: process.pid
+      Image: process.exe
+      TargetObject: registry.path
+      Details: registry.data
+      EventType: registry.operation   # createKey→create, setValue→set, deleteKey/deleteValue→delete, renameKey/renameValue→rename
+    value_transform:
+      - source_shape: "EventType literal strings (createKey|deleteKey|deleteValue|setValue|renameKey|renameValue)"
+        target: registry.operation
+        rule_action: map_to_enum
+      - source_shape: "TargetObject full path (hive\\key\\value)"
+        target: [registry.hive, registry.key, registry.value_name]
+        rule_action: optional_derived_split        # parser may fill hive/key/value_name (inferred); path always present
+
+  - id: sysmon_network
+    title: Sysmon network connection
+    logsource:
+      product: windows
+      category: network_connection
+      service: sysmon
+    selector:
+      event.category: network
+      event.type: [network_connection]
+    field_mapping:
+      UtcTime: time.original
+      ProcessGuid: process.guid
+      ProcessId: process.pid
+      Image: process.exe
+      Protocol: network.protocol
+      SourceIp: network.src_ip
+      SourcePort: network.src_port
+      DestinationIp: network.dst_ip
+      DestinationPort: network.dst_port
+      SourceHostname: unmapped        # no schema home (Q2-xxx)
+      DestinationHostname: unmapped
+      Initiated: network.direction    # true→outbound, false→inbound (INFERRED mapping)
+    value_transform:
+      - source_shape: "Initiated boolean"
+        target: network.direction
+        rule_action: map_bool_to_direction_enum
+
+  - id: sysmon_image_load
+    title: Sysmon image (DLL) load
+    logsource:
+      product: windows
+      category: image_load
+      service: sysmon
+    selector:
+      event.category: image_load
+      event.type: [image_load]
+    field_mapping:
+      UtcTime: time.original
+      ProcessGuid: process.guid
+      ProcessId: process.pid
+      Image: process.exe
+      ImageLoaded: image_load.image
+      Signed: image_load.signature.signed
+      Signature: image_load.signature.signer
+      SignatureStatus: image_load.signature.status
+    value_transform:
+      - source_shape: "Hashes KEY=value string"
+        target: [image_load.hashes.md5, image_load.hashes.sha1, image_load.hashes.sha256, image_load.hashes.imphash]
+        rule_action: split_kv_and_compare_scalar
+
+  - id: sysmon_file_create
+    title: Sysmon file create
+    logsource:
+      product: windows
+      category: file_event
+      service: sysmon
+    selector:
+      event.category: file
+      event.type: [file_create]
+    field_mapping:
+      UtcTime: time.original
+      ProcessGuid: process.guid
+      ProcessId: process.pid
+      Image: process.exe
+      TargetFilename: file.path
+      CreationUtcTime: file.created
+
+  - id: sysmon_pipe
+    title: Sysmon named pipe create/connect
+    logsource:
+      product: windows
+      category: pipe_created   # SigmaHQ also uses pipe_connected via filter; same category family
+      service: sysmon
+    selector:
+      event.category: pipe
+      event.type: [pipe_create, pipe_connect]
+    field_mapping:
+      UtcTime: time.original
+      ProcessGuid: process.guid
+      ProcessId: process.pid
+      Image: process.exe
+      PipeName: pipe.name
+
+  - id: sysmon_wmi
+    title: Sysmon WMI events (19/20/21)
+    logsource:
+      product: windows
+      category: wmi_event
+      service: sysmon
+    selector:
+      event.category: wmi
+      event.type: [wmi_filter_create, wmi_consumer_create, wmi_consumer_filter_bind]
+    field_mapping:
+      UtcTime: time.original
+      Operation: wmi.operation
+      Query: wmi.query
+      # Consumer/Filter/Binding object details: see SEC-A EID 19/21 tables;
+      # several sub-fields currently land in unmapped[] (Q2-xxx)
+
+  - id: sysmon_ps_script
+    title: Sysmon/PowerShell script block (EID 4104 via ps_script)
+    logsource:
+      product: windows
+      category: ps_script
+    selector:
+      event.category: powershell
+      event.type: [script_block_logging]
+    field_mapping:
+      ScriptBlockText: powershell.script_block_text
+      Path: powershell.script_path
+      MessageNumber: powershell.message_number
+      MessageTotal: powershell.message_total
+
+  - id: sysmon_dns
+    title: Sysmon DNS query (EID 22)
+    logsource:
+      product: windows
+      category: dns_query
+      service: sysmon
+    selector:
+      event.category: dns
+      event.type: [dns_query]
+    field_mapping:
+      UtcTime: time.original
+      ProcessGuid: process.guid
+      ProcessId: process.pid
+      Image: process.exe
+      QueryName: dns.query_name
+      QueryResults: dns.answers
+      QueryStatus: dns.query_status
+
+  # ---------- Windows Security channel ----------
+  - id: security_auth
+    title: Security logon/logoff/authorization
+    logsource:
+      product: windows
+      service: security
+    selector:
+      event.category: authentication
+    field_mapping:
+      SubjectUserSid: user.sid
+      SubjectUserName: user.name
+      SubjectDomainName: user.domain
+      SubjectLogonId: user.logon_id
+      TargetUserSid: authentication.target_sid
+      TargetUserName: authentication.target_name
+      TargetDomainName: authentication.target_domain
+      TargetLogonId: authentication.target_logon_id
+      LogonType: authentication.logon_type
+      LogonProcessName: unmapped          # schema wish: authentication.logon_process (Q2-xxx)
+      AuthenticationPackageName: authentication.auth_package
+      WorkstationName: authentication.workstation
+      LogonGuid: authentication.logon_guid
+      CallerProcessId: authentication.caller_process_id
+      CallerProcessName: authentication.caller_process_name
+      ElevatedToken: authentication.elev_token
+      Status: authentication.status
+      SubStatus: authentication.sub_status
+      IpAddress: authentication.source_ip
+      IpPort: unmapped                    # schema wish: authentication.source_port (Q2-xxx)
+      KeyLength: authentication.key_length
+    value_transform:
+      - source_shape: "ElevatedToken (%16384 / true/false renderings — see SEC-A UNVERIFIED note)"
+        target: authentication.elev_token
+        rule_action: parse_documented_variants
+      - source_shape: "LogonType numeric codes (2,3,4,5,7,8,9,10,11)"
+        target: authentication.logon_type
+        rule_action: compare_numeric
+
+  - id: security_process
+    title: Security process creation/termination (4688/4689)
+    logsource:
+      product: windows
+      service: security
+      category: process_creation
+    selector:
+      event.category: process
+      event.type: [process_create, process_terminate]
+    field_mapping:
+      NewProcessName: process.exe
+      ProcessId: process.pid
+      ParentProcessName: process.parent.exe
+      ParentProcessId: process.parent.pid
+      CommandLine: process.command_line
+      TokenElevationType: unmapped        # schema wish: process.token_elevation_type (Q2-xxx)
+      MandatoryLabel: process.integrity_level
+      SubjectUserSid: user.sid
+      SubjectUserName: user.name
+      SubjectDomainName: user.domain
+      Status: process.exit_code           # schema wish exists? currently unmapped — see SEC-A EID 4689 table
+
+  # ---------- UNSW-NB15 flow records (M2 exit ; spec 6.3a) ----------
+  # The two published CSVs carry 45 columns and no addresses/ports, so the
+  # five canonical network.* properties map directly and every other feature
+  # column keeps its source name in unmapped[] (UNMAPPED_FIELD, non-fatal -
+  # the engine's designed escape hatch, see normalize.py).  Recorded as
+  # M2-A10 in research/DEVIATION_REGISTER.md; dataset never committed (D6-009).
+  - id: unsw_nb15_network_flow
+    title: UNSW-NB15 network flow records
+    logsource:
+      category: network_connection
+      product: unsw-nb15
+    selector:
+      event.category: network
+      event.type: [network_connection]
+    field_mapping:
+      proto: network.protocol
+      state: network.state
+      sbytes: network.bytes_sent
+      dbytes: network.bytes_received
+      dur: network.duration
+      # no canonical home in canonical_event_v1 $defs/network -> unmapped[]
+      service: unmapped
+      spkts: unmapped
+      dpkts: unmapped
+      sttl: unmapped
+      dttl: unmapped
+      rate: unmapped
+      sload: unmapped
+      dload: unmapped
+      sinpkt: unmapped
+      dinpkt: unmapped
+      sjit: unmapped
+      djit: unmapped
+      swin: unmapped
+      dwin: unmapped
+      tcprtt: unmapped
+      synack: unmapped
+      ackdat: unmapped
+      smean: unmapped
+      dmean: unmapped
+      trans_depth: unmapped
+      response_body_len: unmapped
+      ct_srv_src: unmapped
+      ct_state_ttl: unmapped
+      ct_dst_ltm: unmapped
+      ct_src_dport_ltm: unmapped
+      ct_dst_sport_ltm: unmapped
+      ct_dst_src_ltm: unmapped
+      ct_src_ltm: unmapped
+      ct_srv_dst: unmapped
+      is_ftp_login: unmapped
+      ct_ftp_cmd: unmapped
+      ct_flw_http_mthd: unmapped
+      is_sm_ips_ports: unmapped

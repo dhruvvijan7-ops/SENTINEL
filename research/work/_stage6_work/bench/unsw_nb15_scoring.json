@@ -1,0 +1,155 @@
+{
+  "dataset": "UNSW-NB15",
+  "generated_at": "2026-10-12T23:29:52Z",
+  "citation": "Moustafa, N. and Slay, J. (2015). UNSW-NB15: a comprehensive data set for network intrusion detection systems (UNSW-NB15 network data set). Military Communications and Information Systems Conference (MilCIS), pp. 492-497. IEEE. Academic use only; commercial use prohibited (UNSW terms, VERIFIED 2026-10-12).",
+  "schema": "canonical-event/v1",
+  "validator": "fastjsonschema",
+  "pack": {
+    "dir": "tests/scoring/rules",
+    "rules": [
+      "sentinel-unsw-backdoor-unas-burst",
+      "sentinel-unsw-dos-rate-flood",
+      "sentinel-unsw-exploit-long-session",
+      "sentinel-unsw-generic-dns-flood",
+      "sentinel-unsw-http-interactive",
+      "sentinel-unsw-recon-ttl-probe"
+    ],
+    "rule_count": 6
+  },
+  "splits": {
+    "train": {
+      "file": "UNSW_NB15_training-set.csv",
+      "sha256": "bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa",
+      "rows": 175341,
+      "documents": 175341,
+      "dropped": 0,
+      "invalid_documents": 0,
+      "binary": {
+        "tp": 105631,
+        "fp": 5128,
+        "fn": 13710,
+        "tn": 50872,
+        "precision": 0.953701,
+        "recall": 0.885119,
+        "f1": 0.918131,
+        "fpr": 0.091571
+      },
+      "per_category_recall": {
+        "Analysis": 0.7805,
+        "Backdoor": 0.858534,
+        "DoS": 0.910307,
+        "Exploits": 0.911149,
+        "Fuzzers": 0.549494,
+        "Generic": 0.9978,
+        "Reconnaissance": 0.94033,
+        "Shellcode": 0.956752,
+        "Worms": 0.984615
+      },
+      "normal_rows": 56000,
+      "per_rule_fires": {
+        "sentinel-unsw-backdoor-unas-burst": 11983,
+        "sentinel-unsw-dos-rate-flood": 75114,
+        "sentinel-unsw-exploit-long-session": 31500,
+        "sentinel-unsw-generic-dns-flood": 39270,
+        "sentinel-unsw-http-interactive": 6090,
+        "sentinel-unsw-recon-ttl-probe": 77951
+      },
+      "per_rule_attack_vs_normal": {
+        "sentinel-unsw-backdoor-unas-burst": {
+          "on_attack": 11983,
+          "on_normal": 0
+        },
+        "sentinel-unsw-dos-rate-flood": {
+          "on_attack": 72229,
+          "on_normal": 2885
+        },
+        "sentinel-unsw-exploit-long-session": {
+          "on_attack": 29664,
+          "on_normal": 1836
+        },
+        "sentinel-unsw-generic-dns-flood": {
+          "on_attack": 39265,
+          "on_normal": 5
+        },
+        "sentinel-unsw-http-interactive": {
+          "on_attack": 5986,
+          "on_normal": 104
+        },
+        "sentinel-unsw-recon-ttl-probe": {
+          "on_attack": 74750,
+          "on_normal": 3201
+        }
+      },
+      "seconds": 101.68
+    },
+    "test": {
+      "file": "UNSW_NB15_testing-set.csv",
+      "sha256": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559",
+      "rows": 82332,
+      "documents": 82332,
+      "dropped": 0,
+      "invalid_documents": 0,
+      "binary": {
+        "tp": 42586,
+        "fp": 8234,
+        "fn": 2746,
+        "tn": 28766,
+        "precision": 0.837977,
+        "recall": 0.939425,
+        "f1": 0.885806,
+        "fpr": 0.222541
+      },
+      "per_category_recall": {
+        "Analysis": 0.98966,
+        "Backdoor": 0.929674,
+        "DoS": 0.916361,
+        "Exploits": 0.937567,
+        "Fuzzers": 0.763609,
+        "Generic": 0.996132,
+        "Reconnaissance": 0.959954,
+        "Shellcode": 0.960317,
+        "Worms": 1.0
+      },
+      "normal_rows": 37000,
+      "per_rule_fires": {
+        "sentinel-unsw-backdoor-unas-burst": 3515,
+        "sentinel-unsw-dos-rate-flood": 28987,
+        "sentinel-unsw-exploit-long-session": 16591,
+        "sentinel-unsw-generic-dns-flood": 18234,
+        "sentinel-unsw-http-interactive": 1982,
+        "sentinel-unsw-recon-ttl-probe": 33844
+      },
+      "per_rule_attack_vs_normal": {
+        "sentinel-unsw-backdoor-unas-burst": {
+          "on_attack": 3515,
+          "on_normal": 0
+        },
+        "sentinel-unsw-dos-rate-flood": {
+          "on_attack": 24776,
+          "on_normal": 4211
+        },
+        "sentinel-unsw-exploit-long-session": {
+          "on_attack": 13091,
+          "on_normal": 3500
+        },
+        "sentinel-unsw-generic-dns-flood": {
+          "on_attack": 18207,
+          "on_normal": 27
+        },
+        "sentinel-unsw-http-interactive": {
+          "on_attack": 1937,
+          "on_normal": 45
+        },
+        "sentinel-unsw-recon-ttl-probe": {
+          "on_attack": 29192,
+          "on_normal": 4652
+        }
+      },
+      "seconds": 53.28
+    }
+  },
+  "environment": {
+    "python": "3.14.3",
+    "platform": "Windows-11-10.0.26200-SP0"
+  }
+}

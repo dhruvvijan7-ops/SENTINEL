@@ -1,0 +1,29 @@
+title: UNSW-NB15 Flow - TTL-Asymmetric Scan Probe
+id: sentinel-unsw-recon-ttl-probe
+status: experimental
+description: >
+  Source TTL pinned at the top of the range while the destination never
+  completed a handshake (dttl <= 1, ct_state_ttl >= 2) on a short flow: the
+  reconnaissance shape in UNSW-NB15. Normal flows sit at sttl ~31 / dttl ~29 /
+  ct_state_ttl 0, so the asymmetry is the discriminator, not the volume.
+author: Sentinel
+license: Proprietary
+date: 2026/10/12
+logsource:
+  category: network_connection
+  product: unsw-nb15
+detection:
+  sel_src_ttl:
+    sttl|gte: 250
+  sel_dst_ttl:
+    dttl|lte: 1
+  sel_state_ttl:
+    ct_state_ttl|gte: 2
+  sel_short:
+    dur|lte: 5
+  condition: sel_src_ttl and sel_dst_ttl and sel_state_ttl and sel_short
+falsepositives:
+  - Any short-lived connection to a host that does not answer (filtered port).
+level: medium
+tags:
+  - attack.reconnaissance

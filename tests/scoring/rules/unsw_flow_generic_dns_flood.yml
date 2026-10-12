@@ -1,0 +1,29 @@
+title: UNSW-NB15 Flow - DNS Reflection Flood (Generic)
+id: sentinel-unsw-generic-dns-flood
+status: experimental
+description: >
+  UDP/DNS flow with an extreme packet rate and an interrupted state: the
+  signature shape of the Generic class in UNSW-NB15 (97.8% of its training
+  rows are dns service, 98.1% udp, 98.7% state INT). Thresholds were chosen
+  on the training split only; the scored run reports the testing split.
+author: Sentinel
+license: Proprietary
+date: 2026/10/12
+logsource:
+  category: network_connection
+  product: unsw-nb15
+detection:
+  sel_proto:
+    proto: udp
+  sel_service:
+    service: dns
+  sel_state:
+    state: INT
+  sel_rate:
+    rate|gte: 5000
+  condition: sel_proto and sel_service and sel_state and sel_rate
+falsepositives:
+  - Legitimate high-rate DNS from a recursive resolver under load.
+level: high
+tags:
+  - attack.generic

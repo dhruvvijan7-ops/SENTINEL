@@ -28,10 +28,10 @@ SCHEMA = load_schema(ROOT / "schema.sql")
 # Frozen M0 numbers (see research/DEVIATION_REGISTER.md)
 # ---------------------------------------------------------------------------
 FROZEN_BASE_TABLE_COUNT = 21
-FROZEN_PARTITION_CHILD_COUNT = 11
+FROZEN_PARTITION_CHILD_COUNT = 12
 FROZEN_PARTITION_PARENT_COUNT = 4
-FROZEN_POLICY_COUNT = 32  # 20 base + 11 partition + 1 raw_objects_cas
-FROZEN_RLS_ENABLED_COUNT = 32
+FROZEN_POLICY_COUNT = 33  # 20 base + 12 partition + 1 raw_objects_cas
+FROZEN_RLS_ENABLED_COUNT = 33
 
 # Spec §10.1 table index, verbatim (research/SENTINEL_IMPLEMENTATION_SPEC.md
 # §10.1 "Table index (from schema.sql)"). Only *base* tables are listed there;

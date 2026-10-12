@@ -1,0 +1,28 @@
+title: Sentinel Conformance - Numeric Comparisons
+id: sentinel-conformance-numeric-gt-gte-lt-lte
+status: experimental
+description: >
+  Sentinel-authored conformance rule.  The SigmaHQ corpus at the pinned commit
+  contains no rule using gt/gte/lt/lte, so these modifiers are covered by this
+  rule instead (tests/conformance/ATTRIBUTION.md).
+author: Sentinel
+date: 2026/10/12
+logsource:
+  product: windows
+  category: process_creation
+  service: sysmon
+detection:
+  sel_pid_above:
+    ProcessId|gt: 1000
+  sel_pid_below:
+    ProcessId|lt: 50000
+  sel_parent_min:
+    ParentProcessId|gte: 1
+  sel_parent_max:
+    ParentProcessId|lte: 65535
+  condition: sel_pid_above and sel_pid_below and sel_parent_min and sel_parent_max
+falsepositives:
+  - Any ordinary process creation; this rule exists to exercise the engine, not to detect anything.
+level: informational
+tags:
+  - conformance.t-c

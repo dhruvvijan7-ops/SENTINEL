@@ -1,0 +1,463 @@
+{
+  "count": 112,
+  "pack_id": "sigmahq-windows-process-creation",
+  "pack_sha256": "3e2853f455915af9520d899c84bbaa34b963865f97807c3e104318484d92f9eb",
+  "pack_version": "1",
+  "rules": [
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_16bit_application.yml",
+      "sha256": "c070bb87a86f41193c0ef77876a8a18d9240aafc95315d5e71ab3626d51fe6f4"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_abusing_debug_privilege.yml",
+      "sha256": "cb4b8268a9024158c2a50219bdc2cd4ffd5157f65e7db6185d26feeac2e065f6"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_add_user_local_admin_group.yml",
+      "sha256": "941afeea9e5d0c53b8178500668c761d4836964057e7dc763071babce3a95bd8"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_add_user_privileged_group.yml",
+      "sha256": "3e45f31f4814c8405816c848cbf9b98d3b8186300f3dea6870e3aa83ccccd219"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_add_user_remote_desktop_group.yml",
+      "sha256": "b775149c19ee7df8e80b03f6e36d1a4b25dcc1fcf84143e245a983f0620a63b9"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_alternate_data_streams.yml",
+      "sha256": "f0930f4c1eb35ab64913170cccfa228abfbe62319a0d5796147148af64d0fc24"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_always_install_elevated_windows_installer.yml",
+      "sha256": "0de11202d557e15231cfc262eb305587764e13dca774f1c2a619584ea8b35d5b"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_appx_execution.yml",
+      "sha256": "ae4342b5d2aa93697c7a4e858c52ced79e71abc7cb47ec724df9b2c6637e2aad"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_arbitrary_shell_execution_via_settingcontent.yml",
+      "sha256": "7863cf90fe479130a417df61ae093f438dce61c570c4d1e9ebb0714be3542542"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_archiver_iso_phishing.yml",
+      "sha256": "ff6e430b340a9c56810363acc28e7f7761e9a784c630c8a1eadcf4bd48dc85fb"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_automated_collection.yml",
+      "sha256": "d2ad7d9c81d1fc9baea96c4a5ed4b3f38652c710b93b778ae43cff9fb455ed1f"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_bad_opsec_sacrificial_processes.yml",
+      "sha256": "1d4559cda59ded2d2895b084b2f9e26fc04e5f7dc6f45c0dcd1ba5f54fbbac52"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_browser_launch_from_document_reader_process.yml",
+      "sha256": "fa78456ddc8ac8dd0d285fcf3d674ff393c2239d99fb4e5930c5ec738f9a2bc7"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_child_process_as_system_.yml",
+      "sha256": "84bd6b7f0ba6bcfd994263de4f6fa1ea495766de788d1d779b167caa97521041"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_cli_obfuscation_escape_char.yml",
+      "sha256": "8347931609c5bd886bc050b2a2ed61b73515d62591f42f2d1a2b8327deb94b07"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_cli_obfuscation_unicode_img.yml",
+      "sha256": "9645afda651aa60f64219059d81e2e29e166ea4a4975b28218926c8968c5da58"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_clickfix_filefix_execution.yml",
+      "sha256": "1be41e59cb4fe10f8029110aa0b9041d328077b327ad4ff8f9718b7a8e7490ef"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_clickfix_filefix_whitespace_padding.yml",
+      "sha256": "3068737e7dafcd6278b24d47f99ae18c78b5f857bae82b2a7fe981bc7c71cdcb"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_cmd_for_loop_execution_with_recursive_directory_search.yml",
+      "sha256": "2e05405192e1abcc63bb5ecd296a1ffb58d0ba864b11fbef0a540f00b8d66f0c"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_commandline_path_traversal_evasion.yml",
+      "sha256": "9c8ebfdde8b3438dd1e828c090ee3e70c47f7082cdcb09141bf978dbcb09d12c"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_copy_browser_data.yml",
+      "sha256": "9810ad6f825c7e9a910db2246308049a9bc8c07d03982d765fcc34304f28081d"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_copy_lateral_movement.yml",
+      "sha256": "92e2577a3f03d8fd577e7878866bf28bcefedb437d56865162ecdaadb4a45df0"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_copy_system_dir.yml",
+      "sha256": "4af136c4a2608f78c332825ac94f4d7241eeba239a772a48af521b1b5fc7b2f0"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_copy_system_dir_lolbin.yml",
+      "sha256": "21249dd1302e49f2158d96effe86f8572bdc5fe536b2b07a1d12cea49c3c2e52"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_cross_user_process_spawn.yml",
+      "sha256": "f721b05ae209b8ee2a9c19484bb720f19d47b92cf9d011cfc06c660a13a1acd3"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_crypto_mining_monero.yml",
+      "sha256": "ab0e5bde99c33ca00ac32a3352a28caf821cd66a5a9e4e6972d82388b20636ab"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_data_exfiltration_via_cli.yml",
+      "sha256": "dffe62c9a322fb94b915be9c846b089a3877e1b3927182b095dc3c092933c11d"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_disable_raccine.yml",
+      "sha256": "8d63590684b88b28760fb10b5e61ba6bd16d4d2b9f0b96c1414d5764915118d7"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_double_extension.yml",
+      "sha256": "3579b013b6e53a533f66bb51e50a531c48eccc86300048cb1d92e0ca62e50ead"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_double_extension_parent.yml",
+      "sha256": "3ce2c32e8250777b2d095e4f12eeeb4068cd516f16b71c183b55345f06b74c6b"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_download_office_domain.yml",
+      "sha256": "b78f4b2aadea0e2ca64d72296b17751940edfed3b0b4e562743b8dc05ba63c34"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_dumpstack_log_evasion.yml",
+      "sha256": "e9bce3c9287077458a8ae73ea2b4c32490a12ef4428385edbaa8b36904af63e7"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_elavated_msi_spawned_shell.yml",
+      "sha256": "a721370f479acae933bebf3249e784d2bc607773e7c03692dda4f52ef4396dd9"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_electron_app_children.yml",
+      "sha256": "0be307bb80ceaea545a5145984939ca64ca115c8fb03f4644591eb366dea53f6"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_electron_execution_proxy.yml",
+      "sha256": "80e3540ead87f69f39bead57407bda0f141720981591236f0c95a0826bfd21d5"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_elevated_system_shell_uncommon_parent.yml",
+      "sha256": "6fc1a68a59218ff8711cf09579e9a02bb2ed69abe27314cc4941be07cda152ec"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_embed_exe_lnk.yml",
+      "sha256": "c21b466ed575d7c97b32f1f4eef6e42d652d63302f81b6357d9ba78f71dd42d4"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_emoji_usage_in_cli_1.yml",
+      "sha256": "db1e05218fa6f0fc6498c65889696596bc6fe312b9fecb8e64697e2e96dd0b54"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_emoji_usage_in_cli_2.yml",
+      "sha256": "1c3fbffc4a30899d8d65b8f89f03318f2787e910922799cae9c93018fbeee2d1"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_emoji_usage_in_cli_3.yml",
+      "sha256": "13ac872cd6c4a23ae817bcbd6fced9c00a5023898f09306b1518b0238231a972"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_emoji_usage_in_cli_4.yml",
+      "sha256": "44fcdfbda40a70449227dc2ed19a44e96ab901ece8550818af799ff16332d5f0"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_etw_modification_cmdline.yml",
+      "sha256": "77865ed4de71fe18e9a04fd05f9460d456055d36a6e23cd2b6183fb2819fb5ec"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_etw_trace_evasion.yml",
+      "sha256": "f883d161d3a510e54a3baa3e54ecc22fe4cb515a6569cb1b59df03688215df5b"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_eventlog_clear.yml",
+      "sha256": "8e7219c92a73b60128a7192521879f97407d37c12a1c567a6975247340cb5624"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_eventlog_content_recon.yml",
+      "sha256": "5e2f56ca1092c3299c950e6351b6fb7f3dcabd7a637421ad88b8dda22e63b16e"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_execution_from_public_folder_as_parent.yml",
+      "sha256": "cbb3f8d69aae01fb7d80c8fae40bfc4ceeff20329e4ed0a01e6a231da8469eed"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_execution_path.yml",
+      "sha256": "933f508e474f11ef18c9d3e680b46ab2719761f823ab027a19b000acd2ce782d"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_file_characteristics.yml",
+      "sha256": "863049160157abb480cdef90db92c82a283de12b001a7aebdf10184ecc29dc60"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_filefix_execution_pattern.yml",
+      "sha256": "e60c301f36e6292ba79622e7961fdceaef9ad5f137f4f2d744cadfbd0017ae5a"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_gather_network_info_execution.yml",
+      "sha256": "8a696a7e36fb1e8439c0937f9596058ac5d334123b2d564706f938b4050ac6d7"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_hidden_dir_index_allocation.yml",
+      "sha256": "98f49ce2975e2bf0cbf9e468b181aef3532d694f1d64bf43dbac7278bd3a9e76"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_hiding_malware_in_fonts_folder.yml",
+      "sha256": "76faa8c1538244a2e6cd2f0be1b1c130fcb082b41a5c90a34b59ddddd9933d53"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_homoglyph_cyrillic_lookalikes.yml",
+      "sha256": "3a6b1fe7e89a86fc81e8cb4835ef5432e8de1429faa150b2f535bcc0ab5afb09"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_image_missing.yml",
+      "sha256": "b4792d8396d87ab8e596b9c20381bb9f0490fdb695e8cffd6cd865bdeae86e53"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_inline_base64_mz_header.yml",
+      "sha256": "96fffa93d50aab3dd748354556d335aa6c33c1c85101130ec7a8a96da43d1f26"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_inline_node_js_execution.yml",
+      "sha256": "0664002eb69366eb2516ec2ffb174f84deabb8f5c35431912cba229ed79756e8"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_inline_win_api_access.yml",
+      "sha256": "82036b773c1e56c3a4223d114331425cc0eb2df13306ad911f11fbda64f03567"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_jwt_token_search.yml",
+      "sha256": "f2844be2ad1250f0c175cff649f0f7fe729a7a7d44b5718bda2a0ac72471dada"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_lnk_exec_hidden_cmd.yml",
+      "sha256": "9dc68926b192b519ecf556c776bd0cbb44e0feb5f621b80e40dd987998a8e5c0"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_local_system_owner_account_discovery.yml",
+      "sha256": "ddb20029d804c7a434cc6600659aaac2b646b67cd150470e9b1ef4be47c16e06"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_lolbin_exec_from_non_c_drive.yml",
+      "sha256": "4997fe357c634357c12c7fb8c80e62976e322916aca0bc0a3c6c1fbbbd390f8a"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_lsass_dmp_cli_keywords.yml",
+      "sha256": "9cba6985f4ce5abd6c4a8f3c57917ce729382c909b68af58819d82d1c6f77002"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_ms_appinstaller_download.yml",
+      "sha256": "a8bcf42c4d424979a71e856b69d04606ff24306c33edda01c350b1f41448ecd4"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_network_command.yml",
+      "sha256": "ea9b3d15a8419787940b14991faf715c0dd05628c311e18ac9d1558e7fbe120d"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_network_scan_loop.yml",
+      "sha256": "d29c35627e57fb037b119d6e00861cf6904235efd17980602bd7eae431384b89"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_network_sniffing.yml",
+      "sha256": "81a639feaf1368f9115c5932a85848c8cfe9279dd4a7efe1011c1eb14421d5d4"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_no_image_name.yml",
+      "sha256": "d4f91ccd10bac7673f670834c07e6463af7400306d07c7ca7e3e6cb96c1a6b39"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_non_exe_image.yml",
+      "sha256": "e335b4ea8bcfc738c443c2ee7c684a66a2714af018b217a84c0f964ef3101221"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_non_priv_reg_or_ps.yml",
+      "sha256": "c5b8d3088af7a131b84785cdc44dafdaab490e7850eb23c7ff8ad2324ddfc21f"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_ntds.yml",
+      "sha256": "05cc6750adb8547700c6643afdca789ead9e4da5dd610f97b460cd338f77a400"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_nteventlogfile_usage.yml",
+      "sha256": "efe1eb69ff834f3690360f620e67eb630a41c3476ab9b90ab45529ff6434ea6b"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_ntfs_short_name_path_use_image.yml",
+      "sha256": "d4aeae081230a675f4ab40e8b947566b507a7abe1d4375010d81e2bc1a7a4acc"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_ntfs_short_name_use_cli.yml",
+      "sha256": "7ec57b7c1d822b8aa22931fabbdbd1ebb34eb12c98fc6e03f6cdf107bf2d4f0c"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_ntfs_short_name_use_image.yml",
+      "sha256": "ee12e257f3a75405514d4f519dcd9a4185c8ab4eaaddc5b15a32c6860fdd3240"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_obfuscated_ip_download.yml",
+      "sha256": "763db687810427d77c13a84bf5b6f4cac6a3185c9624721ca9e59af105df487d"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_obfuscated_ip_via_cli.yml",
+      "sha256": "04dd9dbd864ae001b60bb3a5605a1089a8e91cffd9bbd88baff87f8f26048d05"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_parents.yml",
+      "sha256": "c6dc6e62306ec63209c3eede09eba396425edcf9a0ac4ff52c15784e6fe7b7dd"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_powershell_execution_via_dll.yml",
+      "sha256": "9488799add24f4310f5bf4b72c4479216ad343a0fec79fa0e61ed71545da04f2"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_priv_escalation_via_named_pipe.yml",
+      "sha256": "25e5d4b149814d1b7fe79d25fd9837edda1b8708b0df3e6c708a62607801fcd9"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_private_keys_recon.yml",
+      "sha256": "4cd606f99df0b770bf8a366e5abe388d4b9fc675b88b2f0027a29eea91c40ac0"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_privilege_escalation_cli_patterns.yml",
+      "sha256": "fe492b1d69f3749b0bed14db440c6e124e4be78ed5f7ed3c485510c2d1f2173a"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_proc_wrong_parent.yml",
+      "sha256": "c9e45b12e36d1381bce6ddbd22ee1a4dbdd7be1a455836387746d15fbc967597"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_progname.yml",
+      "sha256": "b0a66ae3c81f90890871ba5696ad15945bf003d09b13c650dc7325d9aa0d5405"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_recon.yml",
+      "sha256": "152a8b40d6ac0098a1b457eaee3ea594c278a8c68424dfbb5cf5a4e12663d7e6"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_recycle_bin_fake_execution.yml",
+      "sha256": "e34a919f22f5f5e927351c17db2d74f2ea7779f5edb8a8aed23284071f903ce9"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_redirect_local_admin_share.yml",
+      "sha256": "5d98efbf0b58b928a583acb0726845cdc645c0a81ebca516d81bb0582176b721"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_registry_modification_of_ms_setting_protocol_handler.yml",
+      "sha256": "f766d684a7888edeee4b7562c32290ac782547abafe847f32fe7bff029724585"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_remote_desktop_tunneling.yml",
+      "sha256": "6678da3459cfe3c2b533182639abf43df4ee33d1f3d4c23a01e61362c0378460"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_right_to_left_override.yml",
+      "sha256": "7b2e055b10046f6199d2714fd1bb694826a23fd226397cee1a1095e50ee79b46"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_script_exec_from_env_folder.yml",
+      "sha256": "513b44a682669d9a9a9c124410debb4e77031b89b352f6ba558648800434d262"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_script_interpretor_spawn_credential_scanner.yml",
+      "sha256": "55eecc16ad94424467bc71ad37806a3c17530ed3cac4ed27e67f01b720836417"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_sensitive_file_access_shadowcopy.yml",
+      "sha256": "53d41d67a59a307462c186bad0edb50b8a52ec352ebd3c18e8bf6fc5bceb027f"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_service_creation.yml",
+      "sha256": "3ffd3bf38cb105c65fabe72126487bd6d494b4173ba7a68a375e1a4bb76b8a9d"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_service_dir.yml",
+      "sha256": "05a5c378f5a33a3e3b4ab69a279482a6e7dd9b37401d8474477ed0dab1d5e52e"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_service_tamper.yml",
+      "sha256": "361d53bcc5cf038d24bfb86badb4247ceb5c3b8a94cba73b77c12862c866ea99"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_shadow_copies_creation.yml",
+      "sha256": "909e32606a8307d8dde41e92c09dab52a61b863cd95b48c8a179f031e67e506b"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_shadow_copies_deletion.yml",
+      "sha256": "7eaeb361923239bbce4c3786d69fbde1dd97330894634215f3050f05a6effd3a"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_shell_spawn_susp_program.yml",
+      "sha256": "fead2064a763da44c4e345d360e65b3564651ad926ec6b65b404ce0d1310e83b"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_sysnative.yml",
+      "sha256": "7ef2b8359200bba49e112e7e6867a99f1ddfdcf9e60b433f76280bf406db460d"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_system_exe_anomaly.yml",
+      "sha256": "8e88e7cdcc3905a25b82c93d6ce55064e4f6c2bbaa8940bfbd044850e60f01d2"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_system_user_anomaly.yml",
+      "sha256": "37777daed9f0b531af26282c2c1e5e543df40e7d48a0a857dba12d1de714e2f3"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_sysvol_access.yml",
+      "sha256": "626ac7dd7009f72f4106ce12ba27ae20524a86d486e145c870361b5c7a2d9dc2"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_task_folder_evasion.yml",
+      "sha256": "b330c1458c4813c9d0c8ddb90d48c65730feaaa66d5abeb5ade60c4f9eae52b0"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_use_of_te_bin.yml",
+      "sha256": "0b60dbe6b03a527e451286b05c803a710b29aba4080a4d502271815e123fdeeb"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_use_of_vsjitdebugger_bin.yml",
+      "sha256": "866d53daca7795d144433039d2e525e2a93b5b70903ff83b8b58bf75305038e3"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_userinit_child.yml",
+      "sha256": "32fc3f8bff0df4efb8d837a7cbd2d4dd6f78d24f8b3c612e1c8ce7b7a5aab2fd"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_velociraptor_child_process.yml",
+      "sha256": "90b85c80b886cc49b65623b157bc706642915072715e1ff28597f332ea6cb8ef"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_weak_or_abused_passwords.yml",
+      "sha256": "32b4cdbef0da35e92fa3ad5ea88e430d8037ef6a93cd07681d3abcc23d83c061"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_web_request_cmd_and_cmdlets.yml",
+      "sha256": "4b24df0142b41edc50606e784314ed91835dcc2341cb65f88adffc8cd4f45855"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_whoami_as_param.yml",
+      "sha256": "f1a2ec7ccf346470771611b7e2fd9fc142c4b2082ae3f4e36a4e968ddf5c03ea"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_susp_workfolders.yml",
+      "sha256": "8cd7a4696d513cb4855f687519911aab58bfdf6f5d9b482d3a2d85d0ff09aa9e"
+    },
+    {
+      "path": "rules/windows/process_creation/proc_creation_win_sysinternals_tools_masquerading.yml",
+      "sha256": "1481384429fcc76c78f0f9546c3f9fa6b48bb3921ef565299912161cc54b37c0"
+    }
+  ],
+  "schema": "sentinel-rule-pack/v1",
+  "source": {
+    "commit": "8a4813404ea3074890e0cda9272d4d1a8b2941d6",
+    "kind": "sigma",
+    "repo": "SigmaHQ/sigma",
+    "spec": "sigma-spec/2.1.0"
+  }
+}

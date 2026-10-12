@@ -39,16 +39,38 @@ def _check_workspace(principal: Principal, workspace_id: str) -> None:
         )
 
 
+def require_workspace(request: Request, principal: Principal, workspace_id: str, *, action: str) -> None:
+    """Workspace check for mutating endpoints: a denied attempt is itself an
+    audit event (Stage-6 §5.4, denied attempts included)."""
+    if workspace_id == principal.workspace_id:
+        return
+    from .audit import write_audit
+
+    write_audit(
+        _settings(request),
+        principal=principal,
+        action=action,
+        outcome="denied",
+        object_kind="workspace",
+        object_id=workspace_id,
+        detail={"code": "GATE_TENANT_MISMATCH", "requested_workspace": workspace_id},
+    )
+    raise GateTenantMismatch(
+        "principal is not scoped to this workspace",
+        details={"workspace_id": workspace_id},
+    )
+
+
 @router.post("/v1/workspaces/{workspaceId}/uploads", status_code=202)
 async def create_upload(request: Request, workspaceId: str) -> JSONResponse:
     settings = _settings(request)
     principal = require_principal(request)
-    _check_workspace(principal, workspaceId)
+    require_workspace(request, principal, workspaceId, action="upload.reject")
 
     from sentinel_ingest.gate import PrincipalLimiter, check_storage_quota
     from sentinel_ingest.store import LocalObjectStore
     from sentinel_storage.repos_jobs import enqueue
-    from .metrics import UPLOADS_ACCEPTED
+    from .metrics import UPLOADS_ACCEPTED, UPLOADS_REJECTED
 
     limiter: PrincipalLimiter = request.app.state.limiter
     limiter.acquire(principal.principal_id)
@@ -188,27 +210,17 @@ async def create_upload(request: Request, workspaceId: str) -> JSONResponse:
         UPLOADS_ACCEPTED.inc()
         return JSONResponse(status_code=202, content=body)
     except GateError as exc:
-        from sentinel_core.db import tx as _tx
-        from sentinel_core.rls import set_rls as _rls
-        from sentinel_storage.repos_audit import insert_audit
+        from .audit import write_audit
 
-        try:
-            with _tx(settings.database_url) as conn:
-                _rls(conn, principal.tenant_id, principal.workspace_id)
-                insert_audit(
-                    conn,
-                    tenant_id=principal.tenant_id,
-                    workspace_id=principal.workspace_id,
-                    principal=principal.principal_id,
-                    action="upload.reject",
-                    object_kind="upload",
-                    object_id=None,
-                    outcome="denied",
-                    detail={"code": exc.code, "message": exc.message},
-                )
-                conn.commit()
-        except Exception:
-            pass
+        UPLOADS_REJECTED.labels(exc.code).inc()
+        write_audit(
+            settings,
+            principal=principal,
+            action="upload.reject",
+            outcome="denied",
+            object_kind="upload",
+            detail={"code": exc.code, "message": exc.message},
+        )
         headers = {}
         if exc.code == "GATE_RATE_LIMITED":
             headers = {

@@ -264,13 +264,18 @@ OpenTelemetry SDK present but inert unless `observability.otel_endpoint` set (D6
 | End-to-end | fixture corpus → upload API → ingest job → detect run → findings + evidence bundle; M2 vertical slice (§9) | merge to main |
 | Conformance | Stage 5 §12 SQL-vs-native oracle over the golden corpus; divergence = fail | nightly |
 | Performance | §6.6 protocol | nightly + pre-release |
+| Detection scoring | UNSW-NB15 labelled flows (§6.3a): rule-pack precision / recall / FPR against `attack_cat` + `label`; the `Normal` class is the false-positive baseline | synthetic flow fixture every PR; real corpus nightly + pre-release (UNSW-NB15 licence VERIFIED, §12; fetched out-of-tree) |
 | Security | ReDoS corpus against the native evaluator (Stage 4 budgets), malicious fixtures (zip bombs, path traversal — Stage 3 §10), auth/RLS penetration probes | nightly + pre-release |
 
 Windows-first: CI runners are `windows-latest` for unit/contract/e2e (the product's primary OS); Linux containers run only the Postgres service and lint jobs. VERIFIED precedent: pgqueuer separates a `run-windows-tests` job the same way.
 
-### 6.2 Corpora — licences VERIFIED 2026-08-29…2026-10-10
+### 6.2 Corpora — licences VERIFIED 2026-08-29…2026-10-12
 
-Nothing below is committed to the repository. `tools/corpus-fetch` downloads pinned URLs, verifies sha256, and stores outside the tree; CI secrets gate which corpora a runner may pull. D6-009: GPL corpora are **fixture-only** (tests reference local paths; they are never redistributed, never baked into images, never served by the product).
+D6-009 (revised for M2 exit ⑤) splits corpora into two classes, and the licence of each corpus - not convenience - decides which class it is in. Owner permission never substitutes for a third-party licence: the row below is the authority for what may be fetched, used, modified and committed.
+
+- **Rule corpora may be committed** when they are curated, pinned and attributed. SigmaHQ rules are DRL-1.1 (MIT-based: distribution, modification, private and commercial use permitted, with the licence/copyright notice and author attribution). The conformance corpus at `tests/conformance/rules/` is therefore committed byte-identical to upstream, with its pin and per-file sha256 in `tests/conformance/expected.json` and its DRL-1.1 obligations spelled out in `tests/conformance/ATTRIBUTION.md` (each rule keeps its upstream `author:` field; any view showing matches must surface it). MIT/Apache/BSD rule or fixture sets are committable on the same terms.
+- **Datasets and captures are never committed.** `tools/corpus_fetch.py` downloads pinned URLs, verifies sha256, and stores outside the tree; CI secrets gate which corpora a runner may pull. GPL corpora and raw captures stay **fixture-only** (tests reference local paths; they are never redistributed, never baked into images, never served by the product).
+- **Fetching is still gated per corpus.** A row marked NOT_VERIFIED or "counsel gate" below may not be downloaded by automation; a VERIFIED row may be fetched out-of-tree on demand, with URL + sha256 + row count pinned in the fetch manifest at first fetch.
 
 | Corpus | Licence (VERIFIED) | Status / freshness | Use |
 |---|---|---|---|
@@ -282,14 +287,36 @@ Nothing below is committed to the repository. `tools/corpus-fetch` downloads pin
 | zeek/zeek `testing/` traces | BSD-3-Clause (COPYING VERIFIED) | in-repo test data | Zeek EVE parser conformance |
 | SigmaHQ/sigma rules (pinned) | DRL-1.1 / tier licences | pin commit `8a4813404e` precedent | real rule pack for M2 slice |
 | CIC-IDS2017 (UNB) | research-public + citation required (page text VERIFIED) | published dataset | optional flow-level perf corpus; counsel gate before automation |
-| UNSW-NB15 | academic/public use + citation required (page text VERIFIED) | published dataset | same |
+| UNSW-NB15 | academic-only use + citation required; commercial prohibited (page text VERIFIED 2026-10-12) | published dataset | **MANDATORY for the detection + analysis system** — the dataset used to *build* and to *test* detection and analysis, while those systems are constructed (M2–M4) and after they ship (§6.3a) |
 | malware-traffic-analysis.net | **NOT_VERIFIED — excluded** | — | not used |
 
 ### 6.3 Dataset selection rules
 
 - Every fixture id in tests carries a one-line licence header in the fetch manifest (mirrors Stage 3 fixture discipline).
-- Golden corpus for the conformance oracle (Stage 5 §12) = sigma-spec `tests/` + 20 pinned SigmaHQ rules — inherited, not redefined.
+- Golden corpus for the conformance oracle (Stage 5 §12) = the 20 pinned SigmaHQ rules committed at `tests/conformance/rules/` (DRL-1.1; pin, per-file sha256 and classification in `tests/conformance/expected.json`) plus 3 Sentinel-authored rules covering modifiers the pinned corpus never uses (`gt/gte/lt/lte`, `neq`, `exists`, `cased`/`i`). The wider sigma-spec `tests/` corpus stays out-of-tree and is only used by the local broad run (`python tools/conformance_oracle.py --sigma-rules <checkout>`).
 - Planted-finding fixtures (M2 drill): one EVTX containing a known-bad process creation that a pinned SigmaHQ rule must match, with expected `fingerprint` recorded in the fixture manifest.
+- **UNSW-NB15 is the mandated dataset for the detection and analysis system** (§6.3a). It is required both *while* those systems are built (M2–M4) and *after* they ship (nightly + release regression); no detection or analysis gate is closed without a scored run over it.
+- Ground-truth rule: detection quality is reported as precision / recall / FPR against the dataset's per-flow `attack_cat` class and its binary `label`, never as "a rule matched". The `Normal` class is the false-positive baseline and must be measured, not assumed.
+- The flow parser and the scoring harness are developed and unit-tested against a committed synthetic flow fixture first; the real corpus is pinned (URL + sha256 + row counts) in the fetch manifest at first fetch and swapped in without touching the harness. The licence gate that used to hold it back is cleared: §12 records the UNSW-NB15 terms as VERIFIED (free use for academic research, commercial use prohibited), so the dataset is fetched out-of-tree on demand for this project and never committed.
+
+### 6.3a UNSW-NB15 — the dataset for building and testing detection and analysis
+
+UNSW-NB15 (V-6-035) carries per-flow ground truth — an `attack_cat` attack class and a binary `label` — which no other corpus in §6.2 does. That is why it is the dataset the detection and analysis system is **built against and tested against**: it is what turns "a rule matched" into a measured precision, recall and false-positive rate. Flow records carry 49 features; the exact column set, file sha256 and row counts are pinned in the fetch manifest at first fetch rather than asserted here.
+
+| Phase | Milestone / cadence | What it is used for | Gate |
+|---|---|---|---|
+| While building | M2 — first vertical slice | flow rows → canonical `network_connection` events; parser conformance against `canonical_event_v1.schema.json` with zero dropped rows; first scored run of the rule pack | run summary reports F1 + per-category recall; manifest pins sha256 + row count |
+| While building | M3 — breadth | false-positive baseline on the `Normal` class; statistical baselines and correlation rules exercised against labelled traffic | FPR within the §6.6 budget; per-category recall published |
+| While building | M4 — release candidate | §6.6 flow-level ingest throughput, detect-run wall time at 10⁵–10⁶ events, `/events` list p95 under load | numbers MEASURED with environment pins, never PROPOSED |
+| After building | nightly + every release (§6.1 Conformance / Performance) | re-score the rule pack and diff the report against the previous release | F1, recall and FPR must not regress against the last MEASURED baseline |
+
+Rules that apply from the moment detection work starts:
+
+- **Never committed.** Fetched out-of-tree by `tools/corpus_fetch.py`; URL, sha256 and row counts pinned in the fetch manifest; CI secrets gate which runners may pull it (§6.2 preamble, D6-009 discipline).
+- **Never redistributed.** Not served by the product, not baked into an image, not shipped in an installer.
+- **Citation is part of the gate.** UNSW-NB15 is academic/public-use with mandatory citation (V-6-035); the citation line lives in the fetch manifest header, so a run without attribution fails the manifest check.
+- **Fetch order is cleared for this project.** §12 records the UNSW-NB15 terms as VERIFIED (UNSW's own wording: free use of the dataset for academic research purposes, use for commercial purposes strictly prohibited), so fetching is authorised for this academic build and is pinned at first fetch (URL + sha256 + row count + citation) into the gitignored `.corpus/unsw-nb15/`. What remains gated is *commercial* corpus automation (§12 still requires full legal text before any commercial use); nothing in this project is commercial.
+
 
 ### 6.4 RLS and tenancy tests (reject-condition R2 regression)
 
@@ -353,7 +380,7 @@ light-hids/
 ├── tests/
 │   ├── unit/  contract/  integration/  e2e/  perf/  security/
 ├── tools/
-│   ├── corpus-fetch/         # pinned download + sha256 manifest (D6-009)
+│   ├── corpus_fetch.py      # pinned download + sha256 + citation manifest (D6-009)
 │   └── bench/                # §6.6 harness
 ├── packaging/
 │   ├── winsw/                # service wrapper configs
@@ -374,9 +401,9 @@ Scope reminder: the first *product* milestone sequence is the Stage-1 MVP list; 
 |---|---|---|
 | **M0 — Contracts (this stage)** | `schema.sql`, `openapi.yaml`, this spec, config keys frozen | ① `schema.sql` applies clean on PG 18 docker + `psql` lint (no ERROR/WARNING); ② `openapi.yaml` parses, every internal `$ref` resolves, no duplicate `operationId`; ③ contract tests validate `rule_schema.json` examples + `canonical_event_v1.schema.json` fixtures; ④ RLS schema-lint passes (§6.4a); ⑤ every DEPENDENCY licence row in this document has a Verification-Log entry |
 | **M1 — Skeleton + empty-pack run** | API boots, worker boots, migrations run, one upload accepted, ingest job produces events with **zero rules enabled**, detect run completes with empty findings, health/ready/metrics live, audit rows written | ① e2e: upload 1 MiB EVTX → events rows > 0, `rule_run` empty, run status `completed`; ② cross-tenant probe returns 403/zero rows; ③ queue: 10k trivial jobs drain with exactly-once claim under 8 workers (§6.5); ④ readiness flips on DB stop/start; ⑤ installer (dev build) creates both services on a clean Windows VM |
-| **M2 — First vertical slice** | EVTX/Sysmon ingest + real SigmaHQ pack (pinned commit) + SQL path + evidence snapshot + timeline query | ① pinned fixture EVTX (§6.3 planted finding) yields the expected finding with correct `detection_path` + `fingerprint`; ② evidence drill: purge the raw object, `/evidence/{id}` still returns a complete snapshot (reject-condition R1 — the drill is mandatory); ③ timeline: findings ∪ events for a host over a time window render in < PROPOSED 2 s p95 for 10⁵ events (§6.6 method); ④ Stage-5 cold-start codes appear in the run summary when baselines are absent; ⑤ conformance oracle runs on the golden corpus with zero unexplained divergences |
-| **M3 — Breadth** | Artifact triage branch (Stage 3 parsers + AF rules), IOC packs (signed), FIM, statistical baselines, correlation rules | ① each kind produces one planted finding; ② unsigned IOC pack → `rejected` + audit; ③ ReDoS corpus completes within Stage-4 budgets with circuit-breaker codes; ④ `COMPLETED_WITH_WARNINGS` exercised end-to-end on a 3-of-400k-loss fixture |
-| **M4 — Release candidate** | cx_Freeze + WinSW + Inno installer, perf numbers MEASURED, hardening pass | ① §6.6 numbers published as MEASURED with environment pins; ② full §6.1 suite green on windows-latest; ③ security suite green; ④ legal gate review of the DEPENDENCY/AVOID table signed off (Stage-1 §2.3 precedent); ⑤ upgrade drill: previous release → new installer with data intact |
+| **M2 — First vertical slice** | EVTX/Sysmon ingest + real SigmaHQ pack (pinned commit) + SQL path + evidence snapshot + timeline query | ① pinned fixture EVTX (§6.3 planted finding) yields the expected finding with correct `detection_path` + `fingerprint`; ② evidence drill: purge the raw object, `/evidence/{id}` still returns a complete snapshot (reject-condition R1 — the drill is mandatory); ③ timeline: findings ∪ events for a host over a time window render in < PROPOSED 2 s p95 for 10⁵ events (§6.6 method); ④ Stage-5 cold-start codes appear in the run summary when baselines are absent; ⑤ conformance oracle runs on the golden corpus with zero unexplained divergences; ⑥ UNSW-NB15 (§6.3a): flow rows parse to canonical network_connection events with zero dropped rows, and the scored run reports F1 + per-category recall against attack_cat/label |
+| **M3 — Breadth** | Artifact triage branch (Stage 3 parsers + AF rules), IOC packs (signed), FIM, statistical baselines, correlation rules | ① each kind produces one planted finding; ② unsigned IOC pack → `rejected` + audit; ③ ReDoS corpus completes within Stage-4 budgets with circuit-breaker codes; ④ `COMPLETED_WITH_WARNINGS` exercised end-to-end on a 3-of-400k-loss fixture; ⑤ UNSW-NB15 (§6.3a): false-positive rate on the Normal class measured and within the §6.6 budget |
+| **M4 — Release candidate** | cx_Freeze + WinSW + Inno installer, perf numbers MEASURED, hardening pass | ① §6.6 numbers published as MEASURED with environment pins; ② full §6.1 suite green on windows-latest; ③ security suite green; ④ legal gate review of the DEPENDENCY/AVOID table signed off (Stage-1 §2.3 precedent); ⑤ upgrade drill: previous release → new installer with data intact; ⑦ UNSW-NB15 (§6.3a): §6.6 flow-level numbers published as MEASURED, and the release scored report shows no F1 / recall / FPR regression against the previous MEASURED baseline |
 
 The brief's "first vertical slice" is exactly M2: EVTX/Sysmon + real Sigma pack + evidence + timeline — deliberately before artifact breadth so the evidence-survives-purge invariant is proven early (R1 is the hardest reject condition to retrofit).
 
@@ -394,7 +421,7 @@ The brief's "first vertical slice" is exactly M2: EVTX/Sysmon + real Sigma pack 
 | D6-006 | RLS via transaction-local GUCs; app role non-owner | §1.1, §1.3; docs/18/ddl-rowsecurity.html |
 | D6-007 | App-managed monthly partitions; no pg_partman | §1.4; dependency discipline Stage-1 §2 |
 | D6-008 | Cursor pagination + Idempotency-Key + RateLimit draft headers | §3.2 |
-| D6-009 | GPL corpora fixture-only; never redistributed/bundled/served | §6.2; Stage-1 §2 legal gates |
+| D6-009 | Rule corpora (DRL-1.1/MIT/Apache) committed curated + pinned + attributed; datasets/captures (GPL/academic) fetched out-of-tree, fixture-only, never redistributed/bundled/served | §6.2 (revised), §6.3; Stage-1 §2 legal gates; `tests/conformance/ATTRIBUTION.md` |
 | D6-010 | Config precedence env > file > default; secrets via env or DPAPI | §4 |
 | D6-011 | Single-tenant-first literals; RLS always enabled from day one | §1.3; D-001 |
 | D6-012 | `raw_objects` un-tenanted CAS scoped via `uploads` (INFERRED tradeoff) | §1.3; OQ-6-07 |
@@ -422,7 +449,8 @@ The brief's "first vertical slice" is exactly M2: EVTX/Sysmon + real Sigma pack 
 - NSSM licence and Windows Service Control compatibility (excluded from the plan until fetched).
 - malware-traffic-analysis.net terms of use — **excluded from corpora** (§6.2).
 - Redistribution terms for Zeek test traces beyond the repository's COPYING as applied to the `testing/` subtree (used locally only; no redistribution planned).
-- Full legal text of CIC-IDS2017 / UNSW-NB15 terms beyond the quoted public/academic-use sentences — counsel gate before any commercial corpus automation (Stage-1 §2.3 pattern).
+- Full legal text of CIC-IDS2017 / UNSW-NB15 terms beyond the quoted public/academic-use sentences — **UNSW-NB15 cleared 2026-10-12 for this project**: the dataset owner's published wording ("Free use of the UNSW-NB15 dataset for academic research purposes, in perpetuity. Use for commercial purposes is strictly prohibited.") is recorded VERIFIED in §6.2/§6.3a and covers an academic build; only *commercial* corpus automation still awaits full legal text, and CIC-IDS2017 stays gated (Stage-1 §2.3 pattern).
+- UNSW-NB15 is mandatory for building and testing the detection and analysis system (§6.3a) and is **fetched out-of-tree on demand** (`.corpus/unsw-nb15/`, gitignored) with URL + sha256 + row count + citation pinned in the fetch manifest; no dataset row is ever committed, and the parser and scoring harness still develop and unit-test against the committed synthetic flow fixture.
 - pgqueuer behaviour on Windows *Server* SKUs (CI evidence is `windows-latest` runner) — mitigated by D6-001 (we do not depend on it in MVP).
 - PostgreSQL 19 features and performance (beta only; excluded per §1.1).
 - Nuitka licence (not fetched; not evaluated).

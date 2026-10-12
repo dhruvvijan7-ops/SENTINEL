@@ -1,0 +1,259 @@
+{
+  "count": 23,
+  "rules": {
+    "conformance_case_modifiers": {
+      "author": "Sentinel",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "698e6a4a9486f6b690ae0843e8d6f2ac8f5ddba24d169781ccec1a4387f1da17",
+      "source_ref": "sentinel\\conformance_case_modifiers.yml",
+      "title": "Sentinel Conformance - Case Sensitivity Modifiers"
+    },
+    "conformance_neq_exists": {
+      "author": "Sentinel",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "4f6da3edfe87a51886b46536c41d5d44f22c3b89edbba63437b429fb92d40c0f",
+      "source_ref": "sentinel\\conformance_neq_exists.yml",
+      "title": "Sentinel Conformance - Negated And Exists Selectors"
+    },
+    "conformance_numeric_comparisons": {
+      "author": "Sentinel",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "891bdfb01d55e1cd22a12e832f4f8539e60fc11864c69a82e0bd6955907a2c5f",
+      "source_ref": "sentinel\\conformance_numeric_comparisons.yml",
+      "title": "Sentinel Conformance - Numeric Comparisons"
+    },
+    "dns_query_win_mal_cobaltstrike": {
+      "author": "Florian Roth (Nextron Systems)",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "71ef18383ece266d2beb091974e2d32ee13463bd3745d15d5f432eee2bdc55d6",
+      "source_ref": "windows\\dns_query\\dns_query_win_mal_cobaltstrike.yml",
+      "title": "Suspicious Cobalt Strike DNS Beaconing - Sysmon"
+    },
+    "file_event_win_creation_system_file": {
+      "author": "Sander Wiebing, Tim Shelton, Nasreddine Bencherchali (Nextron Systems)",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "27cee6df0f72f73c5f547d73a6f71bf689b0bd8a773bf753a05cefad553e7bee",
+      "source_ref": "windows\\file\\file_event\\file_event_win_creation_system_file.yml",
+      "title": "Files With System Process Name In Unsuspected Locations"
+    },
+    "image_load_dll_rstrtmgr_uncommon_load": {
+      "author": "Luc G\u00e9naux",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "255464afd0a9b0ac61656da5629ad0cb9e6e6bdbf556b70419efa73c6154a52b",
+      "source_ref": "windows\\image_load\\image_load_dll_rstrtmgr_uncommon_load.yml",
+      "title": "Load Of RstrtMgr.DLL By An Uncommon Process"
+    },
+    "net_connection_lnx_crypto_mining_indicators": {
+      "author": "Florian Roth (Nextron Systems)",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "3043ef5b176277a389aaf782fddda6aa15916fa0ef1657772cf079a5809ce976",
+      "source_ref": "linux\\network_connection\\net_connection_lnx_crypto_mining_indicators.yml",
+      "title": "Linux Crypto Mining Pool Connections"
+    },
+    "net_connection_win_adws_unusual_connection": {
+      "author": "@kostastsale",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "4ae565602de74786604f83f1a0a44872e5c99bd9785fb0ae1c105f9a84cd4f37",
+      "source_ref": "windows\\network_connection\\net_connection_win_adws_unusual_connection.yml",
+      "title": "Uncommon Connection to Active Directory Web Services"
+    },
+    "net_connection_win_domain_crypto_mining_pools": {
+      "author": "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)",
+      "comparable": true,
+      "detection_path": "native",
+      "fallback_reason": "COST_BUDGET_EXCEEDED",
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "445d11c6a08def7973a41640381c34f303d64c9fecb686bfe03aade8a22c0de5",
+      "source_ref": "windows\\network_connection\\net_connection_win_domain_crypto_mining_pools.yml",
+      "title": "Network Communication With Crypto Mining Pool"
+    },
+    "net_connection_win_domain_external_ip_lookup": {
+      "author": "Janantha Marasinghe, Nasreddine Bencherchali (Nextron Systems)",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "ee3d69559a0049293d62cad91f8711132f7526782d051ac5062c156492be6a6c",
+      "source_ref": "windows\\network_connection\\net_connection_win_domain_external_ip_lookup.yml",
+      "title": "Suspicious Network Connection to IP Lookup Service APIs"
+    },
+    "posh_ps_amsi_bypass_pattern_nov22": {
+      "author": "Florian Roth (Nextron Systems)",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "db8c99ec1d92ccc85eb20937601127d60e14b5801c1d7ce31d246cb35e3d8f85",
+      "source_ref": "windows\\powershell\\powershell_script\\posh_ps_amsi_bypass_pattern_nov22.yml",
+      "title": "AMSI Bypass Pattern Assembly GetType"
+    },
+    "proc_access_win_hktl_cobaltstrike_bof_injection_pattern": {
+      "author": "Christian Burkard (Nextron Systems)",
+      "comparable": false,
+      "detection_path": "native",
+      "fallback_reason": "REGEX_NATIVE_ONLY",
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "d18552cbc407cbba645c369f88a58e3ee6f4bc33c959d530047736b426e229b2",
+      "source_ref": "windows\\process_access\\proc_access_win_hktl_cobaltstrike_bof_injection_pattern.yml",
+      "title": "HackTool - CobaltStrike BOF Injection Pattern"
+    },
+    "proc_access_win_lsass_memdump": {
+      "author": "Samir Bousseaden, Michael Haag",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "6a4c3d27947f011dadc67c78a8547be67a04d5fdb8f8add537b4d9603d00e65a",
+      "source_ref": "windows\\process_access\\proc_access_win_lsass_memdump.yml",
+      "title": "Potential Credential Dumping Activity Via LSASS"
+    },
+    "proc_creation_win_attrib_system_susp_paths": {
+      "author": "Nasreddine Bencherchali (Nextron Systems)",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "742b08a41f4660a680d1c200c25c1923885c6b700609b3a439cb178ea0da168b",
+      "source_ref": "windows\\process_creation\\proc_creation_win_attrib_system_susp_paths.yml",
+      "title": "Set Suspicious Files as System Files Using Attrib.EXE"
+    },
+    "proc_creation_win_certutil_decode": {
+      "author": "Florian Roth (Nextron Systems), Jonhnathan Ribeiro, oscd.community",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "8498b3ca91281489dbc9a4ea04479592d4f4535c9c841ac9b30551f49d2a0a01",
+      "source_ref": "windows\\process_creation\\proc_creation_win_certutil_decode.yml",
+      "title": "File Decoded From Base64/Hex Via Certutil.EXE"
+    },
+    "proc_creation_win_whoami_all_execution": {
+      "author": "Florian Roth (Nextron Systems), Nasreddine Bencherchali (Nextron Systems)",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "fd87990871c3324c5e3eb20b4cd6cede336e23cbe3c1a35307b7894581869f24",
+      "source_ref": "windows\\process_creation\\proc_creation_win_whoami_all_execution.yml",
+      "title": "Enumerate All Information With Whoami.EXE"
+    },
+    "registry_set_asep_reg_keys_modification_classes": {
+      "author": "Victor Sergeev, Daniil Yugoslavskiy, Gleb Sukhodolskiy, Timur Zinniatullin, oscd.community, Tim Shelton, frack113 (split)",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "fa2fc70b95ca258a460e3983307ebb88890aa0d941e9fe5fd3bdc0319d0f9b39",
+      "source_ref": "windows\\registry\\registry_set\\registry_set_asep_reg_keys_modification_classes.yml",
+      "title": "Classes Autorun Keys Modification"
+    },
+    "win_security_cobaltstrike_service_installs": {
+      "author": "Florian Roth (Nextron Systems), Wojciech Lesicki",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "6e5a67db862c48342750e76203ee45dced8b802462bed83da6df944ed39e7697",
+      "source_ref": "windows\\builtin\\security\\win_security_cobaltstrike_service_installs.yml",
+      "title": "CobaltStrike Service Installations - Security"
+    },
+    "win_security_explicit_credential_local_logon": {
+      "author": "Swachchhanda Shrawan Poudel (Nextron Systems)",
+      "comparable": false,
+      "detection_path": "native",
+      "fallback_reason": "FIELDREF_NATIVE_ONLY",
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "0524645f53979af5f32637e781585468e1c05d1bb2873661f5b617e2840d9bea",
+      "source_ref": "windows\\builtin\\security\\win_security_explicit_credential_local_logon.yml",
+      "title": "Potentially Suspicious Explicit Credential Local Logon"
+    },
+    "win_security_impacket_secretdump": {
+      "author": "Samir Bousseaden, wagga",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "7d5d4d514f461f4ea2a8090493cc8753aab57c9ba6d6f4b4cddd1ee5ad21753c",
+      "source_ref": "windows\\builtin\\security\\win_security_impacket_secretdump.yml",
+      "title": "Possible Impacket SecretDump Remote Activity"
+    },
+    "zeek_rdp_public_listener": {
+      "author": "Josh Brower @DefensiveDepth",
+      "comparable": false,
+      "detection_path": "native",
+      "fallback_reason": "FIELDREF_NATIVE_ONLY",
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "62cf1e1b85ad05c19e904f537ccd7c49c94269622d5059813be0e1d759e8d5bd",
+      "source_ref": "network\\zeek\\zeek_rdp_public_listener.yml",
+      "title": "Publicly Accessible RDP Service"
+    },
+    "zeek_smb_converted_win_impacket_secretdump": {
+      "author": "Samir Bousseaden, @neu5ron",
+      "comparable": true,
+      "detection_path": "sql",
+      "fallback_reason": null,
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "4bd6f4053734bf7cb04bc69ba299c6f535bc5ed2da03bb552d300cf10b065152",
+      "source_ref": "network\\zeek\\zeek_smb_converted_win_impacket_secretdump.yml",
+      "title": "Possible Impacket SecretDump Remote Activity - Zeek"
+    },
+    "zeek_smb_converted_win_lm_namedpipe": {
+      "author": "Samir Bousseaden, @neu5ron, Tim Shelton",
+      "comparable": false,
+      "detection_path": "native",
+      "fallback_reason": "KEYWORD_NATIVE_ONLY",
+      "kind": "sigma",
+      "license": "DRL-1.1",
+      "sha256": "1462ea4435c12abd981d5d92a919417c619d3b50ce8435ec053bc94533b1be84",
+      "source_ref": "network\\zeek\\zeek_smb_converted_win_lm_namedpipe.yml",
+      "title": "First Time Seen Remote Named Pipe - Zeek"
+    }
+  },
+  "schema": "sentinel-conformance-expectation/v1"
+}

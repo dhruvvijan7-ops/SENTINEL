@@ -46,6 +46,12 @@ entries:
     usage_class: DEPENDENCY
     verification: [V6, V-6-007]
 
+  - component: fastjsonschema
+    table: deps
+    licence: [MIT]
+    usage_class: DEPENDENCY
+    verification: [V-6-040]
+
   # --- spec 3.3: runtime framework stack -------------------------------
   - component: FastAPI
     table: frame

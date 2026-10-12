@@ -6,7 +6,7 @@ Three artefacts must agree:
     §10.3 (Class column ``DEPENDENCY``), §3.3 (the runtime framework stack) and
     §7.1 (the freezer verdicts);
   * ``research/verification/DEPENDENCY_LICENCES.yaml``, the committed register;
-  * the spec's own Verification Log tables (V1…V18, V-6-001…V-6-039), which are
+  * the spec's own Verification Log tables (V1…V18, V-6-001…V-6-040), which are
     the evidence the exit criterion asks for.
 
 A licence row can therefore not be added to the spec without a register entry
@@ -119,21 +119,22 @@ def _token(component: str) -> str:
 # ---------------------------------------------------------------------------
 def test_spec_tables_parse_to_the_expected_shape():
     assert len(frame_rows()) == 11, frame_rows()
-    assert len(deps_rows()) == 8, deps_rows()
+    assert len(deps_rows()) == 9, deps_rows()
     assert len(tool_rows()) == 3, tool_rows()
-    assert len(dependency_rows()) == 4, dependency_rows()
+    assert len(dependency_rows()) == 5, dependency_rows()
     names = [c for c, _, _ in dependency_rows()]
     assert names == [
         "google-re2",
         "pyahocorasick",
         "pySigma",
         "PostgreSQL 18",
+        "fastjsonschema",
     ], names
 
 
 def test_verification_log_parses():
     log = verification_log()
-    assert "V10" in log and "V-6-007" in log and "V-6-039" in log
+    assert "V10" in log and "V-6-007" in log and "V-6-040" in log
     assert len(log) >= 40, f"only {len(log)} V-ids found"
 
 

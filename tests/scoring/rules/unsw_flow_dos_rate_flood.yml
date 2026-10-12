@@ -1,0 +1,26 @@
+title: UNSW-NB15 Flow - Sub-Second High-Rate Flood
+id: sentinel-unsw-dos-rate-flood
+status: experimental
+description: >
+  A flow that exchanges packets at >=100000 pkt/s while the destination never
+  replied with a full TTL: the DoS/Analysis/Backdoor families in UNSW-NB15 all
+  sit at that rate with dttl 0, while the Normal class sits at ~1.4k pkt/s with
+  dttl ~29. Thresholds chosen on the training split; the scored run reports the
+  testing split.
+author: Sentinel
+license: Proprietary
+date: 2026/10/12
+logsource:
+  category: network_connection
+  product: unsw-nb15
+detection:
+  sel_rate:
+    rate|gte: 100000
+  sel_no_reply:
+    dttl|lte: 1
+  condition: sel_rate and sel_no_reply
+falsepositives:
+  - One-shot UDP telemetry bursts on a busy sensor.
+level: high
+tags:
+  - attack.dos

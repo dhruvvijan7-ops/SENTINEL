@@ -1,0 +1,29 @@
+title: UNSW-NB15 Flow - HTTP Session From An Unresponsive Source Host
+id: sentinel-unsw-http-interactive
+status: experimental
+description: >
+  A carried HTTP session whose source host never sees a reply TTL (sttl 254)
+  with a bounded request/response payload. The Normal class answers with a
+  sane TTL (median 62) and its HTTP rows carry ~68 KB payloads, so capping
+  sbytes keeps this rule at 0.98 precision. Thresholds chosen on the
+  training split; the scored run reports the testing split.
+author: Sentinel
+license: Proprietary
+date: 2026/10/12
+logsource:
+  category: network_connection
+  product: unsw-nb15
+detection:
+  sel_service:
+    service: http
+  sel_src_ttl:
+    sttl|gte: 250
+  sel_payload:
+    sbytes|lte: 10000
+  condition: sel_service and sel_src_ttl and sel_payload
+falsepositives:
+  - Scanners and health probes that speak HTTP from a dead source address.
+level: medium
+tags:
+  - attack.reconnaissance
+  - attack.exploits

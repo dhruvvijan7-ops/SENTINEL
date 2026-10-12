@@ -1,4 +1,4 @@
-"""Job handlers: ingest_file (EVTX → events) and detect_run (empty pack)."""
+"""Job handlers: ingest_file (EVTX → events) and detect_run (the validated pack)."""
 from __future__ import annotations
 
 import json
@@ -125,8 +125,8 @@ def handle_ingest_file(settings: Settings, job: repos_jobs.JobRow) -> dict[str, 
         repos_uploads.set_upload_triage_state(conn, artifact_id, "done")
         conn.commit()
 
-    # M1 pipeline: ingest success auto-chains an empty-pack detect_run over the
-    # same harvest run (documented chain; OpenAPI createRun covers manual runs).
+    # Ingest success auto-chains a detect_run over the same harvest run
+    # (documented chain; OpenAPI createRun covers manual runs).
     with tx(_dsn(settings)) as conn:
         set_rls(conn, job.tenant_id, job.workspace_id)
         requested_by = str(job.payload.get("requested_by") or "system:ingest")
@@ -136,7 +136,7 @@ def handle_ingest_file(settings: Settings, job: repos_jobs.JobRow) -> dict[str, 
             workspace_id=job.workspace_id,
             requested_by=requested_by,
             scope={"harvest_run_id": harvest_run_id, "artifact_id": str(artifact_id)},
-            config_hash=_empty_pack_config_hash(),
+            config_hash=_pack_config_hash(),
         )
         repos_jobs.enqueue(
             conn,
@@ -155,18 +155,22 @@ def handle_ingest_file(settings: Settings, job: repos_jobs.JobRow) -> dict[str, 
         "parse_errors": stats.parse_errors,
         "detection_run_id": None,
     }
+    if stats.tail_error:
+        summary["tail_error"] = stats.tail_error
     if stats.events_mapped == 0:
         summary["warning"] = "NO_EVENTS_MAPPED"
     log.info("ingest_file.done", job_id=str(job.job_id), **summary)
     return summary
 
 
-def _empty_pack_config_hash() -> bytes:
-    from sentinel_detect.store import empty_pack_config_bytes
-
+def _pack_config_hash() -> bytes:
+    """Engine config in effect at run creation: engine version + declared pack."""
     import hashlib
 
-    return hashlib.sha256(empty_pack_config_bytes()).digest()
+    from sentinel_detect.sigma_import import default_manifest, pack_config_bytes
+    from sentinel_detect.store import ENGINE_VERSION
+
+    return hashlib.sha256(pack_config_bytes(default_manifest(), ENGINE_VERSION)).digest()
 
 
 def handle_detect_run(settings: Settings, job: repos_jobs.JobRow) -> dict[str, Any]:

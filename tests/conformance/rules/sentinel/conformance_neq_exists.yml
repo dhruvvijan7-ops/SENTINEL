@@ -1,0 +1,24 @@
+title: Sentinel Conformance - Negated And Exists Selectors
+id: sentinel-conformance-neq-exists
+status: experimental
+description: >
+  Sentinel-authored conformance rule.  The SigmaHQ corpus at the pinned commit
+  contains no rule using neq or exists, so both modifiers are covered here
+  (tests/conformance/ATTRIBUTION.md).
+author: Sentinel
+date: 2026/10/12
+logsource:
+  product: windows
+  category: process_creation
+  service: sysmon
+detection:
+  sel_not_svchost:
+    Image|neq: C:\Windows\System32\svchost.exe
+  sel_has_original_name:
+    OriginalFileName|exists: true
+  condition: sel_not_svchost and sel_has_original_name
+falsepositives:
+  - None intended; engine conformance only.
+level: informational
+tags:
+  - conformance.t-c
