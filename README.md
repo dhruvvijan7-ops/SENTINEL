@@ -202,7 +202,7 @@ python tools/config_freeze.py
 
 ```powershell
 curl -X POST "http://127.0.0.1:8080/v1/workspaces/default/uploads" `
-  -H "X-API-Key: dev-key-default-0000000000000001" `
+  -H "X-API-Key: YOUR_API_KEY_HERE" `
   -F "file=@tests/fixtures/sentinel_m1.evtx"
 ```
 
@@ -211,13 +211,13 @@ Response: `202 Accepted` with `artifact_id`, `run_id`, `sha256`, etc.
 ### 2. Check detection run status
 
 ```powershell
-curl -H "X-API-Key: dev-key-default-0000000000000001" "http://127.0.0.1:8080/v1/workspaces/default/runs"
+curl -H "X-API-Key: YOUR_API_KEY_HERE" "http://127.0.0.1:8080/v1/workspaces/default/runs"
 ```
 
 ### 3. List findings
 
 ```powershell
-curl -H "X-API-Key: dev-key-default-0000000000000001" "http://127.0.0.1:8080/v1/workspaces/default/findings?limit=20"
+curl -H "X-API-Key: YOUR_API_KEY_HERE" "http://127.0.0.1:8080/v1/workspaces/default/findings?limit=20"
 ```
 
 ### 4. IOC pack verification
@@ -225,7 +225,7 @@ curl -H "X-API-Key: dev-key-default-0000000000000001" "http://127.0.0.1:8080/v1/
 ```powershell
 # Import a signed IOC pack
 curl -X POST "http://127.0.0.1:8080/v1/workspaces/default/ioc-packs" `
-  -H "X-API-Key: dev-key-default-0000000000000001" `
+  -H "X-API-Key: YOUR_API_KEY_HERE" `
   -d @configs/demo-ioc-key-2026.json
 ```
 
