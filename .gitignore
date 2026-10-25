@@ -36,6 +36,10 @@ sentinel.egg-info/
 .env
 .env.local
 
+# Local compose port remap (Windows excluded port range; CI uses the committed
+docker-compose.yml default)
+docker-compose.override.yml
+
 # OS
 Thumbs.db
 Desktop.ini

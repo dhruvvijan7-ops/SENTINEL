@@ -39,6 +39,9 @@ env:
   PYTHONIOENCODING: utf-8
   SENTINEL_CONFIG: configs/config.example.toml
 
+# PostgreSQL password removed for public repo
+# PGPASSWORD is set at runtime via docker compose
+
 jobs:
   contract:
     name: contract (windows-latest)

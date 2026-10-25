@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_DB: sentinel
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: sentinel_dev_pw
+      # POSTGRES_PASSWORD removed for public repo
     ports:
       - "54321:5432"
     volumes:
