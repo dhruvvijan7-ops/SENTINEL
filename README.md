@@ -72,7 +72,7 @@ db.close()
 | Role | Email | Password |
 |------|-------|----------|
 | Admin | `admin@sentinelai.local` | `SentinelAdmin123!` |
-| Analyst | `dhruvvijan7@gmail.com` | `zingaroo132750` |
+
 
 ---
 
