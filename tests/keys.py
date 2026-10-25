@@ -1,3 +1,3 @@
-"""Shared test constants (dev keys from configs/config.example.toml)."""
-KEY_A = "dev-key-default-0000000000000001"  # default/default
-KEY_B = "dev-key-tenantb-0000000000000002"  # tenant-b/ws-b
+"""Shared test constants (dev keys from configs/config.example.toml). Keys redacted for public repository — dev-only credentials."""
+KEY_A = "REDACTED"  # default/default (dev key redacted for public repo)
+KEY_B = "REDACTED"  # tenant-b/ws-b (dev key redacted for public repo)
