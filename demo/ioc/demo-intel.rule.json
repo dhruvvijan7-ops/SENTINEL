@@ -1,0 +1,38 @@
+{
+  "schema": "sentinel-rule/v1",
+  "id": "8a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d",
+  "kind": "ioc",
+  "source": "native",
+  "title": "Demo IOC match: EfsPotato SHA256",
+  "description": "Matches the SHA256 carried by the EfsPotato process in demo_sysmon_findings.evtx.",
+  "severity": "HIGH",
+  "enabled": true,
+  "author": "Sentinel demo",
+  "ioc": {
+    "packs": [
+      {
+        "pack": "demo-intel",
+        "version": "1.0.0",
+        "digest_sha256": "d0d03c023e6915d5d20409b545022cf6876d27d5b02d85fd8b91405a4beeff9c"
+      }
+    ],
+    "match": {
+      "fields": [
+        "process.hashes.sha256"
+      ],
+      "kinds": [
+        "sha256"
+      ],
+      "normalize": [
+        "hash_lower",
+        "trim"
+      ]
+    },
+    "confirm_exact": true,
+    "emit_fields": [
+      "process.hashes.sha256",
+      "process.exe",
+      "process.command_line"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "keys": [
+    {
+      "key_id": "demo-ioc-key-2026",
+      "algorithm": "ed25519",
+      "public_key": "i/RtH6Tu8yHuMUMl4ZIJ6IAN+hyHnDOswHKjRqL7Yz8=",
+      "not_before": "2026-01-01T00:00:00Z",
+      "not_after": "2035-01-01T00:00:00Z"
+    }
+  ]
+}

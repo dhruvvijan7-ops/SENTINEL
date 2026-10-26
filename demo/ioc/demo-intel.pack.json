@@ -1,0 +1,20 @@
+{
+  "name": "demo-intel",
+  "version": "1.0.0",
+  "indicators": [
+    {
+      "kind": "sha256",
+      "value": "3333333333333333333333333333333333333333333333333333333333333333"
+    },
+    {
+      "kind": "domain",
+      "value": "malware.example.test"
+    },
+    {
+      "kind": "ipv4",
+      "value": "203.0.113.66"
+    }
+  ],
+  "signature": "U7wDz8u83+9cS5ajuysOqQyYCBJr5mEVN9oluodUIPOjE9MQDiJjC4qOOb/qtY/44WVeF+7VYGkRSKvuJd1iAw==",
+  "signing_key_id": "demo-ioc-key-2026"
+}
